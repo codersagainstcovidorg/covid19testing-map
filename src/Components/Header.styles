@@ -1,0 +1,7 @@
+export const styles = {
+    sectionStyles: {
+        display: 'flex',
+        flexDirection: 'row' as 'row',
+        alignItems: 'center'
+    }
+}
