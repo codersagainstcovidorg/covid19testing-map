@@ -3,7 +3,7 @@ import {
     Drawer, Box, Typography, Tabs, Tab, AppBar,
     FormGroup, FormControlLabel, Switch, Divider
 } from '@material-ui/core';
-import { SearchContext } from '../App';
+import { SearchContext, SearchFilters, labelMap } from '../App';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -53,35 +53,15 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => {
 
                         <TabPanel value={tabIdx} index={0}>
                             <FormGroup>
-                                <FormControlLabel
-                                    control={<Switch size="small" checked={searchFilters['is-verified']}
-                                    onChange={() => toggleFilter('is-verified')} />}
-                                    label="Verified"
-                                />
 
-                                <FormControlLabel
-                                    control={<Switch size="small" checked={searchFilters['is-location-screening-patients']}
-                                    onChange={() => toggleFilter('is-location-screening-patients')} />}
-                                    label="Screening Patients"
-                                />
+                                {Object.keys(searchFilters).map((filter : string, idx: number) => {
+                                    return (<FormControlLabel
+                                        control={<Switch size="small" checked={searchFilters[filter as keyof SearchFilters]}
+                                        onChange={() => toggleFilter(filter)} />}
+                                        label={labelMap[filter]}
+                                    />);
+                                })}
 
-                                <FormControlLabel
-                                    control={<Switch size="small" checked={searchFilters['is-location-only-testing-patients-that-meet-criteria']}
-                                    onChange={() => toggleFilter('is-location-only-testing-patients-that-meet-criteria')} />}
-                                    label="Must Meet Criteria"
-                                />
-
-                                <FormControlLabel
-                                    control={<Switch size="small" checked={searchFilters['is-location-by-appointment-only']}
-                                    onChange={() => toggleFilter('is-location-by-appointment-only')} />}
-                                    label="Appointment Only"
-                                />
-
-                                <FormControlLabel
-                                    control={<Switch size="small" checked={searchFilters['is-location-collecting-specimens']}
-                                    onChange={() => toggleFilter('is-location-collecting-specimens')} />}
-                                    label="Collecting Specimens"
-                                />
                             </FormGroup>
 
 
