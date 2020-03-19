@@ -10,11 +10,11 @@ import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
 
 export const labelMap: any = {
-  'is-verified': 'Include local public health offices',
+  'is-verified': 'Exclude local public health agencies',
   'is-location-screening-patients': 'Checks patients for symptoms',
   'is-location-collecting-specimens': 'Offers COVID-19 testing',
   'is-location-accepting-third-party-orders-for-testing': 'Accepting 3rd party testing',
-  'is-location-only-testing-patients-that-meet-criteria': 'Patients Must meet testing criteria',
+  'is-location-only-testing-patients-that-meet-criteria': 'Patients must meet testing criteria',
   'is-location-by-appointment-only': 'Requires appointment'
 };
 
