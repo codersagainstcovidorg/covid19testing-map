@@ -10,12 +10,12 @@ import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
 
 export const labelMap: any = {
-  'is-verified': 'Is Verified',
-  'is-location-screening-patients': 'Screening Patients',
-  'is-location-collecting-specimens': 'Collecting Specimens',
+  'is-verified': 'Include public health offices',
+  'is-location-screening-patients': 'Checks patients for symptoms',
+  'is-location-collecting-specimens': 'Offers COVID-19 testing',
   'is-location-accepting-third-party-orders-for-testing': 'Accepting 3rd party testing',
-  'is-location-only-testing-patients-that-meet-criteria': 'Testing criteria required',
-  'is-location-by-appointment-only': 'Appointment only'
+  'is-location-only-testing-patients-that-meet-criteria': 'Patients Must meet testing criteria',
+  'is-location-by-appointment-only': 'Requires appointment'
 };
 
 export interface SearchFilters {
