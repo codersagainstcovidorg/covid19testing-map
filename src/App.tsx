@@ -109,7 +109,6 @@ export class App extends React.Component<{}, AppState> {
 
 
     return (
-      <ThemeProvider theme={theme}>
         <SearchContext.Provider value={this.state.filters}>
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
@@ -246,7 +245,6 @@ export class App extends React.Component<{}, AppState> {
             </Grid>
           </Grid>
         </SearchContext.Provider>
-      </ThemeProvider>
     );
   }
 }
