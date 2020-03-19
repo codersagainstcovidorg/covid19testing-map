@@ -78,6 +78,8 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
                     controller={!lockMap}
                     getCursor={() => { return 'cursor'; }}
                     onViewStateChange={(viewport: any) => setViewport({ ...viewport })}
+                    // @ts-ignore
+                    glOptions={{onError: console.error}}
                 >
                     <StaticMap
                         width="100vw"
