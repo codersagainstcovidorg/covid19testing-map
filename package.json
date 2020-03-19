@@ -1,6 +1,6 @@
 {
   "name": "covid19testing-map",
-  "homepage": "findcovidtesting.com",
+  "homepage": "https://findcovidtesting.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,7 @@
     "react": "^16.12.0",
     "react-async-component": "^2.0.0",
     "react-dom": "^16.12.0",
-    "react-map-gl": "^5.2.3",
+    "react-map-gl": "5.2.3",
     "styled-components": "^5.0.1",
     "typescript": "^3.7.5"
   },
@@ -49,8 +49,8 @@
     ]
   },
   "devDependencies": {
-    "@danmarshall/deckgl-typings": "^3.4.3",
-    "@types/react-map-gl": "^5.1.1",
+    "@danmarshall/deckgl-typings": "^3.4.7",
+    "@types/react-map-gl": "5.2.0",
     "@types/styled-components": "^4.4.3",
     "gh-pages": "^2.2.0",
     "indefinitely-typed": "^1.0.2",

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { DeckGL } from "@deck.gl/react";
 import mapboxgl from 'mapbox-gl';
 
-import { StaticMap } from 'react-map-gl';
+import { StaticMap, GeolocateControl } from 'react-map-gl';
 import PLACES from '../data/data.json';
 import Pins from './Pins';
 import { WebMercatorViewport } from '@deck.gl/core';
@@ -25,6 +25,12 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
     });
 
     const boundedViewport = {
+        longitude: -98,
+        latitude: 38.5,
+        zoom: 5,
+    }
+    
+    /*{
         ...new WebMercatorViewport({
             width: window.innerWidth,
             height: window.innerHeight
@@ -32,7 +38,7 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
             padding: 7,
             offset: [40, 20]
         }), pitchMaybe: 15, bearingMaybe: 108
-    };
+    };*/
 
     const [viewport, setViewport] = useState(boundedViewport);
     const layers: any = [];
@@ -41,23 +47,11 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
         {
             (searchFilters) => {
                 const filteredPins = PLACES.filter(place => {
-
-                   /* export interface SearchFilters {
-                        'is-verified': boolean;
-                        'is-location-screening-patients': boolean;
-                        'is-location-collecting-specimens': boolean;
-                        'is-location-accepting-third-party-orders-for-testing': boolean;
-                        'is-location-only-testing-patients-that-meet-criteria': boolean;
-                        'is-location-by-appointment-only': boolean;
-                      }*/
                     Object.keys(searchFilters).forEach(key => {
 
                     });
 
-
-
                     if (searchFilters['is-verified'] && place['is-verified'] !== 'TRUE') {
-                        console.log('excluding');
                         return false;
                     }
 
@@ -83,7 +77,7 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
                     layers={layers}
                     controller={!lockMap}
                     getCursor={() => { return 'cursor'; }}
-                    onViewStateChange={(viewport) => setViewport({ ...viewport })}
+                    onViewStateChange={(viewport: any) => setViewport({ ...viewport })}
                 >
                     <StaticMap
                         width="100vw"
@@ -92,6 +86,12 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
                         mapStyle='mapbox://styles/mapbox/streets-v11'
                         mapboxApiAccessToken={token}
                     >
+                        <div style={{display: 'none', top: 62, left: 15, position: 'absolute', zIndex: 1}}>
+                            <GeolocateControl
+                                positionOptions={{enableHighAccuracy: true}}
+                                trackUserLocation={true}
+                            />
+                        </div>
                         <Pins data={filteredPins} onClick={onClickPin} onHover={() => {}} />;
                     </StaticMap>
                 </DeckGL>

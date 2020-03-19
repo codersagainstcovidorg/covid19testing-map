@@ -21,9 +21,8 @@ export default class Pins extends PureComponent<PinsProps> {
                     <span
                         onClick={() => onClick(place)}
                         onMouseOver={() => onHover(place)}
-                        style={{ fontSize: '16px' }}
                     >
-                        <LocalHospital />
+                        <LocalHospital style={{ fontSize: '11px' }} />
                     </span>
                 </Marker>
             )

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     Drawer, Box, Typography, Tabs, Tab, AppBar,
-    FormGroup, FormControlLabel, Switch
+    FormGroup, FormControlLabel, Switch, Divider
 } from '@material-ui/core';
 import { SearchContext } from '../App';
 
@@ -83,6 +83,13 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => {
                                     label="Collecting Specimens"
                                 />
                             </FormGroup>
+
+
+                            <Divider style={{margin: 10}} />
+                            <Typography style={{padding: 10, width: 260}}>
+                                If this is a medical emergency stop and call 911. If you are experiencing fever, chills, cough, headache or another flu-like symptom CALL BEFORE you head to any healthcare facility.
+                            </Typography>
+
                         </TabPanel>
 
                         {0 ? <TabPanel value={tabIdx} index={1}>
