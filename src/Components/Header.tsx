@@ -9,14 +9,14 @@ type HeaderProps = {
 export const Header = ({ toggleDrawer }: HeaderProps) => {
     return (
         <AppBar position="static">
-            <Toolbar variant="dense" style={{padding: '0 7', color: 'white', background: '#0f75bb'}}>
+            <Toolbar variant="dense" style={{padding: '0 7', fontFamily: 'Roboto,Helvetica,Arial,sans-serif', fontWeight: "bold"}}>
                 {1 ?
                 <IconButton onClick={() => toggleDrawer()}>
                     <MenuIcon style={{color: 'white', marginLeft: '-20'}} />
                 </IconButton> : ''}
 
                 <Typography variant="h5">
-                    COVID-19 Testing Locations
+                    COVID-19 Evaluation and Testing
                 </Typography>
             </Toolbar>
         </AppBar>

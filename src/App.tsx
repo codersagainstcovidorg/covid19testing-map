@@ -14,16 +14,16 @@ import CloseIcon from '@material-ui/icons/Close';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: 'UIColor(red: 1.00, green: 1.00, blue: 0.45, alpha: 1.0)',
-      main: 'UIColor(red: 1.00, green: 0.92, blue: 0.23, alpha: 1.0)',
-      dark: 'UIColor(red: 0.78, green: 0.73, blue: 0.00, alpha: 1.0)',
-      contrastText: 'UIColor(red: 0.29, green: 0.07, blue: 0.55, alpha: 1.0)'
+      main: '#4a138c',
+      light: '#7c42bd',
+      dark: '#12005e',
+      contrastText: '#ffffff'
     },
     secondary: {
-      light: 'UIColor(red: 0.89, green: 1.00, blue: 0.37, alpha: 1.0)',
-      main: 'UIColor(red: 0.67, green: 0.90, blue: 0.13, alpha: 1.0)',
-      dark: 'UIColor(red: 0.47, green: 0.70, blue: 0.00, alpha: 1.0)',
-      contrastText: 'UIColor(red: 0.29, green: 0.08, blue: 0.55, alpha: 1.0)'
+      main: '#ace520',
+      light: '#e2ff5e',
+      dark: '#77b300',
+      contrastText: '#4a148c'
     },
   },
 });
@@ -109,7 +109,9 @@ export class App extends React.Component<{}, AppState> {
 
 
     return (
+      <ThemeProvider theme={theme}>
         <SearchContext.Provider value={this.state.filters}>
+          
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
               <Header toggleDrawer={() => this.setState({ drawerOpen: !this.state.drawerOpen })} />
@@ -245,6 +247,7 @@ export class App extends React.Component<{}, AppState> {
             </Grid>
           </Grid>
         </SearchContext.Provider>
+      </ThemeProvider>
     );
   }
 }
