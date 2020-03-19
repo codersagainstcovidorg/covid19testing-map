@@ -10,7 +10,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
 
 export const labelMap: any = {
-  'is-verified': 'Include public health offices',
+  'is-verified': 'Include local public health offices',
   'is-location-screening-patients': 'Checks patients for symptoms',
   'is-location-collecting-specimens': 'Offers COVID-19 testing',
   'is-location-accepting-third-party-orders-for-testing': 'Accepting 3rd party testing',
