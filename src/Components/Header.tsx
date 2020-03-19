@@ -15,7 +15,7 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
                     <MenuIcon style={{color: 'white', marginLeft: '-20'}} />
                 </IconButton> : ''}
 
-                <Typography variant="h5">
+                <Typography variant="h5" style={{fontSize: '1.3rem'}}>
                     COVID-19 Evaluation and Testing
                 </Typography>
             </Toolbar>
