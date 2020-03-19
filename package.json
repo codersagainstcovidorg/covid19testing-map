@@ -1,6 +1,6 @@
 {
   "name": "covid19testing-map",
-  "homepage": "https://martinamps.github.io/covid19testing-map",
+  "homepage": "findcovidtesting.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
