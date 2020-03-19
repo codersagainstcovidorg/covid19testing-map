@@ -56,6 +56,7 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => {
 
                                 {Object.keys(searchFilters).map((filter : string, idx: number) => {
                                     return (<FormControlLabel
+                                        key={`toggle-${idx}`}
                                         control={<Switch size="small" checked={searchFilters[filter as keyof SearchFilters]}
                                         onChange={() => toggleFilter(filter)} />}
                                         label={labelMap[filter]}

@@ -7,7 +7,6 @@ import mapboxgl from 'mapbox-gl';
 import { StaticMap, GeolocateControl } from 'react-map-gl';
 import PLACES from '../data/data.json';
 import Pins from './Pins';
-import { WebMercatorViewport } from '@deck.gl/core';
 import { SearchContext } from '../App';
 
 // COVID19 Mapbox public key
