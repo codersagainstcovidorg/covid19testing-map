@@ -4,23 +4,30 @@ import { Sidebar } from './Components/Sidebar';
 import { Map } from './Components/Map';
 import { Header } from './Components/Header';
 import { Card, CardContent, Typography, CardActions, Button, Modal, CardHeader, Link, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton, Divider } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import InfoIcon from '@material-ui/icons/Info';
 import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
 
 // Building a custom theme
-const theme = {
-  primaryColor: 'UIColor(red: 1.00, green: 0.92, blue: 0.23, alpha: 1.0)',
-  primaryLightColor: 'UIColor(red: 1.00, green: 1.00, blue: 0.45, alpha: 1.0)',
-  primaryDarkColor: 'UIColor(red: 0.78, green: 0.73, blue: 0.00, alpha: 1.0)',
-  primaryTextColor: 'UIColor(red: 0.29, green: 0.07, blue: 0.55, alpha: 1.0)',
-  secondaryColor: 'UIColor(red: 0.67, green: 0.90, blue: 0.13, alpha: 1.0)',
-  secondaryLightColor: 'UIColor(red: 0.89, green: 1.00, blue: 0.37, alpha: 1.0)',
-  secondaryDarkColor: 'UIColor(red: 0.47, green: 0.70, blue: 0.00, alpha: 1.0)',
-  secondaryTextColor: 'UIColor(red: 0.29, green: 0.08, blue: 0.55, alpha: 1.0)'
-};
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: 'UIColor(red: 1.00, green: 1.00, blue: 0.45, alpha: 1.0)',
+      main: 'UIColor(red: 1.00, green: 0.92, blue: 0.23, alpha: 1.0)',
+      dark: 'UIColor(red: 0.78, green: 0.73, blue: 0.00, alpha: 1.0)',
+      contrastText: 'UIColor(red: 0.29, green: 0.07, blue: 0.55, alpha: 1.0)'
+    },
+    secondary: {
+      light: 'UIColor(red: 0.89, green: 1.00, blue: 0.37, alpha: 1.0)',
+      main: 'UIColor(red: 0.67, green: 0.90, blue: 0.13, alpha: 1.0)',
+      dark: 'UIColor(red: 0.47, green: 0.70, blue: 0.00, alpha: 1.0)',
+      contrastText: 'UIColor(red: 0.29, green: 0.08, blue: 0.55, alpha: 1.0)'
+    },
+  },
+});
+
 export const
  labelMap: any = {
   'is-verified': 'Exclude local public health agencies',
