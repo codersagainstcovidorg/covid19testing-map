@@ -1,9 +1,6 @@
 
-import React, { useState } from 'react';
-
+import React from 'react';
 import { DeckGL } from "@deck.gl/react";
-import mapboxgl from 'mapbox-gl';
-
 import { StaticMap, GeolocateControl } from 'react-map-gl';
 import PLACES from '../data/data.json';
 import Pins from './Pins';
@@ -15,37 +12,15 @@ const token = 'pk.eyJ1IjoibWFydGluYW1wcyIsImEiOiJjazd3aDNoaTQwMjNuM2ZtZTRrcm1wOH
 type MapProps = {
     onClickPin: Function;
     lockMap: boolean;
+    viewState: any;
+    setViewState: Function;
 }
 
-export const Map = ({ onClickPin, lockMap }: MapProps ) => {
-    const bounds = new mapboxgl.LngLatBounds();
-    PLACES.forEach(p => {
-        bounds.extend(new mapboxgl.LngLat(p.lng, p.lat));
-    });
-
-    const boundedViewport = {
-        longitude: -98,
-        latitude: 38.5,
-        zoom: 5,
-    }
-    
-    /*{
-        ...new WebMercatorViewport({
-            width: window.innerWidth,
-            height: window.innerHeight
-        }).fitBounds([bounds.getNorthEast().toArray(), bounds.getSouthWest().toArray()], {
-            padding: 7,
-            offset: [40, 20]
-        }), pitchMaybe: 15, bearingMaybe: 108
-    };*/
-
-    const [viewport, setViewport] = useState(boundedViewport);
-    const layers: any = [];
-
+export const Map = ({ onClickPin, lockMap, viewState, setViewState }: MapProps ) => {
     return <SearchContext.Consumer>
         {
             (searchFilters) => {
-                const filteredPins = PLACES.filter(place => {
+                const filteredPins = (PLACES as any).filter((place: any) => {
                     Object.keys(searchFilters).forEach(key => {
 
                     });
@@ -70,13 +45,12 @@ export const Map = ({ onClickPin, lockMap }: MapProps ) => {
                 });
 
                 return <DeckGL
-                    initialViewState={viewport}
+                    viewState={viewState}
                     width="100vw"
                     height="100vh"
-                    layers={layers}
                     controller={!lockMap}
                     getCursor={() => { return 'cursor'; }}
-                    onViewStateChange={(viewport: any) => setViewport({ ...viewport })}
+                    onViewStateChange={(viewState: any) => setViewState(viewState)}
                     // @ts-ignore
                     glOptions={{onError: console.error}}
                 >

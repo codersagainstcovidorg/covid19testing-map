@@ -84,6 +84,16 @@ interface AppState {
   filters: SearchFilters;
   drawerOpen: boolean;
   currentPlace: any;
+  viewState: any;
+}
+
+interface GeolocationCoordinates {
+  coords: {
+    latitude: number;
+    longitude: number;
+    accuracy: number;
+  };
+  timestamp: number;
 }
 
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
@@ -95,8 +105,28 @@ export class App extends React.Component<{}, AppState> {
     this.state = {
       filters: defaultFilters,
       currentPlace: null,
-      drawerOpen: false
+      drawerOpen: false,
+      viewState: {
+        longitude: -98,
+        latitude: 38.5,
+        zoom: 5,
+      }
     };
+  }
+
+  componentWillMount() {
+    navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
+      console.log('setting', res.coords);
+      this.setState({
+        viewState: {
+          latitude: res.coords.latitude,
+          longitude: res.coords.longitude,
+          zoom: 8
+        }
+      })
+    }, (e: any) => {
+      console.error('failed to get location', e);
+    }, {enableHighAccuracy: true });
   }
 
   render() {
@@ -155,9 +185,15 @@ export class App extends React.Component<{}, AppState> {
                 this.setState({ drawerOpen: false });
               }
             }} container item xs={12}>
-              <Map lockMap={false} onClickPin={(place: any) => {
-                this.setState({ currentPlace: place });
-              }} />
+              <Map
+                lockMap={false}
+                viewState={this.state.viewState}
+                setViewState={(newState: any) => {
+                  this.setState({ viewState: newState.viewState })
+                }}
+                onClickPin={(place: any) => {
+                  this.setState({ currentPlace: place });
+                }} />
 
               {location === null ? '' : (
                 <Modal

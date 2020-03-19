@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Drawer, Typography, FormGroup, FormControlLabel, Switch, Divider
 } from '@material-ui/core';
