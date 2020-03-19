@@ -41,7 +41,7 @@ export const labelMap: LabelMap = {
   },
   'is-location-screening-patients': {
     sidebar: 'Checks patients for symptoms',
-    card: 'Checks patients for symtomps'
+    card: 'Checks patients for symptoms'
   },
   'is-location-collecting-specimens': {
     sidebar: 'Offers COVID-19 testing',
