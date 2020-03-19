@@ -28,14 +28,37 @@ const theme = createMuiTheme({
   },
 });
 
-export const
- labelMap: any = {
-  'is-verified': 'Exclude local public health agencies',
-  'is-location-screening-patients': 'Checks patients for symptoms',
-  'is-location-collecting-specimens': 'Offers COVID-19 testing',
-  'is-location-accepting-third-party-orders-for-testing': 'Accepting 3rd party testing',
-  'is-location-only-testing-patients-that-meet-criteria': 'Patients must meet testing criteria',
-  'is-location-by-appointment-only': 'Requires appointment'
+export interface LabelMap {
+  [key: string]: {
+    [key: string]: string
+  }
+}
+
+export const labelMap: LabelMap = {
+  'is-verified': {
+      sidebar: 'Exclude local public health agencies',
+      card: 'Is a local public health agency'
+  },
+  'is-location-screening-patients': {
+    sidebar: 'Checks patients for symptoms',
+    card: 'Checks patients for symtomps'
+  },
+  'is-location-collecting-specimens': {
+    sidebar: 'Offers COVID-19 testing',
+    card: 'Offers COVID-19 testing'
+  },
+  'is-location-accepting-third-party-orders-for-testing': {
+    sidebar: 'Accepting 3rd party testing',
+    card: 'Accepting 3rd party testing'
+  },
+  'is-location-only-testing-patients-that-meet-criteria': {
+    sidebar: 'Patients must meet testing criteria',
+    card: 'Patients must meet testing criteria'
+  },
+  'is-location-by-appointment-only': {
+    sidebar: 'Requires appointment',
+    card: 'Requires appointment'
+  }
 };
 
 export interface SearchFilters {
@@ -101,7 +124,7 @@ export class App extends React.Component<{}, AppState> {
     Object.keys(labelMap).forEach(key => {
       details.push({
         'type': 'boolean',
-        'title': labelMap[key],
+        'title': labelMap[key].card,
         'key': key,
         'icon': <InfoIcon />
       });
