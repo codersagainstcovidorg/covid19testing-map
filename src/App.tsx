@@ -98,6 +98,8 @@ interface GeolocationCoordinates {
 
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
 
+let dataLayer = (window as any).dataLayer = (window as any).dataLayer || [];
+
 export class App extends React.Component<{}, AppState> {
   constructor(props: any) {
     super(props);
@@ -116,6 +118,13 @@ export class App extends React.Component<{}, AppState> {
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
+      dataLayer.push({
+        event: 'pageview',
+        location: {
+          latitude: res.coords.latitude,
+          longitude: res.coords.longitude
+        }
+      });
       console.log('setting', res.coords);
       this.setState({
         viewState: {
