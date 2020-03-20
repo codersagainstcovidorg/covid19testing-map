@@ -8,6 +8,6 @@
 * npm run deploy
 
 ## Deploying
-To deploy to Cloudfront, merge into the `cloudfront` branch and GH Actions will take care of the rest.
+GH Actions will deploy commits to master. Because of this, please use feature branches and make sure master is stable. 
 
 Actions will build static assets, sync to s3, and then invalidate cloudfront. 
