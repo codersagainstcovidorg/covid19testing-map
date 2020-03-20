@@ -19,7 +19,7 @@ jobs:
       uses: bahmutov/npm-install@v1.1.0
     
     - name: Generate static
-      run: npm run deploy
+      run: npm run build
 
     # Upload to S3
     - name: sync s3
