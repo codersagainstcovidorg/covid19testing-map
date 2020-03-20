@@ -61,7 +61,7 @@ export const Map = ({ onClickPin, lockMap, viewState, setViewState }: MapProps )
                         mapStyle='mapbox://styles/mapbox/streets-v11'
                         mapboxApiAccessToken={token}
                     >
-                        <div style={{display: 'none', top: 62, left: 15, position: 'absolute', zIndex: 1}}>
+                        <div style={{top: 62, left: 15, position: 'absolute', zIndex: 1}}>
                             <GeolocateControl
                                 positionOptions={{enableHighAccuracy: true}}
                                 trackUserLocation={true}
