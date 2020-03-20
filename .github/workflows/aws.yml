@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - gh_pages
+      - cloudfront
 
 name: Deploy to Cloudfront
 
