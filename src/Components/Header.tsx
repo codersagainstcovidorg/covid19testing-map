@@ -1,5 +1,6 @@
 import React from 'react';
 import { Toolbar, IconButton, AppBar, Typography } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import MenuIcon from '@material-ui/icons/Menu';
 
 type HeaderProps = {
@@ -19,6 +20,9 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
                     COVID-19 Evaluation and Testing
                 </Typography>
             </Toolbar>
+            <Alert style={{borderRadius: '0px'}} variant="filled" severity="info">
+                7173 New Locations added in last 24 hours. Check back for regular updates.
+            </Alert>
         </AppBar>
     );
 }

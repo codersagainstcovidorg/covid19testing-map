@@ -20,7 +20,6 @@ export default class Pins extends PureComponent<PinsProps> {
         return data.map((place: any, index: number) => {
             return (
                 <Marker key={`marker-${index}`} longitude={place.lng} latitude={place.lat}>
-
                         <SvgLocationIcon
                             height={SIZE}
                             style={{
