@@ -9,6 +9,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
+import ReactGA from "react-ga";
 
 // Building a custom theme
 const theme = createMuiTheme({
@@ -138,6 +139,15 @@ export class App extends React.Component<{}, AppState> {
     }, {enableHighAccuracy: true });
   }
 
+  handleLinkClicked(locationId: string): void {
+    ReactGA.event({
+      category: 'Location',
+      action: 'Website Click',
+      label: locationId,
+    })
+  }
+
+
   render() {
     const location = this.state.currentPlace;
 
@@ -247,7 +257,9 @@ export class App extends React.Component<{}, AppState> {
                               </ListItemAvatar>
                               {location[item.key].substr(0, 4) === 'http'
                                 ? <ListItemText style={{wordWrap: 'break-word', textOverflow: 'ellipsis'}} 
-                                  primary={<Link href={location[item.key]}>{location[item.key]}</Link>} />
+                                  primary={<Link onClick={() => {
+                                    this.handleLinkClicked(location['location_id'])
+                                  }} href={location[item.key]}>{location[item.key]}</Link>} />
                                 : <ListItemText primary={item.title} secondary={location[item.key]} />}
                             </ListItem>
                           )
