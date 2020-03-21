@@ -1,0 +1,47 @@
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'development'
+
+name: Deploy to Staging Cloudfront
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    # npm stuff
+    - name: Install NPM
+      uses: bahmutov/npm-install@v1.1.0
+    
+    - name: Generate static
+      run: npm run build
+
+    # Upload to S3
+    - name: sync s3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --delete --follow-symlinks
+      env:
+        SOURCE_DIR: './build'
+        AWS_REGION: 'us-east-1'
+        AWS_S3_BUCKET: ${{ secrets.STAGING_AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+
+    # Invalidate Cloudfront (this action)
+    - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@master
+      env:
+        DISTRIBUTION: ${{ secrets.STAGING_AWS_DISTRIBUTION }}
+        PATHS: '/*'
+        AWS_REGION: 'us-east-1'
+        AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+
+    
