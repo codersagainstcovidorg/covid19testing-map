@@ -127,6 +127,7 @@ export class App extends React.Component<{}, AppState> {
         }
       });
       console.log('setting', res.coords);
+      this.handleLocationPrompt('Allow');
       this.setState({
         viewState: {
           latitude: res.coords.latitude,
@@ -136,7 +137,16 @@ export class App extends React.Component<{}, AppState> {
       })
     }, (e: any) => {
       console.error('failed to get location', e);
+      this.handleLocationPrompt('Deny');
     }, {enableHighAccuracy: true });
+  }
+
+  handleLocationPrompt(response: string): void {
+    ReactGA.event({
+      category: 'Location Prompt',
+      action: 'Respond',
+      label: response,
+    });
   }
 
   handleLinkClicked(locationId: string, action: string): void {
@@ -144,7 +154,7 @@ export class App extends React.Component<{}, AppState> {
       category: 'Location',
       action: action,
       label: locationId,
-    })
+    });
   }
 
 
