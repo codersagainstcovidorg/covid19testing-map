@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Marker } from 'react-map-gl';
+import SvgHospitalicon from "../HospitalIcon";
 
-import LocalHospital from '@material-ui/icons/LocalHospital';
 
 export interface PinsProps {
     data: any;
@@ -19,10 +19,12 @@ export default class Pins extends PureComponent<PinsProps> {
             return (
                 <Marker key={`marker-${index}`} longitude={place.lng} latitude={place.lat}>
                     <span
+                        style={{cursor: "pointer"}}
                         onClick={() => onClick(place)}
                         onMouseOver={() => onHover(place)}
                     >
-                        <LocalHospital viewBox="0 0 24 24" style={{ fontSize: '11px' }} />
+                        <SvgHospitalicon/>
+                        {/*<LocalHospital viewBox="0 0 24 24" style={{ fontSize: '11px' }} />*/}
                     </span>
                 </Marker>
             )
