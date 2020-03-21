@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - 'develop'
-      - 'development'
 
 name: Deploy to Staging Cloudfront
 
