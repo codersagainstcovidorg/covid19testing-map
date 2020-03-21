@@ -116,7 +116,7 @@ export class App extends React.Component<{}, AppState> {
       }
     };
 
-
+    //TODO: Remove this and implement a better solution
     document.addEventListener( 'dblclick', function(event) {
           event.preventDefault();
           event.stopPropagation();
