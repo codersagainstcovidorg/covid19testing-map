@@ -314,7 +314,9 @@ export class App extends React.Component<{}, AppState> {
 
                     <CardActions>
                       <Button size="small">
-                        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link">
+                        <Link onClick={() => {
+                          this.handleLinkClicked(location['location_id'], "Report Error")
+                        }} href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link">
                           Report An Error
                         </Link>
                       </Button>
