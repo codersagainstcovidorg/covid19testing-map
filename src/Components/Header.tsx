@@ -41,8 +41,7 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
       </HeaderToolbar>
 
       <InfoPrompt variant="filled" severity="info">
-        7173 New Locations added in last 24 hours. Check back for regular
-        updates.
+        Testing location data last updated at Mar 21, 2020 6:00pm EDT
       </InfoPrompt>
     </AppBar>
   );
