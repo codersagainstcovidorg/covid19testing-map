@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Marker } from 'react-map-gl';
-import SvgHospitalicon from "../HospitalIcon";
+import SvgLocationIcon from "../LocationIcon";
 
 
 export interface PinsProps {
@@ -8,6 +8,8 @@ export interface PinsProps {
     onClick: Function,
     onHover: Function
 };
+
+const SIZE = 40;
 
 // Important for perf: the markers never change, avoid rerender when the map viewport changes
 export default class Pins extends PureComponent<PinsProps> {
@@ -18,14 +20,16 @@ export default class Pins extends PureComponent<PinsProps> {
         return data.map((place: any, index: number) => {
             return (
                 <Marker key={`marker-${index}`} longitude={place.lng} latitude={place.lat}>
-                    <span
-                        style={{cursor: "pointer"}}
-                        onClick={() => onClick(place)}
-                        onMouseOver={() => onHover(place)}
-                    >
-                        <SvgHospitalicon/>
+
+                        <SvgLocationIcon
+                            height={SIZE}
+                            style={{
+                                cursor: "pointer",
+                                transform: `translate(${-SIZE / 2}px,${-SIZE}px)`}}
+                            onClick={() => onClick(place)}
+                            onMouseOver={() => onHover(place)}
+                        />
                         {/*<LocalHospital viewBox="0 0 24 24" style={{ fontSize: '11px' }} />*/}
-                    </span>
                 </Marker>
             )
         });
