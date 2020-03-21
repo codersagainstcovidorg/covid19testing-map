@@ -115,9 +115,19 @@ export class App extends React.Component<{}, AppState> {
         zoom: 5,
       }
     };
+
+
+    document.addEventListener( 'dblclick', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+        },  true //capturing phase!!
+    );
+
   }
 
   componentWillMount() {
+
+
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
       this.handleLocationPrompt('View', 'Landing');
       dataLayer.push({
