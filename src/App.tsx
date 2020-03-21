@@ -320,7 +320,9 @@ export class App extends React.Component<{}, AppState> {
                       </Button>
 
                       <Button size="small">
-                        <Link href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link">
+                        <Link onClick={() => {
+                          this.handleLinkClicked(location['location_id'], "Suggest Edit")
+                        }} href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link">
                           Suggest An Edit
                         </Link>
                       </Button>
