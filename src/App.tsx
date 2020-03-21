@@ -9,6 +9,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import LanguageIcon from '@material-ui/icons/Language';
 import CloseIcon from '@material-ui/icons/Close';
+import ReactGA from "react-ga";
 
 // Building a custom theme
 const theme = createMuiTheme({
@@ -118,6 +119,7 @@ export class App extends React.Component<{}, AppState> {
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
+      this.handleLocationPrompt('View', 'Landing');
       dataLayer.push({
         event: 'pageview',
         location: {
@@ -126,6 +128,7 @@ export class App extends React.Component<{}, AppState> {
         }
       });
       console.log('setting', res.coords);
+      this.handleLocationPrompt('Respond', 'Allow');
       this.setState({
         viewState: {
           latitude: res.coords.latitude,
@@ -135,8 +138,26 @@ export class App extends React.Component<{}, AppState> {
       })
     }, (e: any) => {
       console.error('failed to get location', e);
+      this.handleLocationPrompt('Respond', 'Deny');
     }, {enableHighAccuracy: true });
   }
+
+  handleLocationPrompt(action: string, response: string): void {
+    ReactGA.event({
+      category: 'Location Prompt',
+      action: action,
+      label: response,
+    });
+  }
+
+  handleLinkClicked(locationId: string, action: string): void {
+    ReactGA.event({
+      category: 'Location',
+      action: action,
+      label: locationId,
+    });
+  }
+
 
   render() {
     const location = this.state.currentPlace;
@@ -247,7 +268,9 @@ export class App extends React.Component<{}, AppState> {
                               </ListItemAvatar>
                               {location[item.key].substr(0, 4) === 'http'
                                 ? <ListItemText style={{wordWrap: 'break-word', textOverflow: 'ellipsis'}} 
-                                  primary={<Link href={location[item.key]}>{location[item.key]}</Link>} />
+                                  primary={<Link onClick={() => {
+                                    this.handleLinkClicked(location['location_id'], "Website Click")
+                                  }} href={location[item.key]}>{location[item.key]}</Link>} />
                                 : <ListItemText primary={item.title} secondary={location[item.key]} />}
                             </ListItem>
                           )
@@ -273,7 +296,9 @@ export class App extends React.Component<{}, AppState> {
                     {location['location-contact-phone-main'] === '' ? '' : (
                       <CardActions>
                         <Button size="small">
-                          <Link href={'tel://' + location['location-contact-phone-main']}>
+                          <Link onClick={() => {
+                            this.handleLinkClicked(location['location_id'], "Call")
+                          }}href={'tel://' + location['location-contact-phone-main']}>
                             Call Main Line ({location['location-contact-phone-main']})
                           </Link>
                         </Button>
@@ -283,7 +308,9 @@ export class App extends React.Component<{}, AppState> {
                     {location['location-contact-phone-appointments'] === '' ? '' : (
                       <CardActions>
                         <Button size="small" >
-                          <Link href={'tel://' + location['location-contact-phone-appointments']}>
+                          <Link onClick={() => {
+                            this.handleLinkClicked(location['location_id'], "Call")
+                          }}href={'tel://' + location['location-contact-phone-appointments']}>
                             Call Appointments Line ({location['location-contact-phone-appointments']})
                           </Link>
                         </Button>
@@ -298,13 +325,17 @@ export class App extends React.Component<{}, AppState> {
 
                     <CardActions>
                       <Button size="small">
-                        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link">
+                        <Link onClick={() => {
+                          this.handleLinkClicked(location['location_id'], "Report Error")
+                        }} href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link">
                           Report An Error
                         </Link>
                       </Button>
 
                       <Button size="small">
-                        <Link href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link">
+                        <Link onClick={() => {
+                          this.handleLinkClicked(location['location_id'], "Suggest Edit")
+                        }} href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link">
                           Suggest An Edit
                         </Link>
                       </Button>

@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+const trackingId = "UA-161202078-1";
+
+ReactGA.initialize(trackingId);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
