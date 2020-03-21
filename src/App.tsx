@@ -139,10 +139,10 @@ export class App extends React.Component<{}, AppState> {
     }, {enableHighAccuracy: true });
   }
 
-  handleLinkClicked(locationId: string): void {
+  handleLinkClicked(locationId: string, action: string): void {
     ReactGA.event({
       category: 'Location',
-      action: 'Website Click',
+      action: action,
       label: locationId,
     })
   }
@@ -258,7 +258,7 @@ export class App extends React.Component<{}, AppState> {
                               {location[item.key].substr(0, 4) === 'http'
                                 ? <ListItemText style={{wordWrap: 'break-word', textOverflow: 'ellipsis'}} 
                                   primary={<Link onClick={() => {
-                                    this.handleLinkClicked(location['location_id'])
+                                    this.handleLinkClicked(location['location_id'], "Website Click")
                                   }} href={location[item.key]}>{location[item.key]}</Link>} />
                                 : <ListItemText primary={item.title} secondary={location[item.key]} />}
                             </ListItem>
@@ -285,7 +285,9 @@ export class App extends React.Component<{}, AppState> {
                     {location['location-contact-phone-main'] === '' ? '' : (
                       <CardActions>
                         <Button size="small">
-                          <Link href={'tel://' + location['location-contact-phone-main']}>
+                          <Link onClick={() => {
+                            this.handleLinkClicked(location['location_id'], "Call")
+                          }}href={'tel://' + location['location-contact-phone-main']}>
                             Call Main Line ({location['location-contact-phone-main']})
                           </Link>
                         </Button>
@@ -295,7 +297,9 @@ export class App extends React.Component<{}, AppState> {
                     {location['location-contact-phone-appointments'] === '' ? '' : (
                       <CardActions>
                         <Button size="small" >
-                          <Link href={'tel://' + location['location-contact-phone-appointments']}>
+                          <Link onClick={() => {
+                            this.handleLinkClicked(location['location_id'], "Call")
+                          }}href={'tel://' + location['location-contact-phone-appointments']}>
                             Call Appointments Line ({location['location-contact-phone-appointments']})
                           </Link>
                         </Button>
