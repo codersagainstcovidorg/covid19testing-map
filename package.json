@@ -16,6 +16,7 @@
     "@types/node": "^12.12.27",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
+    "deck.gl": "^8.1.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "postcss-minify-gradients": "^4.0.2",
     "react": "^16.12.0",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@danmarshall/deckgl-typings": "^3.4.7",
+    "@svgr/cli": "^5.2.0",
     "@types/react-map-gl": "5.2.0",
     "@types/styled-components": "^4.4.3",
     "gh-pages": "^2.2.0",
