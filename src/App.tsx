@@ -122,9 +122,8 @@ export class App extends React.Component<{}, AppState> {
 
   componentWillMount() {
 
-
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
-      this.handleLocationPrompt('View', 'Landing');
+      // this.handleLocationPrompt('View', 'Landing');
       dataLayer.push({
         event: 'pageview',
         location: {
@@ -133,7 +132,7 @@ export class App extends React.Component<{}, AppState> {
         }
       });
       console.log('setting', res.coords);
-      this.handleLocationPrompt('Respond', 'Allow');
+      // this.handleLocationPrompt('Respond', 'Allow');
       this.setState({
         viewState: {
           latitude: res.coords.latitude,
@@ -145,17 +144,17 @@ export class App extends React.Component<{}, AppState> {
       })
     }, (e: any) => {
       console.error('failed to get location', e);
-      this.handleLocationPrompt('Respond', 'Deny');
+      // this.handleLocationPrompt('Respond', 'Deny');
     }, {enableHighAccuracy: true });
   }
 
-  handleLocationPrompt(action: string, response: string): void {
-    ReactGA.event({
-      category: 'Location Prompt',
-      action: action,
-      label: response,
-    });
-  }
+  // handleLocationPrompt(action: string, response: string): void {
+  //   ReactGA.event({
+  //     category: 'Location Prompt',
+  //     action: action,
+  //     label: response,
+  //   });
+  // }
 
   handleLinkClicked(locationId: string, action: string): void {
     ReactGA.event({
