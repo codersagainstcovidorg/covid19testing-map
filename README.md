@@ -14,6 +14,19 @@ Run tests:
 
 `npm test`
 
+## Local Development with Docker
+
+Pre-reqs:
+    1. docker installed
+        Check with `docker version`
+    2. make installed (if using provided Makefile)
+
+Run `docker build -t findcovidtesting:latest .`manually or use
+    `make build-docker`
+
+Run `docker run -p 8080:3000 -d findcovidtesting` manually or use
+    `make run-docker`
+
 ## Development and Deploying
 
 * Develop locally in a feature branch
