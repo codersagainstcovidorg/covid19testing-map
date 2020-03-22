@@ -1,4 +1,7 @@
-on: ['deployment']
+on: 
+  push:
+    branches:
+      - master
 
 name: Deploy to Cloudfront
 
