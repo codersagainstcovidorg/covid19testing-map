@@ -32,7 +32,7 @@ const Navigation = styled.div`
 `;
 
 const ICON_MAPPING = {
-  marker: {x: 0, y: 0, width: 30, height: 30}
+  marker: {x: 0, y: 0, width: 31, height: 40}
 };
 
 export const Map = (props: MapProps) => {
@@ -57,11 +57,17 @@ export const Map = (props: MapProps) => {
         document.body.style.cursor = "pointer";
         let movedX = 0;
         let movedY = 0;
+        let prevX = 0;
+        let prevY = 0;
         // if within square region of hover
         const handler = (e: any) => {
-            movedX = Math.abs(e.clientX - movedX);
-            movedY = Math.abs(e.clientY - movedY);
-            if (movedX > 15 || movedY > 15) {
+            if (!prevX) { prevX = e.clientX; }
+            if (!prevY) { prevY = e.clientY; }
+            movedX += Math.abs(e.clientX - prevX);
+            movedY += Math.abs(e.clientY - prevY);
+            prevX = e.clientX;
+            prevY = e.clientY;
+            if (movedX > 10 || movedY > 15) {
                 document.body.style.cursor = "default";
                 document.removeEventListener('mousemove', handler);
             }
