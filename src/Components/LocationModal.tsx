@@ -41,14 +41,16 @@ export const LocationModal = ({ location, onClose }: ModalProps) => {
     ];
 
     let details: any = [];
-    Object.keys(labelMap).forEach((key: string) => {
-        details.push({
-            'type': 'boolean',
-            'title': labelMap[key].card,
-            'key': key,
-            'icon': <InfoIcon />
+    Object.keys(labelMap)
+        .filter((key: string) => key !== 'is-verified')
+        .forEach((key: string) => {
+            details.push({
+                'type': 'boolean',
+                'title': labelMap[key].card,
+                'key': key,
+                'icon': <InfoIcon />
+            });
         });
-    });
 
     return (
         <Modal
