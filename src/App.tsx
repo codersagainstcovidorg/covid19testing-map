@@ -153,10 +153,14 @@ export class App extends React.Component<{}, AppState> {
   }
 
   geoIPFallback() {
+    this.handleLocationPrompt('GeoIP', 'Attempt');
+
     fetch('http://ip-api.com/json/?fields=status,lat,lon').then((r: Response) => {
       return r.json();
     }).then(data => {
       if (data.status === 'success') {
+        this.handleLocationPrompt('GeoIP', 'Success');
+
         this.setState({
           viewState: {
             latitude: data.lat,
