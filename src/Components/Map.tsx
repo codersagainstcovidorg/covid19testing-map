@@ -59,6 +59,7 @@ export const Map = (props: MapProps) => {
             <NavigationControl
               showCompass={false}
               captureClick
+              captureDoubleClick
               onViewportChange={(data: any) => {
                 const { zoom } = data;
                 setViewState({
