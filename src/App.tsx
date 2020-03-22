@@ -107,9 +107,9 @@ export class App extends React.Component<{}, AppState> {
       currentPlace: null,
       drawerOpen: false,
       viewState: {
-        longitude: -98,
-        latitude: 38.5,
-        zoom: 5,
+        longitude: -122.1419,
+        latitude: 37.4419,
+        zoom: 2.5,
         bearing: 0,
         pitch: 0,
       }
@@ -199,19 +199,19 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={this.state.filters}>
-          
+
           <Grid className="container" container direction="row">
-            <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
-              <Header toggleDrawer={() => {
-                this.handleDrawerStatus(this.state.drawerOpen);
-                this.setState({ drawerOpen: !this.state.drawerOpen })
+            <Grid container item xs={12} style={{ zIndex: 110 }}>
+          <Header toggleDrawer={() => {
+            this.handleDrawerStatus(this.state.drawerOpen);
+            this.setState({ drawerOpen: !this.state.drawerOpen })
 
               }} />
             </Grid>
           </Grid>
 
           <Grid container direction="column">
-            <Grid container item xs={4} style={{ zIndex: 20 }}>
+            <Grid container item xs={4} style={{ zIndex: 100 }}>
               <Sidebar drawerOpen={this.state.drawerOpen} toggleFilter={(filterKey: keyof SearchFilters) => {
                 this.setState({
                   filters: { ...this.state.filters, [filterKey]: !this.state.filters[filterKey] }
