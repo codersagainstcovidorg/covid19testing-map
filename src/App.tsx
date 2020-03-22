@@ -168,6 +168,13 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
+  handleDrawerStatus(action: boolean): void {
+    ReactGA.event({
+      category: 'Drawer',
+      action: action ? 'Close' : 'Open',
+    });
+  }
+
 
   render() {
     const location = this.state.currentPlace;
@@ -207,7 +214,11 @@ export class App extends React.Component<{}, AppState> {
           
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
-              <Header toggleDrawer={() => this.setState({ drawerOpen: !this.state.drawerOpen })} />
+              <Header toggleDrawer={() => {
+                this.handleDrawerStatus(this.state.drawerOpen);
+                this.setState({ drawerOpen: !this.state.drawerOpen })
+
+              }} />
             </Grid>
           </Grid>
 
