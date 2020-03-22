@@ -126,7 +126,6 @@ export class App extends React.Component<{}, AppState> {
   }
 
   locateUser() {
-    this.handleLocationPrompt('View', 'Landing');
 
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
       dataLayer.push({
@@ -137,7 +136,6 @@ export class App extends React.Component<{}, AppState> {
         }
       });
       console.log('setting', res.coords);
-      // this.handleLocationPrompt('Respond', 'Allow');
 
       this.setState({
         viewState: {
@@ -150,7 +148,6 @@ export class App extends React.Component<{}, AppState> {
       })
     }, (e: any) => {
       console.error('failed to get location from browser', e);
-      this.handleLocationPrompt('Respond', 'Deny');
       this.geoIPFallback();
     }, {
         enableHighAccuracy: true,
