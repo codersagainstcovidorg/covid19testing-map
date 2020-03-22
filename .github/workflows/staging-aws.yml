@@ -3,7 +3,7 @@ on:
     branches:
       - master
 
-name: Deploy to Staging Cloudfront
+name: Deploy to Staging
 
 jobs:
   deploy:
@@ -42,7 +42,7 @@ jobs:
         AWS_REGION: 'us-east-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
-        
+
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2.0.1
       env:

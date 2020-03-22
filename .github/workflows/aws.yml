@@ -3,7 +3,7 @@ on:
     tags:
     - '*'
 
-name: Deploy to Cloudfront
+name: Deploy to Prod
 
 jobs:
   deploy:
@@ -14,8 +14,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        ref: $GITHUB_REF
     
     # npm stuff
     - name: Install NPM
