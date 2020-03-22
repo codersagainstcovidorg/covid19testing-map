@@ -3,12 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import { Sidebar } from './Components/Sidebar';
 import { Map } from './Components/Map';
 import { Header } from './Components/Header';
-import { Card, CardContent, Typography, CardActions, Button, Modal, CardHeader, Link, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton, Divider } from '@material-ui/core';
+import { LocationModal } from './Components/LocationModal';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import InfoIcon from '@material-ui/icons/Info';
-import LanguageIcon from '@material-ui/icons/Language';
-import CloseIcon from '@material-ui/icons/Close';
 import ReactGA from "react-ga";
 
 // Building a custom theme
@@ -113,13 +110,24 @@ export class App extends React.Component<{}, AppState> {
         longitude: -98,
         latitude: 38.5,
         zoom: 5,
+        bearing: 0,
+        pitch: 0,
       }
     };
+
   }
 
   componentWillMount() {
+    try {
+      this.locateUser();
+    } catch(e) {
+      console.error('failed to locate user', e);
+    }
+  }
+
+  locateUser() {
+
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
-      this.handleLocationPrompt('View', 'Landing');
       dataLayer.push({
         event: 'pageview',
         location: {
@@ -128,18 +136,45 @@ export class App extends React.Component<{}, AppState> {
         }
       });
       console.log('setting', res.coords);
-      this.handleLocationPrompt('Respond', 'Allow');
+
       this.setState({
         viewState: {
           latitude: res.coords.latitude,
           longitude: res.coords.longitude,
-          zoom: 8
+          zoom: 8,
+          bearing: 0,
+          pitch: 0,
         }
       })
     }, (e: any) => {
-      console.error('failed to get location', e);
-      this.handleLocationPrompt('Respond', 'Deny');
-    }, {enableHighAccuracy: true });
+      console.error('failed to get location from browser', e);
+      this.geoIPFallback();
+    }, {
+        enableHighAccuracy: true,
+        timeout: 2000
+      });
+  }
+
+  geoIPFallback() {
+    this.handleLocationPrompt('GeoIP', 'Attempt');
+
+    fetch('http://ip-api.com/json/?fields=status,lat,lon').then((r: Response) => {
+      return r.json();
+    }).then(data => {
+      if (data.status === 'success') {
+        this.handleLocationPrompt('GeoIP', 'Success');
+
+        this.setState({
+          viewState: {
+            latitude: data.lat,
+            longitude: data.lon,
+            zoom: 8,
+            bearing: 0,
+            pitch: 0
+          }
+        })
+      }
+    });
   }
 
   handleLocationPrompt(action: string, response: string): void {
@@ -150,11 +185,10 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
-  handleLinkClicked(locationId: string, action: string): void {
+  handleDrawerStatus(action: boolean): void {
     ReactGA.event({
-      category: 'Location',
-      action: action,
-      label: locationId,
+      category: 'Drawer',
+      action: action ? 'Close' : 'Open',
     });
   }
 
@@ -162,42 +196,17 @@ export class App extends React.Component<{}, AppState> {
   render() {
     const location = this.state.currentPlace;
 
-    let items: any = [
-      {
-        'title': 'Type',
-        'key': 'location-place-of-service-type',
-        'icon': <InfoIcon />
-      },
-      {
-        'title': 'Website',
-        'key': 'location-contact-url-main',
-        'icon': <LanguageIcon />
-      },
-      {
-        'title': 'Testing Criteria',
-        'key': 'location-specific-testing-criteria',
-        'icon': <LanguageIcon />
-      }
-    ];
-
-    let details: any = [];
-    Object.keys(labelMap).forEach(key => {
-      details.push({
-        'type': 'boolean',
-        'title': labelMap[key].card,
-        'key': key,
-        'icon': <InfoIcon />
-      });
-    });
-
-
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={this.state.filters}>
           
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
-              <Header toggleDrawer={() => this.setState({ drawerOpen: !this.state.drawerOpen })} />
+              <Header toggleDrawer={() => {
+                this.handleDrawerStatus(this.state.drawerOpen);
+                this.setState({ drawerOpen: !this.state.drawerOpen })
+
+              }} />
             </Grid>
           </Grid>
 
@@ -226,122 +235,10 @@ export class App extends React.Component<{}, AppState> {
                 }} />
 
               {location === null ? '' : (
-                <Modal
-                  style={{ width: '90%', height: '95%', overflow: 'auto', maxWidth: 600, padding: 10, margin: '0 auto', outline: 0 }}
-                  onClose={() => this.setState({ currentPlace: null })}
-                  disableAutoFocus={true} open
-                >
-                  <Card style={{ outline: 0 }}>
-                    <CardHeader
-                      title={location['location-name']}
-                      subheader={
-                        location['location-address-street'].trim() + ', '
-                        + location['location-address-locality'].trim()
-                        + ', ' + location['location-address-region'].trim()
-                        + ' ' + location['location-address-postal-code'].trim()
-                      }
-                      action={
-                        <IconButton aria-label="close"
-                          onClick={() => this.setState({ currentPlace: null })}>
-                          <CloseIcon />
-                        </IconButton>
-                      }
-                    />
-
-                    <CardContent>
-                      <Typography color="textPrimary" gutterBottom>
-                        {location['additional-information-for-patients']}
-                      </Typography>
-
-                      <List dense={true} style={{ paddingBottom: 0, marginBottom: 0, fontSize: 12 }}>
-                        {items.map((item: any, idx: number) => {
-                          if (location[item.key].length === 0) {
-                            return '';
-                          }
-
-                          return (
-                            <ListItem key={idx}>
-                              <ListItemAvatar>
-                                <Avatar>
-                                  {item.icon}
-                                </Avatar>
-                              </ListItemAvatar>
-                              {location[item.key].substr(0, 4) === 'http'
-                                ? <ListItemText style={{wordWrap: 'break-word', textOverflow: 'ellipsis'}} 
-                                  primary={<Link onClick={() => {
-                                    this.handleLinkClicked(location['location_id'], "Website Click")
-                                  }} href={location[item.key]}>{location[item.key]}</Link>} />
-                                : <ListItemText primary={item.title} secondary={location[item.key]} />}
-                            </ListItem>
-                          )
-                        })}
-                      </List>
-
-                      <Divider style={{margin: 10}} />
-
-                      <Typography variant="h6">Details about this location</Typography>
-                      <List>
-                      {details.map((item: any, idx: number) => {
-                          const content = location[item.key] === 'TRUE' ? '✅' : '🔴';
-                          return (
-                            <ListItem key={idx}>
-                              <ListItemText primary={content + ' ' + item.title} />
-                            </ListItem>
-                          )
-                        })}
-                      </List>
-
-                    </CardContent>
-
-                    {location['location-contact-phone-main'] === '' ? '' : (
-                      <CardActions>
-                        <Button size="small">
-                          <Link onClick={() => {
-                            this.handleLinkClicked(location['location_id'], "Call")
-                          }}href={'tel://' + location['location-contact-phone-main']}>
-                            Call Main Line ({location['location-contact-phone-main']})
-                          </Link>
-                        </Button>
-                      </CardActions>
-                    )}
-
-                    {location['location-contact-phone-appointments'] === '' ? '' : (
-                      <CardActions>
-                        <Button size="small" >
-                          <Link onClick={() => {
-                            this.handleLinkClicked(location['location_id'], "Call")
-                          }}href={'tel://' + location['location-contact-phone-appointments']}>
-                            Call Appointments Line ({location['location-contact-phone-appointments']})
-                          </Link>
-                        </Button>
-                      </CardActions>
-                    )}
-
-                    <Divider style={{margin: 10}} />
-
-                    <Typography paragraph={true} style={{padding: 10}}>
-                    At this point in time, appointments for COVID-19 screening and testing are required at virtually every location - make sure to call or book ahead
-                    </Typography>
-
-                    <CardActions>
-                      <Button size="small">
-                        <Link onClick={() => {
-                          this.handleLinkClicked(location['location_id'], "Report Error")
-                        }} href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link">
-                          Report An Error
-                        </Link>
-                      </Button>
-
-                      <Button size="small">
-                        <Link onClick={() => {
-                          this.handleLinkClicked(location['location_id'], "Suggest Edit")
-                        }} href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link">
-                          Suggest An Edit
-                        </Link>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Modal>
+                  <LocationModal
+                    location={location}
+                    onClose={() => { this.setState({ currentPlace: null }) }}
+                  />
               )}
             </Grid>
           </Grid>

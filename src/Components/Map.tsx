@@ -8,9 +8,6 @@ import { SearchContext } from "../App";
 import { MAPBOX_TOKEN } from "../constants";
 import { getFilteredPins } from "../utils/getFilteredPins";
 
-// single value for now but should change exponentially
-const getDelta = (zoom: number): number => 0.05 / zoom;
-
 type MapProps = {
   onClickPin: Function;
   lockMap: boolean;
