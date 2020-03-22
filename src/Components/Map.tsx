@@ -27,7 +27,7 @@ const Zoom = styled.div`
 const Navigation = styled.div`
   bottom: 40px;
   right: 10px;
-  position: absolute;
+  position: fixed;
   z-index: 1;
 `;
 
