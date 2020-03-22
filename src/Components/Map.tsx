@@ -58,7 +58,7 @@ export const Map = (props: MapProps) => {
                   ...viewState,
                   longitude,
                   latitude,
-                  zoom: Math.min(10, zoom)
+                  zoom
                 }
               });
             }}
