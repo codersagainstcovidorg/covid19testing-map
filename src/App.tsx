@@ -110,8 +110,11 @@ export class App extends React.Component<{}, AppState> {
         longitude: -98,
         latitude: 38.5,
         zoom: 5,
+        bearing: 0,
+        pitch: 0,
       }
     };
+
   }
 
   componentWillMount() {
@@ -123,7 +126,6 @@ export class App extends React.Component<{}, AppState> {
   }
 
   locateUser() {
-    this.handleLocationPrompt('View', 'Landing');
 
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
       dataLayer.push({
@@ -133,18 +135,19 @@ export class App extends React.Component<{}, AppState> {
           longitude: res.coords.longitude
         }
       });
+      console.log('setting', res.coords);
 
-      this.handleLocationPrompt('Respond', 'Allow');
       this.setState({
         viewState: {
           latitude: res.coords.latitude,
           longitude: res.coords.longitude,
-          zoom: 8
+          zoom: 8,
+          bearing: 0,
+          pitch: 0,
         }
       })
     }, (e: any) => {
       console.error('failed to get location from browser', e);
-      this.handleLocationPrompt('Respond', 'Deny');
       this.geoIPFallback();
     }, {
         enableHighAccuracy: true,
@@ -165,7 +168,9 @@ export class App extends React.Component<{}, AppState> {
           viewState: {
             latitude: data.lat,
             longitude: data.lon,
-            zoom: 8
+            zoom: 8,
+            bearing: 0,
+            pitch: 0
           }
         })
       }
@@ -180,6 +185,14 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
+  handleDrawerStatus(action: boolean): void {
+    ReactGA.event({
+      category: 'Drawer',
+      action: action ? 'Close' : 'Open',
+    });
+  }
+
+
   render() {
     const location = this.state.currentPlace;
 
@@ -189,7 +202,11 @@ export class App extends React.Component<{}, AppState> {
           
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 30, height: 40 }}>
-              <Header toggleDrawer={() => this.setState({ drawerOpen: !this.state.drawerOpen })} />
+              <Header toggleDrawer={() => {
+                this.handleDrawerStatus(this.state.drawerOpen);
+                this.setState({ drawerOpen: !this.state.drawerOpen })
+
+              }} />
             </Grid>
           </Grid>
 
