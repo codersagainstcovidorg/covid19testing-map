@@ -113,15 +113,10 @@ export class App extends React.Component<{}, AppState> {
         longitude: -98,
         latitude: 38.5,
         zoom: 5,
+        bearing: 0,
+        pitch: 0,
       }
     };
-
-    //TODO: Remove this and implement a better solution
-    document.addEventListener( 'dblclick', function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-        },  true //capturing phase!!
-    );
 
   }
 
@@ -143,7 +138,9 @@ export class App extends React.Component<{}, AppState> {
         viewState: {
           latitude: res.coords.latitude,
           longitude: res.coords.longitude,
-          zoom: 8
+          zoom: 8,
+          bearing: 0,
+          pitch: 0,
         }
       })
     }, (e: any) => {
