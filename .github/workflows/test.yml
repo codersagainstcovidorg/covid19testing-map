@@ -12,8 +12,8 @@ jobs:
 
     steps:
       - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        ref: $GITHUB_REF
+        uses: actions/checkout@v2
+        with:
+          ref: $GITHUB_REF
 
     
