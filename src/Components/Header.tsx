@@ -45,12 +45,12 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
           <DrawerIcon />
         </IconButton>
 
-        <HeaderText variant="h5">COVID-19 Evaluation and Testing</HeaderText>
+        <HeaderText variant="h5">Find Covid Testing</HeaderText>
       </HeaderToolbar>
 
       <InfoPrompt variant="filled" severity="info">
         <AlertTitle>
-          Testing location data last updated at Mar 21, 2020 6:00pm EDT
+          Testing location data last updated at Mar 22, 2020 12:37pm EDT
         </AlertTitle>
         <AlertText>
           You can help by{" "}
