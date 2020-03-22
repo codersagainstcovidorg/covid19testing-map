@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
-import { DeckGL } from "@deck.gl/react";
-import { StaticMap, GeolocateControl, NavigationControl } from "react-map-gl";
+import React, { useContext } from "react";
+import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
+import Geocoder from "react-map-gl-geocoder";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import Pins from "./Pins";
 import { SearchContext } from "../App";
@@ -28,23 +29,20 @@ const Navigation = styled.div`
   z-index: 1;
 `;
 
+const mapRef = React.createRef<ReactMapGL>();
+
 export const Map = (props: MapProps) => {
-  const { onClickPin, lockMap, viewState, setViewState } = props;
+  const { viewState, setViewState, onClickPin } = props;
   const searchFilters = useContext(SearchContext);
   const filteredPins = getFilteredPins(searchFilters);
 
   return (
-    <DeckGL
-      viewState={viewState}
-      width="100vw"
-      height="100vh"
-      controller={!lockMap}
-      getCursor={() => "cursor"}
-      onViewStateChange={setViewState}
-      // @ts-ignore
-      glOptions={{ onError: console.error }}
-    >
-      <StaticMap
+    <div>
+      <ReactMapGL
+        viewState={viewState}
+        getCursor={() => "cursor"}
+        onViewStateChange={setViewState}
+        ref={mapRef}
         width="100vw"
         height="100vh"
         style={{ zIndex: 50 }}
@@ -52,6 +50,23 @@ export const Map = (props: MapProps) => {
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
         <Navigation>
+          <Geocoder
+            onViewportChange={(data: any) => {
+              const { longitude, latitude, zoom } = data;
+              setViewState({
+                viewState: {
+                  ...viewState,
+                  longitude,
+                  latitude,
+                  zoom: Math.min(10, zoom)
+                }
+              });
+            }}
+            position="top-left"
+            countries="US"
+            mapRef={mapRef}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+          />
           <Zoom>
             <NavigationControl
               showCompass={false}
@@ -78,8 +93,8 @@ export const Map = (props: MapProps) => {
             />
           </Geolocation>
         </Navigation>
-        <Pins data={filteredPins} onClick={onClickPin} onHover={() => {}} />;
-      </StaticMap>
-    </DeckGL>
+        <Pins data={filteredPins} onClick={onClickPin} onHover={() => {}} />
+      </ReactMapGL>
+    </div>
   );
 };
