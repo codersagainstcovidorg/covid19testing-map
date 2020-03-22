@@ -45,7 +45,7 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
           <DrawerIcon />
         </IconButton>
 
-        <HeaderText variant="h5">COVID-19 Evaluation and Testing</HeaderText>
+        <HeaderText variant="h5">Find Covid Testing</HeaderText>
       </HeaderToolbar>
 
       <InfoPrompt variant="filled" severity="info">
