@@ -2,18 +2,24 @@
 
 ## Local Development
 
-* npm start
-* npm test
-* npm run build
+To get started:
 
-## Deploying
+`npm install`
 
-* Staging 
-  * Push feature branch to `develop` and Actions will deploy it to `staging.findcovidtesting.com`
+Start the local server with hot reload:
 
-* Production 
-  * Merge `develop` into `master`
+`npm start`
 
-GH Actions will deploy commits to master. Because of this, please make sure master is stable. 
+Run tests:
+
+`npm test`
+
+## Development and Deploying
+
+* Develop locally in a feature branch
+* Open a PR from feature branch to `develop` 
+* If merged, Actions will deploy it to `staging.findcovidtesting.com`
+* Once verified, a PR from `develop` into `master`
+* Actions will deploy to `findcovidtesting.com` on merge
 
 Actions pipelines will build static assets, sync to s3, and then invalidate Cloudfront. 
