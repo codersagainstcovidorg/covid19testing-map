@@ -115,8 +115,17 @@ export class App extends React.Component<{}, AppState> {
   }
 
   componentWillMount() {
+    try {
+      this.locateUser();
+    } catch(e) {
+      console.error('failed to locate user', e);
+    }
+  }
+
+  locateUser() {
+    this.handleLocationPrompt('View', 'Landing');
+
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
-      this.handleLocationPrompt('View', 'Landing');
       dataLayer.push({
         event: 'pageview',
         location: {
@@ -124,7 +133,7 @@ export class App extends React.Component<{}, AppState> {
           longitude: res.coords.longitude
         }
       });
-      console.log('setting', res.coords);
+
       this.handleLocationPrompt('Respond', 'Allow');
       this.setState({
         viewState: {
@@ -134,9 +143,29 @@ export class App extends React.Component<{}, AppState> {
         }
       })
     }, (e: any) => {
-      console.error('failed to get location', e);
+      console.error('failed to get location from browser', e);
       this.handleLocationPrompt('Respond', 'Deny');
-    }, {enableHighAccuracy: true });
+      this.geoIPFallback();
+    }, {
+        enableHighAccuracy: true,
+        timeout: 2000
+      });
+  }
+
+  geoIPFallback() {
+    fetch('http://ip-api.com/json/?fields=status,lat,lon').then((r: Response) => {
+      return r.json();
+    }).then(data => {
+      if (data.status === 'success') {
+        this.setState({
+          viewState: {
+            latitude: data.lat,
+            longitude: data.lon,
+            zoom: 8
+          }
+        })
+      }
+    });
   }
 
   handleLocationPrompt(action: string, response: string): void {
