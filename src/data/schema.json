@@ -91,12 +91,12 @@
                     "823ece97-d901-4dd6-9a4e-b5a86d61230e"
                 ]
             },
-            "is-location-screening-patients": {
-                "$id": "#/items/properties/is-location-screening-patients",
+            "is-location-authorized-to-request-testing": {
+                "$id": "#/items/properties/is-location-authorized-to-request-testing",
                 "type": "string",
                 "enum": ["TRUE","FALSE"],                
-                "title": "The Is-location-screening-patients Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Is location authorized to request COVID-19 tests?",
+                "description": "TRUE: the location is authorized to request or ordering COVID-19 testing if, after reviewing symptoms and eliciting a relevant history, the person meets the eligibility requirements as per established criteria. FALSE: The location is unable or unwilling to serve this function.",
                 "default": "FALSE"
 
             },
@@ -104,15 +104,15 @@
                 "$id": "#/items/properties/is-location-collecting-specimens",
                 "type": "string",
                 "enum": ["TRUE","FALSE"],                                
-                "title": "The Is-location-collecting-specimens Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Is location actively collecting specimens?",
+                "description": "TRUE: the location has resources dedicated to the task of obtaining and submitting specimens for COVID-19 testing. Note that this does not consider how the decision to swab the patient is reached - merely whether the collection of specimens is actively taking place. It also ignores whether the specimens are tested in-house or as a send-out.",
                 "default": "FALSE"
             },
             "location-name": {
                 "$id": "#/items/properties/location-name",
                 "type": "string",
-                "title": "The Location-name Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Location name",
+                "description": "The name of the location could be an existing entity or a directional reference.",
                 "default": "",
                 "examples": [
                     "State of Alaska Health And Social Services"
@@ -121,8 +121,8 @@
             "location-address-street": {
                 "$id": "#/items/properties/location-address-street",
                 "type": "string",
-                "title": "The Location-address-street Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Street Address",
+                "description": "The street address for the location, including any suite, unit, or floor designation.",
                 "default": "",
                 "examples": [
                     "3601 C Street"
@@ -131,8 +131,8 @@
             "location-address-locality": {
                 "$id": "#/items/properties/location-address-locality",
                 "type": "string",
-                "title": "The Location-address-locality Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Locality",
+                "description": "The city, town, or village for the location.",
                 "default": "",
                 "examples": [
                     "Anchorage"
@@ -141,8 +141,8 @@
             "location-address-region": {
                 "$id": "#/items/properties/location-address-region",
                 "type": "string",
-                "title": "The Location-address-region Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Region",
+                "description": "The state, province, or region for the location.",
                 "default": "",
                 "examples": [
                     "AK"
@@ -151,8 +151,8 @@
             "location-address-postal-code": {
                 "$id": "#/items/properties/location-address-postal-code",
                 "type": "string",
-                "title": "The Location-address-postal-code Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Postal code",
+                "description": "The postal code for the location.",
                 "default": "",
                 "examples": [
                     "99811"
@@ -161,8 +161,8 @@
             "lat": {
                 "$id": "#/items/properties/lat",
                 "type": "number",
-                "title": "The Lat Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Latitude",
+                "description": "The latitude code for the location.",
                 "default": 0,
                 "examples": [
                     61.18746
@@ -171,8 +171,8 @@
             "lng": {
                 "$id": "#/items/properties/lng",
                 "type": "number",
-                "title": "The Lng Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Longitude",
+                "description": "The longitude for the location.",
                 "default": 0,
                 "examples": [
                     -149.88658
@@ -182,8 +182,8 @@
                 "$id": "#/items/properties/location-place-of-service-type",
                 "type": "string",
                 "enum": ["Public Health Department", "Medical Center", "Home-based", "Temporary", "Other"],
-                "title": "The Location-place-of-service-type Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Place of Service Type",
+                "description": "The category or class of location.",
                 "default": "",
                 "examples": [
                     "Public Health Department"
@@ -192,8 +192,8 @@
             "location-contact-phone-main": {
                 "$id": "#/items/properties/location-contact-phone-main",
                 "type": "string",
-                "title": "The Location-contact-phone-main Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Main phone number",
+                "description": "The area code and phone number that persons should dial should they want to discuss anything OTHER THAN appointments for COVID-19-related services. This includes general information hotlines.",
                 "default": "",
                 "examples": [
                     "907-334-2260"
@@ -202,8 +202,8 @@
             "location-contact-url-main": {
                 "$id": "#/items/properties/location-contact-url-main",
                 "type": "string",
-                "title": "The Location-contact-url-main Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Main URL",
+                "description": "The URL that is used for general information and FAQs. This EXCLUDES direct links to appointment scheduling or telehealth services.",
                 "default": "",
                 "examples": [
                     "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx"
@@ -212,8 +212,8 @@
             "location-hours-of-operation": {
                 "$id": "#/items/properties/location-hours-of-operation",
                 "type": "string",
-                "title": "The Location-hours-of-operation Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Hours of operation",
+                "description": "The hours during which persons can expect to reach a person by phone or receive services related to COVID-19.",
                 "default": "",
                 "examples": [
                     ""
@@ -224,7 +224,7 @@
                 "type": "string",
                 "enum": ["TRUE","FALSE"],                
                 "title": "The Is-location-accepting-third-party-orders-for-testing Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "description": "TRUE: The location will collect and process specimens from individuals that where deemed to meet testing criteria by any entity with the authority to issue a request or order for COVID-19 testing. Note - This means that the entity issuing the request or order does not otherwise have an established relationship to the person or organization that is responsible for the clinical operations of this location.",
                 "default": "FALSE"
             },
             "is-location-only-testing-patients-that-meet-criteria": {
