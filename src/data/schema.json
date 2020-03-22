@@ -1,0 +1,289 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://codersagainstcovid.org/schema.json",
+    "type": "array",
+    "title": "COVID-19 Test Location Schema",
+    "description": "Schema for providing information about testing locations",
+    "items": {
+        "$id": "#/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "description": "An explanation about the purpose of this instance.",
+        "examples": [
+            {
+                "location-address-region": "AK",
+                "is-location-only-testing-patients-that-meet-criteria": "TRUE",
+                "location-contact-url-appointments": "",
+                "is-location-by-appointment-only": "TRUE",
+                "lng": -149.88658,
+                "is-location-collecting-specimens": "FALSE",
+                "location-place-of-service-type": "Public Health Department",
+                "lat": 61.18746,
+                "location_id": "823ece97-d901-4dd6-9a4e-b5a86d61230e",
+                "is-location-accepting-third-party-orders-for-testing": "FALSE",
+                "location-hours-of-operation": "",
+                "location-address-postal-code": "99811",
+                "is-location-screening-patients": "FALSE",
+                "additional-information-for-patients": "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964.",
+                "location-address-street": "3601 C Street",
+                "location-contact-phone-appointments": "1-800-499-2964",
+                "location-name": "State of Alaska Health And Social Services",
+                "location-contact-phone-main": "907-334-2260",
+                "location-contact-url-main": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx",
+                "location-address-locality": "Anchorage",
+                "location-specific-testing-criteria": ""
+            },
+            {
+                "location-address-region": "AK",
+                "is-location-only-testing-patients-that-meet-criteria": "TRUE",
+                "location-contact-url-appointments": "https://virtual.providence.org/",
+                "lng": -149.81894,
+                "is-location-by-appointment-only": "TRUE",
+                "is-location-collecting-specimens": "TRUE",
+                "location-place-of-service-type": "Medical Center",
+                "lat": 61.189842,
+                "location_id": "a3b3214a-e128-4c68-ac18-a467482f1ab8",
+                "is-location-accepting-third-party-orders-for-testing": "FALSE",
+                "location-hours-of-operation": "",
+                "location-address-postal-code": "99508",
+                "is-location-screening-patients": "TRUE",
+                "additional-information-for-patients": "",
+                "location-contact-phone-appointments": "907-562-2211",
+                "location-address-street": "3200 Providence Drive",
+                "location-name": "Providence Alaska Medical Center",
+                "location-contact-phone-main": "907-562-2211",
+                "location-contact-url-main": "https://alaska.providence.org/locations/p/pamc",
+                "location-address-locality": "Anchorage",
+                "location-specific-testing-criteria": "https://www.providence.org/patients-and-visitors/coronavirus-advisory"
+            }
+        ],
+        "required": [
+            "location_id",
+            "is-location-screening-patients",
+            "is-location-collecting-specimens",
+            "location-name",
+            "location-address-street",
+            "location-address-locality",
+            "location-address-region",
+            "location-address-postal-code",
+            "lat",
+            "lng",
+            "location-place-of-service-type",
+            "location-contact-phone-main",
+            "location-contact-url-main",
+            "location-hours-of-operation",
+            "is-location-accepting-third-party-orders-for-testing",
+            "is-location-only-testing-patients-that-meet-criteria",
+            "is-location-by-appointment-only",
+            "location-contact-phone-appointments",
+            "location-contact-url-appointments",
+            "location-specific-testing-criteria",
+            "additional-information-for-patients"
+        ],
+        "properties": {
+            "location_id": {
+                "$id": "#/items/properties/location_id",
+                "type": "string",
+                "title": "The Location_id Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "823ece97-d901-4dd6-9a4e-b5a86d61230e"
+                ]
+            },
+            "is-location-screening-patients": {
+                "$id": "#/items/properties/is-location-screening-patients",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "The Is-location-screening-patients Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "FALSE"
+
+            },
+            "is-location-collecting-specimens": {
+                "$id": "#/items/properties/is-location-collecting-specimens",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                                
+                "title": "The Is-location-collecting-specimens Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "FALSE"
+            },
+            "location-name": {
+                "$id": "#/items/properties/location-name",
+                "type": "string",
+                "title": "The Location-name Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "State of Alaska Health And Social Services"
+                ]
+            },
+            "location-address-street": {
+                "$id": "#/items/properties/location-address-street",
+                "type": "string",
+                "title": "The Location-address-street Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "3601 C Street"
+                ]
+            },
+            "location-address-locality": {
+                "$id": "#/items/properties/location-address-locality",
+                "type": "string",
+                "title": "The Location-address-locality Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "Anchorage"
+                ]
+            },
+            "location-address-region": {
+                "$id": "#/items/properties/location-address-region",
+                "type": "string",
+                "title": "The Location-address-region Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "AK"
+                ]
+            },
+            "location-address-postal-code": {
+                "$id": "#/items/properties/location-address-postal-code",
+                "type": "string",
+                "title": "The Location-address-postal-code Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "99811"
+                ]
+            },
+            "lat": {
+                "$id": "#/items/properties/lat",
+                "type": "number",
+                "title": "The Lat Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": 0,
+                "examples": [
+                    61.18746
+                ]
+            },
+            "lng": {
+                "$id": "#/items/properties/lng",
+                "type": "number",
+                "title": "The Lng Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": 0,
+                "examples": [
+                    -149.88658
+                ]
+            },
+            "location-place-of-service-type": {
+                "$id": "#/items/properties/location-place-of-service-type",
+                "type": "string",
+                "enum": ["Public Health Department", "Medical Center", "Home-based", "Temporary", "Other"],
+                "title": "The Location-place-of-service-type Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "Public Health Department"
+                ]
+            },
+            "location-contact-phone-main": {
+                "$id": "#/items/properties/location-contact-phone-main",
+                "type": "string",
+                "title": "The Location-contact-phone-main Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "907-334-2260"
+                ]
+            },
+            "location-contact-url-main": {
+                "$id": "#/items/properties/location-contact-url-main",
+                "type": "string",
+                "title": "The Location-contact-url-main Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx"
+                ]
+            },
+            "location-hours-of-operation": {
+                "$id": "#/items/properties/location-hours-of-operation",
+                "type": "string",
+                "title": "The Location-hours-of-operation Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    ""
+                ]
+            },
+            "is-location-accepting-third-party-orders-for-testing": {
+                "$id": "#/items/properties/is-location-accepting-third-party-orders-for-testing",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "The Is-location-accepting-third-party-orders-for-testing Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "FALSE"
+            },
+            "is-location-only-testing-patients-that-meet-criteria": {
+                "$id": "#/items/properties/is-location-only-testing-patients-that-meet-criteria",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],
+                "title": "The Is-location-only-testing-patients-that-meet-criteria Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "FALSE"
+            },
+            "is-location-by-appointment-only": {
+                "$id": "#/items/properties/is-location-by-appointment-only",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "The Is-location-by-appointment-only Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "FALSE"
+            },
+            "location-contact-phone-appointments": {
+                "$id": "#/items/properties/location-contact-phone-appointments",
+                "type": "string",
+                "title": "The Location's appointments phone number",
+                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",
+                "default": "",
+                "examples": [
+                    "1-800-499-2964"
+                ]
+            },
+            "location-contact-url-appointments": {
+                "$id": "#/items/properties/location-contact-url-appointments",
+                "type": "string",
+                "title": "The Location's appointments URL'",
+                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                
+                "default": ""
+            },
+            "location-contact-symptom-checker-url": {
+                "$id": "#/items/properties/location-contact-symptom-checker-url",
+                "type": "string",
+                "title": "The location's symptom-checker URL",
+                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                                
+                "default": ""
+            },
+            "location-contact-telehealth-url": {
+                "$id": "#/items/properties/location-contact-telehealth-url",
+                "type": "string",
+                "title": "The Location-contact-telehealth-url Schema",
+                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                                                
+                "default": ""
+            },
+            "additional-information-for-patients": {
+                "$id": "#/items/properties/additional-information-for-patients",
+                "type": "string",
+                "title": "The Additional-information-for-patients Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                    "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964."
+                ]
+            }
+        }
+    }
+}
