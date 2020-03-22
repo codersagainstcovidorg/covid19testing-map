@@ -84,8 +84,8 @@
             "location_id": {
                 "$id": "#/items/properties/location_id",
                 "type": "string",
-                "title": "The Location_id Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Location ID",
+                "description": "An unique identifier issued by Coders Against COVID - the organization responsible for maintaining this open source project.",
                 "default": "",
                 "examples": [
                     "823ece97-d901-4dd6-9a4e-b5a86d61230e"
@@ -121,7 +121,7 @@
             "location-address-street": {
                 "$id": "#/items/properties/location-address-street",
                 "type": "string",
-                "title": "Street Address",
+                "title": "Street address",
                 "description": "The street address for the location, including any suite, unit, or floor designation.",
                 "default": "",
                 "examples": [
@@ -213,7 +213,7 @@
                 "$id": "#/items/properties/location-hours-of-operation",
                 "type": "string",
                 "title": "Hours of operation",
-                "description": "The hours during which persons can expect to reach a person by phone or receive services related to COVID-19.",
+                "description": "The hours during which persons can expect to receive services related to COVID-19.",
                 "default": "",
                 "examples": [
                     ""
@@ -223,7 +223,7 @@
                 "$id": "#/items/properties/is-location-accepting-third-party-orders-for-testing",
                 "type": "string",
                 "enum": ["TRUE","FALSE"],                
-                "title": "The Is-location-accepting-third-party-orders-for-testing Schema",
+                "title": "Is location accepting external requests for testing?",
                 "description": "TRUE: The location will collect and process specimens from individuals that where deemed to meet testing criteria by any entity with the authority to issue a request or order for COVID-19 testing. Note - This means that the entity issuing the request or order does not otherwise have an established relationship to the person or organization that is responsible for the clinical operations of this location.",
                 "default": "FALSE"
             },
@@ -231,8 +231,8 @@
                 "$id": "#/items/properties/is-location-only-testing-patients-that-meet-criteria",
                 "type": "string",
                 "enum": ["TRUE","FALSE"],
-                "title": "The Is-location-only-testing-patients-that-meet-criteria Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Is location exclusively testing those who meet specific criteria?",
+                "description": "TRUE: The location will collect and process specimens ONLY from individuals that are deemed to meet testing criteria. Note: this does not consider which criteria were met, nor does it consider how that determination was reached.",
                 "default": "FALSE"
             },
             "is-location-by-appointment-only": {
