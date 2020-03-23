@@ -7,6 +7,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,6 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+function handleStepperAnalytics(action: string, walkthroughStep: number) {
+    ReactGA.event({
+        category: 'Walkthrough',
+        action: action,
+        label: 'Step ' + (walkthroughStep + 1)
+    });
+}
 
 function getSteps() {
   return ['Get the facts', 'Make an appointment', 'Find your way'];
@@ -65,11 +74,14 @@ export const VerticalLinearStepper = () => {
   const steps = getSteps();
 
   const handleNext = () => {
+
+    handleStepperAnalytics(activeStep === steps.length - 1 ? 'Finish' : 'Next', activeStep);
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+      handleStepperAnalytics('Back', activeStep);
+      setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   const handleReset = () => {
