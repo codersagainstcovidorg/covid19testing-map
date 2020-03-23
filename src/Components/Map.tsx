@@ -39,13 +39,13 @@ export const Map = (props: MapProps) => {
   return (
     <div>
       <ReactMapGL
+          width={'100vw'}
+          height={'calc(100vh - 124px)'}
         viewState={viewState}
         getCursor={() => "cursor"}
         onViewStateChange={setViewState}
         ref={mapRef}
-        width="100vw"
-        height="100vh"
-        style={{ zIndex: 50 }}
+        style={{ zIndex: 50, position: "relative"}}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >

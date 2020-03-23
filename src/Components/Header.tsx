@@ -39,7 +39,7 @@ type HeaderProps = {
 
 export const Header = ({ toggleDrawer }: HeaderProps) => {
   return (
-    <AppBar position="static">
+    <AppBar position={"static"}>
       <HeaderToolbar variant="dense">
         <IconButton onClick={() => toggleDrawer()}>
           <DrawerIcon />
