@@ -1,0 +1,305 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://codersagainstcovid.org/schema.json",
+    "type": "array",
+    "title": "COVID-19 Testing Location Schema",
+    "description": "Schema used to exchange information about places that services that further the diagnosis, treatment, or management of COVID-19.",
+    "items": {
+        "$id": "#/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "description": "An explanation about the purpose of this instance.",
+        "examples": [
+            {
+                "location-address-region": "AK",
+                "is-location-only-testing-patients-that-meet-criteria": "TRUE",
+                "location-contact-url-appointments": "",
+                "is-location-by-appointment-only": "TRUE",
+                "location-longitude": -149.88658,
+                "is-location-collecting-specimens": "FALSE",
+                "location-place-of-service-type": "Public Health Department",
+                "location-latitude": 61.18746,
+                "location_id": "823ece97-d901-4dd6-9a4e-b5a86d61230e",
+                "is-location-accepting-third-party-orders-for-testing": "FALSE",
+                "location-hours-of-operation": "",
+                "location-address-postal-code": "99811",
+                "is-location-authorized-to-request-testing": "FALSE",
+                "additional-information-for-patients": "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964.",
+                "location-address-street": "3601 C Street",
+                "location-contact-phone-appointments": "1-800-499-2964",
+                "location-name": "State of Alaska Health And Social Services",
+                "location-contact-phone-main": "907-334-2260",
+                "location-contact-url-main": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx",
+                "location-contact-url-self-screening": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/self-screening.aspx",
+                "location-contact-url-telemedicine": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/telemedicine.aspx",
+                "location-address-locality": "Anchorage",
+                "location-specific-testing-criteria": ""
+            },
+            {
+                "location-address-region": "AK",
+                "is-location-only-testing-patients-that-meet-criteria": "TRUE",
+                "location-contact-url-appointments": "https://virtual.providence.org/",
+                "location-longitude": -149.81894,
+                "is-location-by-appointment-only": "TRUE",
+                "is-location-collecting-specimens": "TRUE",
+                "location-place-of-service-type": "Medical Center",
+                "location-latitude": 61.189842,
+                "location_id": "a3b3214a-e128-4c68-ac18-a467482f1ab8",
+                "is-location-accepting-third-party-orders-for-testing": "FALSE",
+                "location-hours-of-operation": "",
+                "location-address-postal-code": "99508",
+                "is-location-authorized-to-request-testing": "TRUE",
+                "additional-information-for-patients": "",
+                "location-contact-phone-appointments": "907-562-2211",
+                "location-address-street": "3200 Providence Drive",
+                "location-name": "Providence Alaska Medical Center",
+                "location-contact-phone-main": "907-562-2211",
+                "location-contact-url-main": "https://alaska.providence.org/locations/p/pamc",
+                "location-contact-url-self-screening": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/self-screening.aspx",
+                "location-contact-url-telemedicine": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/telemedicine.aspx",
+                "location-address-locality": "Anchorage",
+                "location-specific-testing-criteria": "https://www.providence.org/patients-and-visitors/coronavirus-advisory"
+            }
+        ],
+        "required": [
+            "location_id",
+            "is-location-authorized-to-request-testing",
+            "is-location-collecting-specimens",
+            "location-name",
+            "location-address-street",
+            "location-address-locality",
+            "location-address-region",
+            "location-address-postal-code",
+            "location-latitude",
+            "location-longitude",
+            "location-place-of-service-type",
+            "location-contact-phone-main",
+            "location-contact-url-main",
+            "location-hours-of-operation",
+            "is-location-accepting-third-party-orders-for-testing",
+            "is-location-only-testing-patients-that-meet-criteria",
+            "is-location-by-appointment-only",
+            "location-contact-phone-appointments",
+            "location-contact-url-appointments",
+            "location-contact-url-self-screening",
+            "location-contact-url-telemedicine",
+            "location-specific-testing-criteria",
+            "additional-information-for-patients"
+        ],
+        "properties": {
+            "location_id": {
+                "$id": "#/items/properties/location_id",
+                "type": "string",
+                "title": "Location ID",
+                "description": "An unique identifier issued by Coders Against COVID - the organization responsible for maintaining this open source project.",
+                "default": "",
+                "examples": [
+                    "823ece97-d901-4dd6-9a4e-b5a86d61230e"
+                ]
+            },
+            "is-location-authorized-to-request-testing": {
+                "$id": "#/items/properties/is-location-authorized-to-request-testing",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "Is location authorized to request COVID-19 tests?",
+                "description": "TRUE: the location is authorized to request or ordering COVID-19 testing if, after reviewing symptoms and eliciting a relevant history, the person meets the eligibility requirements as per established criteria. FALSE: The location is unable or unwilling to serve this function.",
+                "default": "FALSE"
+
+            },
+            "is-location-collecting-specimens": {
+                "$id": "#/items/properties/is-location-collecting-specimens",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                                
+                "title": "Is location actively collecting specimens?",
+                "description": "TRUE: the location has resources dedicated to the task of obtaining and submitting specimens for COVID-19 testing. Note that this does not consider how the decision to swab the patient is reached - merely whether the collection of specimens is actively taking place. It also ignores whether the specimens are tested in-house or as a send-out.",
+                "default": "FALSE"
+            },
+            "location-name": {
+                "$id": "#/items/properties/location-name",
+                "type": "string",
+                "title": "Location name",
+                "description": "The name of the location could be an existing entity or a directional reference.",
+                "default": "",
+                "examples": [
+                    "State of Alaska Health And Social Services"
+                ]
+            },
+            "location-address-street": {
+                "$id": "#/items/properties/location-address-street",
+                "type": "string",
+                "title": "Street address",
+                "description": "The street address for the location, including any suite, unit, or floor designation.",
+                "default": "",
+                "examples": [
+                    "3601 C Street"
+                ]
+            },
+            "location-address-locality": {
+                "$id": "#/items/properties/location-address-locality",
+                "type": "string",
+                "title": "Locality",
+                "description": "The city, town, or village for the location.",
+                "default": "",
+                "examples": [
+                    "Anchorage"
+                ]
+            },
+            "location-address-region": {
+                "$id": "#/items/properties/location-address-region",
+                "type": "string",
+                "title": "Region",
+                "description": "The state, province, or region for the location.",
+                "default": "",
+                "examples": [
+                    "AK"
+                ]
+            },
+            "location-address-postal-code": {
+                "$id": "#/items/properties/location-address-postal-code",
+                "type": "string",
+                "title": "Postal code",
+                "description": "The postal code for the location.",
+                "default": "",
+                "examples": [
+                    "99811"
+                ]
+            },
+            "location-latitude": {
+                "$id": "#/items/properties/location-latitude",
+                "type": "number",
+                "title": "Latitude",
+                "description": "The latitude code for the location.",
+                "default": 0,
+                "examples": [
+                    61.18746
+                ]
+            },
+            "location-longitude": {
+                "$id": "#/items/properties/location-longitude",
+                "type": "number",
+                "title": "Longitude",
+                "description": "The longitude for the location.",
+                "default": 0,
+                "examples": [
+                    -149.88658
+                ]
+            },
+            "location-place-of-service-type": {
+                "$id": "#/items/properties/location-place-of-service-type",
+                "type": "string",
+                "enum": ["Public Health Department", "Medical Center", "Home-based", "Temporary", "Other"],
+                "title": "Place of Service Type",
+                "description": "The category or class of location.",
+                "default": "",
+                "examples": [
+                    "Public Health Department"
+                ]
+            },
+            "location-contact-phone-main": {
+                "$id": "#/items/properties/location-contact-phone-main",
+                "type": "string",
+                "title": "Main phone number",
+                "description": "The area code and phone number that persons should dial should they want to discuss anything OTHER THAN appointments for COVID-19-related services. This includes general information hotlines.",
+                "default": "",
+                "examples": [
+                    "907-334-2260"
+                ]
+            },
+            "location-contact-url-main": {
+                "$id": "#/items/properties/location-contact-url-main",
+                "type": "string",
+                "title": "Main URL",
+                "description": "The URL that is used for general information and FAQs. This EXCLUDES direct links to appointment scheduling or telehealth services.",
+                "default": "",
+                "examples": [
+                    "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx"
+                ]
+            },
+            "location-hours-of-operation": {
+                "$id": "#/items/properties/location-hours-of-operation",
+                "type": "string",
+                "title": "Hours of operation",
+                "description": "The hours during which persons can expect to receive services related to COVID-19.",
+                "default": "",
+                "examples": [
+                    ""
+                ]
+            },
+            "is-location-accepting-third-party-orders-for-testing": {
+                "$id": "#/items/properties/is-location-accepting-third-party-orders-for-testing",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "Is location accepting external requests for testing?",
+                "description": "TRUE: The location will collect and process specimens from individuals that where deemed to meet testing criteria by any entity with the authority to issue a request or order for COVID-19 testing. Note - This means that the entity issuing the request or order does not otherwise have an established relationship to the person or organization that is responsible for the clinical operations of this location.",
+                "default": "TRUE"
+            },
+            "is-location-only-testing-patients-that-meet-criteria": {
+                "$id": "#/items/properties/is-location-only-testing-patients-that-meet-criteria",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],
+                "title": "Is location exclusively testing those who meet specific criteria?",
+                "description": "TRUE: The location will collect and process specimens ONLY from individuals that are deemed to meet testing criteria. Note: this does not consider which criteria were met, nor does it consider how that determination was reached.",
+                "default": "TRUE"
+            },
+            "is-location-by-appointment-only": {
+                "$id": "#/items/properties/is-location-by-appointment-only",
+                "type": "string",
+                "enum": ["TRUE","FALSE"],                
+                "title": "Is location operating by-appointment only?",
+                "description": "TRUE: The location requires individuals to make an appointment for COVID-19 screening, diagnosis, or treatment. Note: this does not consider which service is being rendered, therefore a location that requires an appointment for symptomatic evaluation OR specimen collection would be expected to have a TRUE value for this attribute.",
+                "default": "TRUE"
+            },
+            "location-contact-phone-appointments": {
+                "$id": "#/items/properties/location-contact-phone-appointments",
+                "type": "string",
+                "title": "Appointment scheduling phone number",
+                "description": "The area code and phone number that should be dialed by persons looking to schedule appointments for one or more services related to COVID-19. Leave default value unchanged, or set to NULL, if the location does not accept appointments for COVID-19-related services by phone.",
+                "default": "",
+                "examples": [
+                    "1-800-499-2964"
+                ]
+            },
+            "location-contact-url-appointments": {
+                "$id": "#/items/properties/location-contact-url-appointments",
+                "type": "string",
+                "title": "Appointment scheduling URL",
+                "description": "The URL pointing directly to the beginning of a self-service COVID-19 appointment scheduling workflow. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
+                "default": ""
+            },
+            "location-contact-url-self-screening": {
+                "$id": "#/items/properties/location-contact-url-self-screening",
+                "type": "string",
+                "title": "Self-screening URL",
+                "description": "The URL pointing directly to the beginning of a self-service COVID-19 screening tool that guides individuals through the process of applying the testing criteria to their own signs, symptoms, and exposure history. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
+                "default": ""
+            },
+            "location-contact-url-telemedicine": {
+                "$id": "#/items/properties/location-contact-url-telemedicine",
+                "type": "string",
+                "title": "Telemedicine URL",
+                "description": "The URL pointing directly to the beginning of a telemedicine workflow that is equipped to respond to COVID-19 inquiries. EXCLUDE references to telemedicine offerings that are unauthorized, unwilling, or otherwise unable to issue a request or order for COVID-19 testing (as warranted). Leave default value unchanged, or set to NULL, if the location does not offer this service.",
+                "default": ""
+            },
+            "location-specific-testing-criteria": {
+              "$id": "#/items/properties/location-specific-testing-criteria",
+              "type": "string",
+              "title": "Aditional information for patients",
+              "description": "Specific criteria used to determine eligibility for COVID-19 testing.",
+              "default": "",
+              "examples": [
+                "Presence of cough, fever, and patient age older than 60 years."
+              ]
+            },
+            "additional-information-for-patients": {
+                "$id": "#/items/properties/additional-information-for-patients",
+                "type": "string",
+                "title": "Aditional information for patients",
+                "description": "General information that patients may find useful in navigating the testing pathway or clinical workflow.",
+                "default": "",
+                "examples": [
+                    "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964."
+                ]
+            }
+        }
+    }
+}
