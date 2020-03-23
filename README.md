@@ -17,9 +17,8 @@ Run tests:
 ## Development and Deploying
 
 * Develop locally in a feature branch
-* Open a PR from feature branch to `develop` 
+* Open a PR from feature branch to `master` 
 * If merged, Actions will deploy it to `staging.findcovidtesting.com`
-* Once verified, open a PR from `develop` into `master`
-* Actions will deploy to `findcovidtesting.com` on merge
+* Once verified, a maintainer will create a tag to deploy to production
 
 Actions pipelines will build static assets, sync to s3, and then invalidate Cloudfront. 
