@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "http://codersagainstcovid.org/schema.json",
     "type": "array",
-    "title": "COVID-19 Test Location Schema",
-    "description": "Schema for providing information about testing locations",
+    "title": "COVID-19 Testing Location Schema",
+    "description": "Schema used to exchange information about places that services that further the diagnosis, treatment, or management of COVID-19.",
     "items": {
         "$id": "#/items",
         "type": "object",
@@ -225,7 +225,7 @@
                 "enum": ["TRUE","FALSE"],                
                 "title": "Is location accepting external requests for testing?",
                 "description": "TRUE: The location will collect and process specimens from individuals that where deemed to meet testing criteria by any entity with the authority to issue a request or order for COVID-19 testing. Note - This means that the entity issuing the request or order does not otherwise have an established relationship to the person or organization that is responsible for the clinical operations of this location.",
-                "default": "FALSE"
+                "default": "TRUE"
             },
             "is-location-only-testing-patients-that-meet-criteria": {
                 "$id": "#/items/properties/is-location-only-testing-patients-that-meet-criteria",
@@ -233,21 +233,21 @@
                 "enum": ["TRUE","FALSE"],
                 "title": "Is location exclusively testing those who meet specific criteria?",
                 "description": "TRUE: The location will collect and process specimens ONLY from individuals that are deemed to meet testing criteria. Note: this does not consider which criteria were met, nor does it consider how that determination was reached.",
-                "default": "FALSE"
+                "default": "TRUE"
             },
             "is-location-by-appointment-only": {
                 "$id": "#/items/properties/is-location-by-appointment-only",
                 "type": "string",
                 "enum": ["TRUE","FALSE"],                
-                "title": "The Is-location-by-appointment-only Schema",
-                "description": "An explanation about the purpose of this instance.",
-                "default": "FALSE"
+                "title": "Is location operating by-appointment only?",
+                "description": "TRUE: The location requires individuals to make an appointment for COVID-19 screening, diagnosis, or treatment. Note: this does not consider which service is being rendered, therefore a location that requires an appointment for symptomatic evaluation OR specimen collection would be expected to have a TRUE value for this attribute.",
+                "default": "TRUE"
             },
             "location-contact-phone-appointments": {
                 "$id": "#/items/properties/location-contact-phone-appointments",
                 "type": "string",
-                "title": "The Location's appointments phone number",
-                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",
+                "title": "Appointment scheduling phone number",
+                "description": "The area code and phone number that should be dialed by persons looking to schedule appointments for one or more services related to COVID-19. Leave default value unchanged, or set to NULL, if the location does not accept appointments for COVID-19-related services by phone.",
                 "default": "",
                 "examples": [
                     "1-800-499-2964"
@@ -256,29 +256,29 @@
             "location-contact-url-appointments": {
                 "$id": "#/items/properties/location-contact-url-appointments",
                 "type": "string",
-                "title": "The Location's appointments URL'",
-                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                
+                "title": "Appointment scheduling URL",
+                "description": "The URL pointing directly to the beginning of a self-service COVID-19 appointment scheduling workflow. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
             },
-            "location-contact-symptom-checker-url": {
-                "$id": "#/items/properties/location-contact-symptom-checker-url",
+            "location-contact-self-screening-url": {
+                "$id": "#/items/properties/location-contact-self-screening-url",
                 "type": "string",
-                "title": "The location's symptom-checker URL",
-                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                                
+                "title": "Self-screening URL",
+                "description": "The URL pointing directly to the beginning of a self-service COVID-19 screening tool that guides individuals through the process of applying the testing criteria to their own signs, symptoms, and exposure history. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
             },
             "location-contact-telehealth-url": {
                 "$id": "#/items/properties/location-contact-telehealth-url",
                 "type": "string",
                 "title": "The Location-contact-telehealth-url Schema",
-                "description": "Leave null or empty if the location is not using these services to screen, diagnose, treat, or otherwise manage persons with confirmed, presumed, suspected, or concern for COVID-19",                                                
+                "description": "The URL pointing directly to the beginning of a telemedicine workflow that is equipped to respond to COVID-19 inquiries. EXCLUDE references to telemedicine offerings that are unauthorized, unwilling, or otherwise unable to issue a request or order for COVID-19 testing (as warranted). Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
             },
             "additional-information-for-patients": {
                 "$id": "#/items/properties/additional-information-for-patients",
                 "type": "string",
-                "title": "The Additional-information-for-patients Schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Aditional information for patients",
+                "description": "General information that patients may find useful in navigating the testing pathway or clinical workflow.",
                 "default": "",
                 "examples": [
                     "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964."
