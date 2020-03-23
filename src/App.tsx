@@ -158,7 +158,7 @@ export class App extends React.Component<{}, AppState> {
   geoIPFallback() {
     this.handleLocationPrompt('GeoIP', 'Attempt');
 
-    fetch('http://ip-api.com/json/?fields=status,lat,lon').then((r: Response) => {
+    fetch('https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0').then((r: Response) => {
       return r.json();
     }).then(data => {
       if (data.status === 'success') {
