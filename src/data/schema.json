@@ -15,21 +15,23 @@
                 "is-location-only-testing-patients-that-meet-criteria": "TRUE",
                 "location-contact-url-appointments": "",
                 "is-location-by-appointment-only": "TRUE",
-                "lng": -149.88658,
+                "location-longitude": -149.88658,
                 "is-location-collecting-specimens": "FALSE",
                 "location-place-of-service-type": "Public Health Department",
-                "lat": 61.18746,
+                "location-latitude": 61.18746,
                 "location_id": "823ece97-d901-4dd6-9a4e-b5a86d61230e",
                 "is-location-accepting-third-party-orders-for-testing": "FALSE",
                 "location-hours-of-operation": "",
                 "location-address-postal-code": "99811",
-                "is-location-screening-patients": "FALSE",
+                "is-location-authorized-to-request-testing": "FALSE",
                 "additional-information-for-patients": "We serve 280 small communities and villages. If you do not know which health center is nearest you, please call 907-465-3150 or toll-free 1-800-499-2964.",
                 "location-address-street": "3601 C Street",
                 "location-contact-phone-appointments": "1-800-499-2964",
                 "location-name": "State of Alaska Health And Social Services",
                 "location-contact-phone-main": "907-334-2260",
                 "location-contact-url-main": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx",
+                "location-contact-url-self-screening": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/self-screening.aspx",
+                "location-contact-url-telemedicine": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/telemedicine.aspx",
                 "location-address-locality": "Anchorage",
                 "location-specific-testing-criteria": ""
             },
@@ -37,37 +39,39 @@
                 "location-address-region": "AK",
                 "is-location-only-testing-patients-that-meet-criteria": "TRUE",
                 "location-contact-url-appointments": "https://virtual.providence.org/",
-                "lng": -149.81894,
+                "location-longitude": -149.81894,
                 "is-location-by-appointment-only": "TRUE",
                 "is-location-collecting-specimens": "TRUE",
                 "location-place-of-service-type": "Medical Center",
-                "lat": 61.189842,
+                "location-latitude": 61.189842,
                 "location_id": "a3b3214a-e128-4c68-ac18-a467482f1ab8",
                 "is-location-accepting-third-party-orders-for-testing": "FALSE",
                 "location-hours-of-operation": "",
                 "location-address-postal-code": "99508",
-                "is-location-screening-patients": "TRUE",
+                "is-location-authorized-to-request-testing": "TRUE",
                 "additional-information-for-patients": "",
                 "location-contact-phone-appointments": "907-562-2211",
                 "location-address-street": "3200 Providence Drive",
                 "location-name": "Providence Alaska Medical Center",
                 "location-contact-phone-main": "907-562-2211",
                 "location-contact-url-main": "https://alaska.providence.org/locations/p/pamc",
+                "location-contact-url-self-screening": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/self-screening.aspx",
+                "location-contact-url-telemedicine": "http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/telemedicine.aspx",
                 "location-address-locality": "Anchorage",
                 "location-specific-testing-criteria": "https://www.providence.org/patients-and-visitors/coronavirus-advisory"
             }
         ],
         "required": [
             "location_id",
-            "is-location-screening-patients",
+            "is-location-authorized-to-request-testing",
             "is-location-collecting-specimens",
             "location-name",
             "location-address-street",
             "location-address-locality",
             "location-address-region",
             "location-address-postal-code",
-            "lat",
-            "lng",
+            "location-latitude",
+            "location-longitude",
             "location-place-of-service-type",
             "location-contact-phone-main",
             "location-contact-url-main",
@@ -77,6 +81,8 @@
             "is-location-by-appointment-only",
             "location-contact-phone-appointments",
             "location-contact-url-appointments",
+            "location-contact-url-self-screening",
+            "location-contact-url-telemedicine",
             "location-specific-testing-criteria",
             "additional-information-for-patients"
         ],
@@ -158,8 +164,8 @@
                     "99811"
                 ]
             },
-            "lat": {
-                "$id": "#/items/properties/lat",
+            "location-latitude": {
+                "$id": "#/items/properties/location-latitude",
                 "type": "number",
                 "title": "Latitude",
                 "description": "The latitude code for the location.",
@@ -168,8 +174,8 @@
                     61.18746
                 ]
             },
-            "lng": {
-                "$id": "#/items/properties/lng",
+            "location-longitude": {
+                "$id": "#/items/properties/location-longitude",
                 "type": "number",
                 "title": "Longitude",
                 "description": "The longitude for the location.",
@@ -260,19 +266,29 @@
                 "description": "The URL pointing directly to the beginning of a self-service COVID-19 appointment scheduling workflow. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
             },
-            "location-contact-self-screening-url": {
-                "$id": "#/items/properties/location-contact-self-screening-url",
+            "location-contact-url-self-screening": {
+                "$id": "#/items/properties/location-contact-url-self-screening",
                 "type": "string",
                 "title": "Self-screening URL",
                 "description": "The URL pointing directly to the beginning of a self-service COVID-19 screening tool that guides individuals through the process of applying the testing criteria to their own signs, symptoms, and exposure history. Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
             },
-            "location-contact-telehealth-url": {
-                "$id": "#/items/properties/location-contact-telehealth-url",
+            "location-contact-url-telemedicine": {
+                "$id": "#/items/properties/location-contact-url-telemedicine",
                 "type": "string",
-                "title": "The Location-contact-telehealth-url Schema",
+                "title": "Telemedicine URL",
                 "description": "The URL pointing directly to the beginning of a telemedicine workflow that is equipped to respond to COVID-19 inquiries. EXCLUDE references to telemedicine offerings that are unauthorized, unwilling, or otherwise unable to issue a request or order for COVID-19 testing (as warranted). Leave default value unchanged, or set to NULL, if the location does not offer this service.",
                 "default": ""
+            },
+            "location-specific-testing-criteria": {
+              "$id": "#/items/properties/location-specific-testing-criteria",
+              "type": "string",
+              "title": "Aditional information for patients",
+              "description": "Specific criteria used to determine eligibility for COVID-19 testing.",
+              "default": "",
+              "examples": [
+                "Presence of cough, fever, and patient age older than 60 years."
+              ]
             },
             "additional-information-for-patients": {
                 "$id": "#/items/properties/additional-information-for-patients",
