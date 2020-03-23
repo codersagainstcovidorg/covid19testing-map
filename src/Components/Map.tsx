@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -34,18 +34,18 @@ const mapRef = React.createRef<ReactMapGL>();
 export const Map = (props: MapProps) => {
   const { viewState, setViewState, onClickPin } = props;
   const searchFilters = useContext(SearchContext);
-  const filteredPins = getFilteredPins(searchFilters);
+  const filteredPins = useMemo(() => getFilteredPins(searchFilters), [searchFilters]);
 
   return (
     <div>
       <ReactMapGL
-          width={'100vw'}
-          height={'calc(100vh - 124px)'}
+        width={"100vw"}
+        height={"calc(100vh - 124px)"}
         viewState={viewState}
         getCursor={() => "cursor"}
         onViewStateChange={setViewState}
         ref={mapRef}
-        style={{ zIndex: 50, position: "relative"}}
+        style={{ zIndex: 50, position: "relative" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
