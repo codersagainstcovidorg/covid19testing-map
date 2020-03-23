@@ -45,7 +45,7 @@ export const Map = (props: MapProps) => {
         getCursor={() => "cursor"}
         onViewStateChange={setViewState}
         ref={mapRef}
-        style={{ zIndex: 50, width: "2048px", height: "2048px", position: "relative"}}
+        style={{ zIndex: 50, position: "relative"}}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
