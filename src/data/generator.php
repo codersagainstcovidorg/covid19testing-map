@@ -18,4 +18,4 @@ $output = array_values(array_filter($output, function($row) {
     );
 }));
 
-file_put_contents('data.json', json_encode($output, JSON_PRETTY_PRINT));
+file_put_contents('data.json', json_encode($output));
