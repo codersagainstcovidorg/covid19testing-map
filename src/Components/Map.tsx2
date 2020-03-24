@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import React, { useContext, useRef } from "react";
+>>>>>>> temp
 import styled from "styled-components";
 import React, { useContext, useMemo } from "react";
 import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
@@ -34,6 +38,7 @@ const mapRef = React.createRef<ReactMapGL>();
 export const Map = (props: MapProps) => {
   const { viewState, setViewState, onClickPin } = props;
   const searchFilters = useContext(SearchContext);
+<<<<<<< HEAD
   const filteredPins = useMemo(() => getFilteredPins(searchFilters), [searchFilters]);
 
   return (
@@ -46,6 +51,27 @@ export const Map = (props: MapProps) => {
         onViewStateChange={setViewState}
         ref={mapRef}
         style={{ zIndex: 50, position: "relative" }}
+=======
+  const filteredPins = getFilteredPins(searchFilters);
+  const ref = useRef(null);
+
+  return (
+    <DeckGL
+      viewState={viewState}
+      width="100vw"
+      height="100vh"
+      controller={!lockMap}
+      getCursor={() => "cursor"}
+      onViewStateChange={setViewState}
+      // @ts-ignore
+      glOptions={{ onError: console.error }}
+    >
+      <StaticMap
+        ref={ref}
+        width="100vw"
+        height="100vh"
+        style={{ zIndex: 50 }}
+>>>>>>> temp
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
@@ -93,8 +119,14 @@ export const Map = (props: MapProps) => {
             />
           </Geolocation>
         </Navigation>
-        <Pins data={filteredPins} onClick={onClickPin} mapRef={mapRef} />
+<<<<<<< HEAD
+        <Pins data={filteredPins} onClick={onClickPin} onHover={() => {}} />
       </ReactMapGL>
     </div>
+=======
+        <Pins data={filteredPins} onClick={onClickPin} mapRef={ref} />;
+      </StaticMap>
+    </DeckGL>
+>>>>>>> temp
   );
 };
