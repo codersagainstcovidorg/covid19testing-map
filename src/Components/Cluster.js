@@ -4,7 +4,7 @@ import { Children, PureComponent, createElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { Marker } from 'react-map-gl';
-import {calculateNextZoomLevel} from "react-mapbox-gl-cluster/dist/common/utils";
+import { calculateNextZoomLevel } from "react-mapbox-gl-cluster/dist/common/utils";
 
 const childrenKeys = children =>
   Children.toArray(children).map(child => child.key);
