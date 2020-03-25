@@ -20,7 +20,7 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => {
                     anchor="left"
                     open={drawerOpen}
                 >
-                    <div style={{ paddingTop: '185px', minWidth: '25%', maxWidth: '450px' }}>
+                    <div style={{ paddingTop: '135px', minWidth: '25%', maxWidth: '450px' }}>
                     <h3 style={{color: 'black', textAlign: 'center', paddingTop: '10px'}}>Before you get started</h3>
                             <Typography style={{padding: '12%', fontWeight: 'bold', fontSize: '1.3rem', color: '#E45B26', textAlign: 'center'}}>
                                 If this is a medical emergency, stop and dial 911. 

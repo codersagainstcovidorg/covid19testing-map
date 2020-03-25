@@ -25,24 +25,24 @@ export const LocationModal = ({ location, onClose }: ModalProps) => {
     let items: any = [
         {
             'title': 'Type',
-            'key': 'location-place-of-service-type',
+            'key': 'location_place_of_service_type',
             'icon': <InfoIcon />
         },
         {
             'title': 'Website',
-            'key': 'location-contact-url-main',
+            'key': 'location_contact_url_main',
             'icon': <LanguageIcon />
         },
         {
             'title': 'Testing Criteria',
-            'key': 'location-specific-testing-criteria',
+            'key': 'location_specific_testing_criteria',
             'icon': <LanguageIcon />
         }
     ];
 
     let details: any = [];
     Object.keys(labelMap)
-        .filter((key: string) => key !== 'is-verified')
+        .filter((key: string) => key !== 'is_verified')
         .forEach((key: string) => {
             details.push({
                 'type': 'boolean',
@@ -60,12 +60,12 @@ export const LocationModal = ({ location, onClose }: ModalProps) => {
         >
             <Card style={{ outline: 0 }}>
                 <CardHeader
-                    title={location['location-name']}
+                    title={location['location_name']}
                     subheader={
-                        location['location-address-street'].trim() + ', '
-                        + location['location-address-locality'].trim()
-                        + ', ' + location['location-address-region'].trim()
-                        + ' ' + location['location-address-postal-code'].trim()
+                        location['location_address_street'].trim() + ', '
+                        + location['location_address_locality'].trim()
+                        + ', ' + location['location_address_region'].trim()
+                        + ' ' + location['location_address_postal_code'].trim()
                     }
                     action={
                         <IconButton aria-label="close"
@@ -77,7 +77,7 @@ export const LocationModal = ({ location, onClose }: ModalProps) => {
 
                 <CardContent>
                     <Typography color="textPrimary" gutterBottom>
-                        {location['additional-information-for-patients']}
+                        {location['additional_information_for_patients']}
                     </Typography>
 
                     <List dense={true} style={{ paddingBottom: 0, marginBottom: 0, fontSize: 12 }}>
@@ -121,25 +121,25 @@ export const LocationModal = ({ location, onClose }: ModalProps) => {
 
                 </CardContent>
 
-                {location['location-contact-phone-main'] === '' ? '' : (
+                {location['location_contact_phone_main'] === '' ? '' : (
                     <CardActions>
                         <Button size="small">
                             <Link onClick={() => {
                                 handleLinkClicked(location['location_id'], "Call")
-                            }} href={'tel://' + location['location-contact-phone-main']}>
-                                Call Main Line ({location['location-contact-phone-main']})
+                            }} href={'tel://' + location['location_contact_phone_main']}>
+                                Call Main Line ({location['location_contact_phone_main']})
                             </Link>
                         </Button>
                     </CardActions>
                 )}
 
-                {location['location-contact-phone-appointments'] === '' ? '' : (
+                {location['location_contact_phone_appointments'] === '' ? '' : (
                     <CardActions>
                         <Button size="small" >
                             <Link onClick={() => {
                                 handleLinkClicked(location['location_id'], "Call")
-                            }} href={'tel://' + location['location-contact-phone-appointments']}>
-                                Call Appointments Line ({location['location-contact-phone-appointments']})
+                            }} href={'tel://' + location['location_contact_phone_appointments']}>
+                                Call Appointments Line ({location['location_contact_phone_appointments']})
                             </Link>
                         </Button>
                     </CardActions>
