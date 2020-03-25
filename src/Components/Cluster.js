@@ -128,8 +128,8 @@ class Cluster extends PureComponent {
             cluster,
             superCluster: this.cluster,
             onClickCluster: this.props.onClickCluster,
-            latitude: latitude,
-            longitude: longitude,
+            latitude,
+            longitude,
             zoom: calculateNextZoomLevel(this.props.map.getZoom(), cluster.maxZoom, 1.5)
           }),
           key: `cluster-${cluster.properties.cluster_id}`,
