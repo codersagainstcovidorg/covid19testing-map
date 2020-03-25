@@ -38,7 +38,7 @@ export const Map = (props: MapProps) => {
 
   function onClickCluster(latitude: number, longitude: number, zoom: number) {
       setViewState({
-          viewState: { ...viewState, latitude: latitude, longitude: longitude, zoom: zoom}
+          viewState: { ...viewState, latitude, longitude, zoom }
       });
     }
 
