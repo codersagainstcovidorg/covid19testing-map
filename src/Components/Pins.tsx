@@ -44,7 +44,7 @@ export default class Pins extends React.Component<PinsProps> {
         })
     }
 
-    componentShouldUpdate(nextProps: Readonly<PinsProps>): boolean {
+    shouldComponentUpdate(nextProps: Readonly<PinsProps>): boolean {
         return nextProps.data.length !== this.props.data.length;
     }
 
@@ -58,7 +58,7 @@ export default class Pins extends React.Component<PinsProps> {
             <Cluster map={mapRef.current.getMap()} radius={32} extent={512} nodeSize={64} element={ClusterMarker}>
                 {data.map((place: any, index: number) => {
                     return (
-                        <Marker key={`marker-${index}`} longitude={place.lng} latitude={place.lat}>
+                        <Marker key={`marker-${index}`} longitude={place.location_longitude} latitude={place.location_latitude}>
                             <SvgLocationIcon
                                 height={SIZE}
                                 style={{

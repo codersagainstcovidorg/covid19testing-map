@@ -62,6 +62,7 @@ export const Map = (props: MapProps) => {
                 }
               });
             }}
+
             position="top-left"
             countries="US"
             mapRef={mapRef}

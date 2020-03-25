@@ -32,50 +32,28 @@ export interface LabelMap {
   }
 }
 
+// Map for toggles and modal line items
 export const labelMap: LabelMap = {
-  'is-verified': {
-      sidebar: 'Exclude local public health agencies',
-      card: 'Is a local public health agency'
+  'is_ordering_tests_only_for_those_who_meeting_criteria': {
+    sidebar: 'Tests only those meeting criteria',
+    card: 'Tests only those meeting criteria'
   },
-  'is-location-screening-patients': {
-    sidebar: 'Checks patients for symptoms',
-    card: 'Checks patients for symptoms'
+  'is_collecting_samples': {
+    sidebar: 'Collects samples for testing',
+    card: 'Collects samples for testing'
   },
-  'is-location-collecting-specimens': {
-    sidebar: 'Offers COVID-19 testing',
-    card: 'Offers COVID-19 testing'
-  },
-  'is-location-accepting-third-party-orders-for-testing': {
-    sidebar: 'Accepting 3rd party testing',
-    card: 'Accepting 3rd party testing'
-  },
-  'is-location-only-testing-patients-that-meet-criteria': {
-    sidebar: 'Patients must meet testing criteria',
-    card: 'Patients must meet testing criteria'
-  },
-  'is-location-by-appointment-only': {
-    sidebar: 'Requires appointment',
-    card: 'Requires appointment'
-  }
 };
 
+// Controls toggles
 export interface SearchFilters {
-  'is-verified': boolean;
-  'is-location-screening-patients': boolean;
-  'is-location-collecting-specimens': boolean;
-  'is-location-accepting-third-party-orders-for-testing': boolean;
-  'is-location-only-testing-patients-that-meet-criteria': boolean;
-  'is-location-by-appointment-only': boolean;
+  'is_ordering_tests_only_for_those_who_meeting_criteria': boolean;
+  'is_collecting_samples': boolean;
 }
 
 // Initial state
 const defaultFilters: SearchFilters = {
-  'is-verified': true,
-  'is-location-screening-patients': true,
-  'is-location-collecting-specimens': false,
-  'is-location-accepting-third-party-orders-for-testing': false,
-  'is-location-only-testing-patients-that-meet-criteria': false,
-  'is-location-by-appointment-only': false
+  'is_ordering_tests_only_for_those_who_meeting_criteria': true,
+  'is_collecting_samples': true
 };
 
 interface AppState {
@@ -126,7 +104,6 @@ export class App extends React.Component<{}, AppState> {
   }
 
   locateUser() {
-
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
       dataLayer.push({
         event: 'pageview',
