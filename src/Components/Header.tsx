@@ -50,7 +50,7 @@ export const Header = ({ toggleDrawer }: HeaderProps) => {
 
       <InfoPrompt variant="filled" severity="info">
         <AlertTitle>
-          Last data update: Mar 22, 2020 10:15pm PDT. States in queue: TX, OH, and IL
+          Last data update: Mar 25, 2020 5:00 AM PDT. States in queue: MD, NJ, NY, PA, TX, WI
         </AlertTitle>
         <AlertText>
           You can help by{" "}
