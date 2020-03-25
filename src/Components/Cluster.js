@@ -4,6 +4,7 @@ import { Children, PureComponent, createElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { Marker } from 'react-map-gl';
+import {calculateNextZoomLevel} from "react-mapbox-gl-cluster/dist/common/utils";
 
 const childrenKeys = children =>
   Children.toArray(children).map(child => child.key);
@@ -126,6 +127,10 @@ class Cluster extends PureComponent {
           children: createElement(this.props.element, {
             cluster,
             superCluster: this.cluster,
+            onClickCluster: this.props.onClickCluster,
+            latitude: latitude,
+            longitude: longitude,
+            zoom: calculateNextZoomLevel(this.props.map.getZoom(), cluster.maxZoom, 1.5)
           }),
           key: `cluster-${cluster.properties.cluster_id}`,
         });

@@ -36,6 +36,12 @@ export const Map = (props: MapProps) => {
   const searchFilters = useContext(SearchContext);
   const filteredPins = useMemo(() => getFilteredPins(searchFilters), [searchFilters]);
 
+  function onClickCluster(latitude: number, longitude: number, zoom: number) {
+      setViewState({
+          viewState: { ...viewState, latitude: latitude, longitude: longitude, zoom: zoom}
+      });
+    }
+
   return (
     <div>
       <ReactMapGL
@@ -94,7 +100,7 @@ export const Map = (props: MapProps) => {
             />
           </Geolocation>
         </Navigation>
-        <Pins data={filteredPins} onClick={onClickPin} mapRef={mapRef} />
+        <Pins data={filteredPins} onClickPin={onClickPin} onClickCluster={onClickCluster} mapRef={mapRef} />
       </ReactMapGL>
     </div>
   );

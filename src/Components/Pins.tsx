@@ -7,7 +7,8 @@ import Supercluster from 'supercluster';
 
 export interface PinsProps {
     data: any;
-    onClick: Function,
+    onClickPin: Function,
+    onClickCluster: Function,
     mapRef: any;
 };
 
@@ -16,10 +17,14 @@ const SIZE = 40;
 interface ClusterMarkerParams {
     cluster: any;
     superCluster: Supercluster;
+    onClickCluster: Function;
+    latitude: number;
+    longitude: number;
+    zoom: number;
 }
 
 const ClusterMarker = (args: ClusterMarkerParams) => {
-    const { cluster } = args;
+    const { cluster, onClickCluster, latitude, longitude, zoom } = args;
     return (
         <div style={{
             background: '#c82c25',
@@ -28,7 +33,11 @@ const ClusterMarker = (args: ClusterMarkerParams) => {
             padding: '5px 7px',
             textAlign: 'center',
             lineHeight: '29px',
-            color: 'white'
+            color: 'white',
+            cursor: 'pointer'
+        }}
+        onClick={() => {
+            onClickCluster(latitude, longitude, zoom);
         }}>
             {cluster.properties.point_count_abbreviated}
         </div>
@@ -49,13 +58,13 @@ export default class Pins extends React.Component<PinsProps> {
     }
 
     render() {
-        const { data, onClick, mapRef } = this.props;
+        const { data, onClickPin, mapRef, onClickCluster } = this.props;
         if (!mapRef.current)
             return null;
 
         // TODO: Make a real type for the place data
         return (
-            <Cluster map={mapRef.current.getMap()} radius={32} extent={512} nodeSize={64} element={ClusterMarker}>
+            <Cluster map={mapRef.current.getMap()} radius={32} extent={512} nodeSize={64} element={ClusterMarker} onClickCluster={onClickCluster}>
                 {data.map((place: any, index: number) => {
                     return (
                         <Marker key={`marker-${index}`} longitude={place.location_longitude} latitude={place.location_latitude}>
@@ -66,7 +75,7 @@ export default class Pins extends React.Component<PinsProps> {
                                     transform: `translate(${-SIZE / 2}px,${-SIZE}px)`
                                 }}
                                 onClick={() => {
-                                    onClick(place);
+                                    onClickPin(place);
                                     this.handleLinkClicked(place.location_id);
                                 }}
                             />
