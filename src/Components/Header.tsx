@@ -1,14 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   Toolbar,
   IconButton,
   AppBar,
   Typography,
-  Link
-} from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import MenuIcon from "@material-ui/icons/Menu";
+  Link,
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const InfoPrompt = styled(Alert)`
   border-radius: 0;
@@ -37,33 +37,34 @@ type HeaderProps = {
   toggleDrawer: Function;
 };
 
-export const Header = ({ toggleDrawer }: HeaderProps) => {
-  return (
-    <AppBar position={"static"}>
-      <HeaderToolbar variant="dense">
-        <IconButton onClick={() => toggleDrawer()}>
-          <DrawerIcon />
-        </IconButton>
+const Header = ({ toggleDrawer }: HeaderProps) => (
+  <AppBar position="static">
+    <HeaderToolbar variant="dense">
+      <IconButton onClick={() => toggleDrawer()}>
+        <DrawerIcon />
+      </IconButton>
 
-        <HeaderText variant="h5">Find Covid Testing</HeaderText>
-      </HeaderToolbar>
+      <HeaderText variant="h5">Find Covid Testing</HeaderText>
+    </HeaderToolbar>
 
-      <InfoPrompt variant="filled" severity="info">
-        <AlertTitle>
-          Last data update: Mar 25, 2020 5:00 AM PDT. States in queue: MD, NJ, NY, PA, TX, WI
-        </AlertTitle>
-        <AlertText>
-          You can help by{" "}
-          <Link
-            href="https://docs.google.com/forms/d/e/1FAIpQLSe2sCuCrQwEHwi3FLiyRB9CYWRmSUiGyyK8RLsQPwhfrJTI4g/viewform"
-            target="_blank"
-            rel="noopener"
-          >
-            adding a new location
-          </Link>
-          .
-        </AlertText>
-      </InfoPrompt>
-    </AppBar>
-  );
-};
+    <InfoPrompt variant="filled" severity="info">
+      <AlertTitle>
+        Last data update: Mar 25, 2020 5:00 AM PDT. States in queue: MD, NJ, NY, PA, TX, WI
+      </AlertTitle>
+      <AlertText>
+        You can help by
+        {' '}
+        <Link
+          href="https://docs.google.com/forms/d/e/1FAIpQLSe2sCuCrQwEHwi3FLiyRB9CYWRmSUiGyyK8RLsQPwhfrJTI4g/viewform"
+          target="_blank"
+          rel="noopener"
+        >
+          adding a new location
+        </Link>
+        .
+      </AlertText>
+    </InfoPrompt>
+  </AppBar>
+);
+
+export default Header;
