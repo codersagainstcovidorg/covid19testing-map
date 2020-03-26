@@ -49,7 +49,7 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
 
     <InfoPrompt variant="filled" severity="info">
       <AlertTitle>
-        Last data update: Mar 25, 2020 5:00 AM PDT. States in queue: MD, NJ, NY, PA, TX, WI
+        Data updated: Mar 25, 2020 6:10PM PDT. Added to NJ, NY, MO, IL, WI, OK. States with data in queue: NJ, NY, TX, MD, WI, MN, MI, AZ, CA, OH, PA, CT.
       </AlertTitle>
       <AlertText>
         You can help by
