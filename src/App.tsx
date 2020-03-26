@@ -4,7 +4,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
 import { Sidebar } from './Components/Sidebar';
 import { Map } from './Components/Map';
-import { LocationModal } from './Components/LocationModal';
+import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
 
 
