@@ -7,7 +7,7 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import Pins from './Pins';
 import { SearchContext } from '../App';
 import { MAPBOX_TOKEN } from '../constants';
-import { getFilteredPins } from '../utils/getFilteredPins';
+import getFilteredPins from '../utils/getFilteredPins';
 
 type MapProps = {
   onClickPin: Function;
@@ -31,15 +31,20 @@ const Navigation = styled.div`
 
 const mapRef = React.createRef<ReactMapGL>();
 
-export const Map = (props: MapProps) => {
+const Map = (props: MapProps) => {
   const { viewState, setViewState, onClickPin } = props;
   const searchFilters = useContext(SearchContext);
-  const filteredPins = useMemo(() => getFilteredPins(searchFilters), [searchFilters]);
+  const filteredPins = useMemo(() => getFilteredPins(searchFilters), [
+    searchFilters,
+  ]);
 
   function onClickCluster(latitude: number, longitude: number, zoom: number) {
     setViewState({
       viewState: {
-        ...viewState, latitude, longitude, zoom,
+        ...viewState,
+        latitude,
+        longitude,
+        zoom,
       },
     });
   }
@@ -70,7 +75,6 @@ export const Map = (props: MapProps) => {
                 },
               });
             }}
-
             position="top-left"
             countries="US"
             mapRef={mapRef}
@@ -112,3 +116,5 @@ export const Map = (props: MapProps) => {
     </div>
   );
 };
+
+export default Map;

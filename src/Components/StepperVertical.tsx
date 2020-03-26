@@ -9,21 +9,23 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ReactGA from 'react-ga';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  root: {
-    width: '100%',
-  },
-  button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  resetContainer: {
-    padding: theme.spacing(3),
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+    },
+    button: {
+      marginTop: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
+    actionsContainer: {
+      marginBottom: theme.spacing(2),
+    },
+    resetContainer: {
+      padding: theme.spacing(3),
+    },
+  })
+);
 
 function handleStepperAnalytics(action: string, walkthroughStep: number) {
   ReactGA.event({
@@ -66,13 +68,16 @@ function getStepContent(step: number) {
   }
 }
 
-export const VerticalLinearStepper = () => {
+const VerticalLinearStepper = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
-    handleStepperAnalytics(activeStep === steps.length - 1 ? 'Finish' : 'Next', activeStep);
+    handleStepperAnalytics(
+      activeStep === steps.length - 1 ? 'Finish' : 'Next',
+      activeStep
+    );
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -119,12 +124,12 @@ export const VerticalLinearStepper = () => {
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>
-            Depending on the number of pending tests in your area,
-            it may take up to a few days to get results. Make sure to
-            STRICTLY adhere to the self-isolation guidelines set forth by
-            your doctor and/or public health department. Unless you are explicitly
-            told otherwise, you MUST complete your self-isolation period - even if
-            your test result is negative for COVID-19.
+            Depending on the number of pending tests in your area, it may take
+            up to a few days to get results. Make sure to STRICTLY adhere to the
+            self-isolation guidelines set forth by your doctor and/or public
+            health department. Unless you are explicitly told otherwise, you
+            MUST complete your self-isolation period - even if your test result
+            is negative for COVID-19.
           </Typography>
           <Button onClick={handleReset} className={classes.button}>
             Reset
@@ -134,3 +139,5 @@ export const VerticalLinearStepper = () => {
     </div>
   );
 };
+
+export default VerticalLinearStepper;
