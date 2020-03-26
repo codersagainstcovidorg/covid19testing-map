@@ -1,24 +1,16 @@
 import React from 'react';
 import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Button,
   Card,
   CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Modal,
   CardHeader,
-  Link,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  IconButton,
-  Divider,
-  Theme,
   createStyles,
-  BottomNavigationAction,
-  BottomNavigation,
+  Divider,
+  IconButton,
+  Modal,
+  Theme,
 } from '@material-ui/core';
 
 import InfoIcon from '@material-ui/icons/Info';
@@ -34,52 +26,63 @@ import { indigo, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../App';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-  },
-  bottomNavigation: {
-    '&.Mui-selected': {
-      color: indigo[800],
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-  callToAction: {
-    width: '100%',
-    height: '60px',
-    fontSize: '20px',
-    color: theme.palette.getContrastText(indigo[800]),
-    backgroundColor: indigo[800],
-    '&:hover': {
-      backgroundColor: indigo[900],
-      // Reset on touch devices, it doesn't add specificity
-      '@media (hover: none)': {
-        backgroundColor: indigo[800],
+    card: {},
+    bottomNavigation: {
+      '&.Mui-selected': {
+        color: indigo[800],
       },
     },
-  },
-}));
-
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    avatar: {
+      backgroundColor: red[500],
+    },
+    callToAction: {
+      width: '100%',
+      height: '60px',
+      fontSize: '20px',
+      color: theme.palette.getContrastText(indigo[800]),
+      backgroundColor: indigo[800],
+      '&:hover': {
+        backgroundColor: indigo[900],
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: indigo[800],
+        },
+      },
+    },
+    speedDial: {
+      position: 'absolute',
+      '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+      },
+      '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
+        top: theme.spacing(2),
+        left: theme.spacing(2),
+      },
+    },
+  })
+);
 
 interface ModalProps {
   location: any;
@@ -99,24 +102,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
     });
   };
 
-  const items: any = [
-    {
-      title: 'Type',
-      key: 'location_place_of_service_type',
-      icon: <InfoIcon />,
-    },
-    {
-      title: 'Website',
-      key: 'location_contact_url_main',
-      icon: <LanguageIcon />,
-    },
-    {
-      title: 'Testing Criteria',
-      key: 'location_specific_testing_criteria',
-      icon: <LanguageIcon />,
-    },
-  ];
-
   const details: any = [];
   Object.keys(labelMap)
     .filter((key: string) => key !== 'is_verified')
@@ -129,6 +114,8 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
       });
     });
 
+  const address = `${location.location_address_street.trim()}, ${location.location_address_locality.trim()}, ${location.location_address_region.trim()} ${location.location_address_postal_code.trim()}`;
+
   return (
     <Modal
       className={classes.modal}
@@ -139,33 +126,40 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
       <Card className={classes.card}>
         <CardHeader
           title={location.location_name}
-          subheader={
-                        `${location.location_address_street.trim()}, ${
-                          location.location_address_locality.trim()
-                        }, ${location.location_address_region.trim()
-                        } ${location.location_address_postal_code.trim()}`
-                    }
-          action={(
+          subheader={address}
+          action={
             <div>
-              <IconButton area-label="call">
+              <IconButton
+                area-label="call"
+                href={`tel://${location.location_contact_phone_main}`}
+              >
                 <PhoneIcon />
               </IconButton>
-              <IconButton area-label="directions">
+              <IconButton
+                area-label="directions"
+                href={`https://maps.google.com/?&daddr=${address}`}
+              >
                 <DirectionsIcon />
               </IconButton>
               <IconButton area-label="share">
                 <ShareIcon />
               </IconButton>
-              <IconButton area-label="report">
+              <IconButton
+                area-label="report"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link"
+              >
                 <ReportProblemIcon />
               </IconButton>
-
             </div>
-                      )}
+          }
         />
 
         <CardContent>
-          <Button variant="contained" size="large" className={classes.callToAction}>
+          <Button
+            variant="contained"
+            size="large"
+            className={classes.callToAction}
+          >
             Learn More
           </Button>
           {/*          <Typography color="textPrimary" gutterBottom> */}
@@ -221,7 +215,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           {/*              ); */}
           {/*            })} */}
           {/*          </List> */}
-
         </CardContent>
 
         <Divider />
@@ -233,9 +226,21 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           }}
           showLabels
         >
-          <BottomNavigationAction className={classes.bottomNavigation} label="Detail" icon={<InfoIcon />} />
-          <BottomNavigationAction className={classes.bottomNavigation} label="Criteria" icon={<ListAltIcon />} />
-          <BottomNavigationAction className={classes.bottomNavigation} label="Feedback" icon={<FeedbackIcon />} />
+          <BottomNavigationAction
+            className={classes.bottomNavigation}
+            label="Detail"
+            icon={<InfoIcon />}
+          />
+          <BottomNavigationAction
+            className={classes.bottomNavigation}
+            label="Criteria"
+            icon={<ListAltIcon />}
+          />
+          <BottomNavigationAction
+            className={classes.bottomNavigation}
+            label="Feedback"
+            icon={<FeedbackIcon />}
+          />
         </BottomNavigation>
 
         {/* {location.location_contact_phone_main === '' ? '' : ( */}
