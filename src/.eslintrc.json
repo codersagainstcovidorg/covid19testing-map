@@ -5,7 +5,9 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "prettier",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -21,11 +23,13 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "prettier"
     ],
     "rules": {
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+        "prettier/prettier": "error"
     }
 }
