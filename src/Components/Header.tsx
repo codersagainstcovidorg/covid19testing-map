@@ -17,7 +17,7 @@ const InfoPrompt = styled(Alert)`
 
 const HeaderToolbar = styled(Toolbar)`
   padding: 0 7px;
-  font-family: "Roboto,Helvetica,Arial,sans-serif";
+  font-family: 'Roboto,Helvetica,Arial,sans-serif';
   font-weight: bold;
   min-height: 40px;
 `;
@@ -49,11 +49,11 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
 
     <InfoPrompt variant="filled" severity="info">
       <AlertTitle>
-        Data updated: Mar 26, 2020 1:42AM PDT. Added to NJ, NY, and TX. States with data in queue: NJ, NY, TX, MD, WI, MN, MI, AZ, CA, OH, PA, CT.
+        Data updated: Mar 26, 2020 1:42AM PDT. Added to NJ, NY, and TX. States
+        with data in queue: NJ, NY, TX, MD, WI, MN, MI, AZ, CA, OH, PA, CT.
       </AlertTitle>
       <AlertText>
-        You can help by
-        {' '}
+        {'You can help by '}
         <Link
           href="https://docs.google.com/forms/d/e/1FAIpQLSe2sCuCrQwEHwi3FLiyRB9CYWRmSUiGyyK8RLsQPwhfrJTI4g/viewform"
           target="_blank"

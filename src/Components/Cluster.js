@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { Marker } from 'react-map-gl';
 import { calculateNextZoomLevel } from 'react-mapbox-gl-cluster/dist/common/utils';
 
-const childrenKeys = (children) => Children.toArray(children).map((child) => child.key);
+const childrenKeys = (children) =>
+  Children.toArray(children).map((child) => child.key);
 
 const shallowCompareChildren = (prevChildren, newChildren) => {
   if (Children.count(prevChildren) !== Children.count(newChildren)) {
@@ -16,7 +17,8 @@ const shallowCompareChildren = (prevChildren, newChildren) => {
   const prevKeys = childrenKeys(prevChildren);
   const newKeys = new Set(childrenKeys(newChildren));
   return (
-    prevKeys.length === newKeys.size && prevKeys.every((key) => newKeys.has(key))
+    prevKeys.length === newKeys.size &&
+    prevKeys.every((key) => newKeys.has(key))
   );
 };
 
@@ -43,12 +45,14 @@ class Cluster extends PureComponent {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.minZoom !== prevState.minZoom
-        || nextProps.maxZoom !== prevState.maxZoom
-        || nextProps.radius !== prevState.radius
-        || nextProps.extent !== prevState.extent
-        || nextProps.nodeSize !== prevState.nodeSize
-        || !shallowCompareChildren(prevState.children, nextProps.children)) {
+    if (
+      nextProps.minZoom !== prevState.minZoom ||
+      nextProps.maxZoom !== prevState.maxZoom ||
+      nextProps.radius !== prevState.radius ||
+      nextProps.extent !== prevState.extent ||
+      nextProps.nodeSize !== prevState.nodeSize ||
+      !shallowCompareChildren(prevState.children, nextProps.children)
+    ) {
       return nextProps;
     }
     return null;
@@ -56,15 +60,15 @@ class Cluster extends PureComponent {
 
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      minZoom, maxZoom, radius, extent, nodeSize, children,
-    } = this.props;
-    if (prevProps.minZoom !== minZoom
-        || prevProps.maxZoom !== maxZoom
-        || prevProps.radius !== radius
-        || prevProps.extent !== extent
-        || prevProps.nodeSize !== nodeSize
-        || !shallowCompareChildren(children, prevProps.children)) {
+    const { minZoom, maxZoom, radius, extent, nodeSize, children } = this.props;
+    if (
+      prevProps.minZoom !== minZoom ||
+      prevProps.maxZoom !== maxZoom ||
+      prevProps.radius !== radius ||
+      prevProps.extent !== extent ||
+      prevProps.nodeSize !== nodeSize ||
+      !shallowCompareChildren(children, prevProps.children)
+    ) {
       this.createCluster(this.props);
       this.recalculate();
     }
@@ -91,7 +95,10 @@ class Cluster extends PureComponent {
 
     const points = Children.map(children, (child) => {
       if (child) {
-        if (!Number.isFinite(child.props.longitude) || !Number.isFinite(child.props.latitude)) {
+        if (
+          !Number.isFinite(child.props.longitude) ||
+          !Number.isFinite(child.props.latitude)
+        ) {
           return null;
         }
 
