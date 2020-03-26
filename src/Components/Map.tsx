@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import React, { useContext, useMemo } from "react";
-import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
-import Geocoder from "react-map-gl-geocoder";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import styled from 'styled-components';
+import React, { useContext, useMemo } from 'react';
+import ReactMapGL, { GeolocateControl, NavigationControl } from 'react-map-gl';
+import Geocoder from 'react-map-gl-geocoder';
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-import Pins from "./Pins";
-import { SearchContext } from "../App";
-import { MAPBOX_TOKEN } from "../constants";
-import { getFilteredPins } from "../utils/getFilteredPins";
+import Pins from './Pins';
+import { SearchContext } from '../App';
+import { MAPBOX_TOKEN } from '../constants';
+import { getFilteredPins } from '../utils/getFilteredPins';
 
 type MapProps = {
   onClickPin: Function;
@@ -37,21 +37,23 @@ export const Map = (props: MapProps) => {
   const filteredPins = useMemo(() => getFilteredPins(searchFilters), [searchFilters]);
 
   function onClickCluster(latitude: number, longitude: number, zoom: number) {
-      setViewState({
-          viewState: { ...viewState, latitude, longitude, zoom }
-      });
-    }
+    setViewState({
+      viewState: {
+        ...viewState, latitude, longitude, zoom,
+      },
+    });
+  }
 
   return (
     <div>
       <ReactMapGL
-        width={"100vw"}
-        height={"calc(100vh - 124px)"}
+        width="100vw"
+        height="calc(100vh - 124px)"
         viewState={viewState}
-        getCursor={() => "cursor"}
+        getCursor={() => 'cursor'}
         onViewStateChange={setViewState}
         ref={mapRef}
-        style={{ zIndex: 50, position: "relative" }}
+        style={{ zIndex: 50, position: 'relative' }}
         mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
@@ -64,8 +66,8 @@ export const Map = (props: MapProps) => {
                   ...viewState,
                   longitude,
                   latitude,
-                  zoom
-                }
+                  zoom,
+                },
               });
             }}
 
@@ -82,7 +84,7 @@ export const Map = (props: MapProps) => {
               onViewportChange={(data: any) => {
                 const { zoom } = data;
                 setViewState({
-                  viewState: { ...viewState, zoom }
+                  viewState: { ...viewState, zoom },
                 });
               }}
             />
@@ -94,13 +96,18 @@ export const Map = (props: MapProps) => {
               onGeolocate={(data: any) => {
                 const { latitude, longitude } = data.coords;
                 setViewState({
-                  viewState: { ...viewState, latitude, longitude }
+                  viewState: { ...viewState, latitude, longitude },
                 });
               }}
             />
           </Geolocation>
         </Navigation>
-        <Pins data={filteredPins} onClickPin={onClickPin} onClickCluster={onClickCluster} mapRef={mapRef} />
+        <Pins
+          data={filteredPins}
+          onClickPin={onClickPin}
+          onClickCluster={onClickCluster}
+          mapRef={mapRef}
+        />
       </ReactMapGL>
     </div>
   );

@@ -4,10 +4,9 @@ import { Children, PureComponent, createElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { Marker } from 'react-map-gl';
-import { calculateNextZoomLevel } from "react-mapbox-gl-cluster/dist/common/utils";
+import { calculateNextZoomLevel } from 'react-mapbox-gl-cluster/dist/common/utils';
 
-const childrenKeys = children =>
-  Children.toArray(children).map(child => child.key);
+const childrenKeys = (children) => Children.toArray(children).map((child) => child.key);
 
 const shallowCompareChildren = (prevChildren, newChildren) => {
   if (Children.count(prevChildren) !== Children.count(newChildren)) {
@@ -17,22 +16,12 @@ const shallowCompareChildren = (prevChildren, newChildren) => {
   const prevKeys = childrenKeys(prevChildren);
   const newKeys = new Set(childrenKeys(newChildren));
   return (
-    prevKeys.length === newKeys.size && prevKeys.every(key => newKeys.has(key))
+    prevKeys.length === newKeys.size && prevKeys.every((key) => newKeys.has(key))
   );
 };
 
 // Originally from https://github.com/jamalx31/mapbox-supercluster-example/blob/master/src/Cluster.js
 class Cluster extends PureComponent {
-  static displayName = 'Cluster';
-
-  static defaultProps = {
-    minZoom: 0,
-    maxZoom: 16,
-    radius: 40,
-    extent: 512,
-    nodeSize: 64,
-  };
-
   constructor(props) {
     super(props);
 
@@ -48,20 +37,35 @@ class Cluster extends PureComponent {
     this.createCluster(this.props);
     this.recalculate();
 
-    this.props.map.on('moveend', this.recalculate);
+    const { map } = this.props;
+
+    map.on('moveend', this.recalculate);
   }
 
-  componentWillReceiveProps(newProps) {
-    const shouldUpdate =
-      newProps.minZoom !== this.props.minZoom ||
-      newProps.maxZoom !== this.props.maxZoom ||
-      newProps.radius !== this.props.radius ||
-      newProps.extent !== this.props.extent ||
-      newProps.nodeSize !== this.props.nodeSize ||
-      !shallowCompareChildren(this.props.children, newProps.children);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.minZoom !== prevState.minZoom
+        || nextProps.maxZoom !== prevState.maxZoom
+        || nextProps.radius !== prevState.radius
+        || nextProps.extent !== prevState.extent
+        || nextProps.nodeSize !== prevState.nodeSize
+        || !shallowCompareChildren(prevState.children, nextProps.children)) {
+      return nextProps;
+    }
+    return null;
+  }
 
-    if (shouldUpdate) {
-      this.createCluster(newProps);
+  // eslint-disable-next-line no-unused-vars
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      minZoom, maxZoom, radius, extent, nodeSize, children,
+    } = this.props;
+    if (prevProps.minZoom !== minZoom
+        || prevProps.maxZoom !== maxZoom
+        || prevProps.radius !== radius
+        || prevProps.extent !== extent
+        || prevProps.nodeSize !== nodeSize
+        || !shallowCompareChildren(children, prevProps.children)) {
+      this.createCluster(this.props);
       this.recalculate();
     }
   }
@@ -85,7 +89,7 @@ class Cluster extends PureComponent {
       nodeSize,
     });
 
-    const points = Children.map(children, child => {
+    const points = Children.map(children, (child) => {
       if (child) {
         if (!Number.isFinite(child.props.longitude) || !Number.isFinite(child.props.latitude)) {
           return null;
@@ -102,15 +106,18 @@ class Cluster extends PureComponent {
   }
 
   recalculate() {
-    const zoom = this.props.map.getZoom();
-    const bounds = this.props.map.getBounds().toArray();
+    const { map } = this.props;
+    const zoom = map.getZoom();
+    const bounds = map.getBounds().toArray();
     const bbox = bounds[0].concat(bounds[1]);
     const clusters = this.cluster.getClusters(bbox, Math.floor(zoom));
     this.setState(() => ({ clusters }));
   }
 
   render() {
-    const clusters = this.state.clusters.map(cluster => {
+    const { clusters } = this.state;
+    const { onClickCluster, map, element } = this.props;
+    const clustersMapped = clusters.map((cluster) => {
       if (cluster.properties.cluster) {
         const [longitude, latitude] = cluster.geometry.coordinates;
 
@@ -124,13 +131,13 @@ class Cluster extends PureComponent {
           // TODO size
           offsetLeft: -28 / 2,
           offsetTop: -28,
-          children: createElement(this.props.element, {
+          children: createElement(element, {
             cluster,
             superCluster: this.cluster,
-            onClickCluster: this.props.onClickCluster,
+            onClickCluster,
             latitude,
             longitude,
-            zoom: calculateNextZoomLevel(this.props.map.getZoom(), cluster.maxZoom, 1.5)
+            zoom: calculateNextZoomLevel(map.getZoom(), cluster.maxZoom, 1.5),
           }),
           key: `cluster-${cluster.properties.cluster_id}`,
         });
@@ -138,13 +145,13 @@ class Cluster extends PureComponent {
       const { type, key, props } = cluster.properties;
       return createElement(type, { key, ...props });
     });
-    return clusters;
+    return clustersMapped;
   }
 }
 
 Cluster.propTypes = {
   /** Mapbox map object */
-  map: PropTypes.object,
+  map: PropTypes.object || PropTypes.bool,
   /** Minimum zoom level at which clusters are generated */
   minZoom: PropTypes.number,
   /** Maximum zoom level at which clusters are generated */
@@ -166,6 +173,21 @@ Cluster.propTypes = {
   /* eslint-enable react/no-unused-prop-types */
   /** Markers as children */
   children: PropTypes.node,
+
+  onClickCluster: PropTypes.func,
+};
+
+Cluster.defaultProps = {
+  map: null,
+  minZoom: 0,
+  maxZoom: 16,
+  radius: 40,
+  extent: 512,
+  nodeSize: 64,
+  element: () => {},
+  innerRef: () => {},
+  children: null,
+  onClickCluster: () => {},
 };
 
 export default Cluster;

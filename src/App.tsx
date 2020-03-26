@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import ReactGA from 'react-ga';
 import { Sidebar } from './Components/Sidebar';
 import { Map } from './Components/Map';
-import { Header } from './Components/Header';
 import { LocationModal } from './Components/LocationModal';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Header from './Components/Header';
 
-import ReactGA from "react-ga";
 
 // Building a custom theme
 const theme = createMuiTheme({
@@ -15,13 +15,13 @@ const theme = createMuiTheme({
       main: '#4a138c',
       light: '#7c42bd',
       dark: '#12005e',
-      contrastText: '#ffffff'
+      contrastText: '#ffffff',
     },
     secondary: {
       main: '#ace520',
       light: '#e2ff5e',
       dark: '#77b300',
-      contrastText: '#4a148c'
+      contrastText: '#4a148c',
     },
   },
 });
@@ -34,13 +34,13 @@ export interface LabelMap {
 
 // Map for toggles and modal line items
 export const labelMap: LabelMap = {
-  'is_ordering_tests_only_for_those_who_meeting_criteria': {
+  is_ordering_tests_only_for_those_who_meeting_criteria: {
     sidebar: 'Tests only those meeting criteria',
-    card: 'Tests only those meeting criteria'
+    card: 'Tests only those meeting criteria',
   },
-  'is_collecting_samples': {
+  is_collecting_samples: {
     sidebar: 'Collects samples for testing',
-    card: 'Collects samples for testing'
+    card: 'Collects samples for testing',
   },
 };
 
@@ -52,8 +52,8 @@ export interface SearchFilters {
 
 // Initial state
 const defaultFilters: SearchFilters = {
-  'is_ordering_tests_only_for_those_who_meeting_criteria': true,
-  'is_collecting_samples': true
+  is_ordering_tests_only_for_those_who_meeting_criteria: true,
+  is_collecting_samples: true,
 };
 
 interface AppState {
@@ -74,9 +74,26 @@ interface GeolocationCoordinates {
 
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
 
-let dataLayer = (window as any).dataLayer = (window as any).dataLayer || [];
+const dataLayer = (window as any).dataLayer || [];
+(window as any).dataLayer = (window as any).dataLayer || [];
 
 export class App extends React.Component<{}, AppState> {
+  static handleLocationPrompt(action: string, response: string): void {
+    ReactGA.event({
+      category: 'Location Prompt',
+      action,
+      label: response,
+    });
+  }
+
+  static handleDrawerStatus(action: boolean): void {
+    ReactGA.event({
+      category: 'Drawer',
+      action: action ? 'Close' : 'Open',
+    });
+  }
+
+
   constructor(props: any) {
     super(props);
 
@@ -90,18 +107,18 @@ export class App extends React.Component<{}, AppState> {
         zoom: 2.5,
         bearing: 0,
         pitch: 0,
-      }
+      },
     };
-
   }
 
-  componentWillMount() {
+  componentDidMount(): void {
     try {
       this.locateUser();
-    } catch(e) {
+    } catch (e) {
       console.error('failed to locate user', e);
     }
   }
+
 
   locateUser() {
     navigator.geolocation.getCurrentPosition((res: GeolocationCoordinates) => {
@@ -109,8 +126,8 @@ export class App extends React.Component<{}, AppState> {
         event: 'pageview',
         location: {
           latitude: res.coords.latitude,
-          longitude: res.coords.longitude
-        }
+          longitude: res.coords.longitude,
+        },
       });
       console.log('setting', res.coords);
 
@@ -121,25 +138,23 @@ export class App extends React.Component<{}, AppState> {
           zoom: 8,
           bearing: 0,
           pitch: 0,
-        }
-      })
+        },
+      });
     }, (e: any) => {
       console.error('failed to get location from browser', e);
       this.geoIPFallback();
     }, {
-        enableHighAccuracy: true,
-        timeout: 2000
-      });
+      enableHighAccuracy: true,
+      timeout: 2000,
+    });
   }
 
   geoIPFallback() {
-    this.handleLocationPrompt('GeoIP', 'Attempt');
+    App.handleLocationPrompt('GeoIP', 'Attempt');
 
-    fetch('https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0').then((r: Response) => {
-      return r.json();
-    }).then(data => {
+    fetch('https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0').then((r: Response) => r.json()).then((data) => {
       if (data.status === 'success') {
-        this.handleLocationPrompt('GeoIP', 'Success');
+        App.handleLocationPrompt('GeoIP', 'Success');
 
         this.setState({
           viewState: {
@@ -147,75 +162,71 @@ export class App extends React.Component<{}, AppState> {
             longitude: data.lon,
             zoom: 8,
             bearing: 0,
-            pitch: 0
-          }
-        })
+            pitch: 0,
+          },
+        });
       }
-    });
-  }
-
-  handleLocationPrompt(action: string, response: string): void {
-    ReactGA.event({
-      category: 'Location Prompt',
-      action: action,
-      label: response,
-    });
-  }
-
-  handleDrawerStatus(action: boolean): void {
-    ReactGA.event({
-      category: 'Drawer',
-      action: action ? 'Close' : 'Open',
     });
   }
 
 
   render() {
-    const location = this.state.currentPlace;
+    const {
+      currentPlace, filters, drawerOpen, viewState,
+    } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
-        <SearchContext.Provider value={this.state.filters}>
+        <SearchContext.Provider value={filters}>
 
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 110 }}>
-          <Header toggleDrawer={() => {
-            this.handleDrawerStatus(this.state.drawerOpen);
-            this.setState({ drawerOpen: !this.state.drawerOpen })
-
-              }} />
+              <Header toggleDrawer={() => {
+                App.handleDrawerStatus(drawerOpen);
+                this.setState({ drawerOpen: !drawerOpen });
+              }}
+              />
             </Grid>
           </Grid>
 
           <Grid container direction="column">
             <Grid container item xs={4} style={{ zIndex: 100 }}>
-              <Sidebar drawerOpen={this.state.drawerOpen} toggleFilter={(filterKey: keyof SearchFilters) => {
-                this.setState({
-                  filters: { ...this.state.filters, [filterKey]: !this.state.filters[filterKey] }
-                });
-              } } />
+              <Sidebar
+                drawerOpen={drawerOpen}
+                toggleFilter={(filterKey: keyof SearchFilters) => {
+                  this.setState({
+                    filters: { ...filters, [filterKey]: !filters[filterKey] },
+                  });
+                }}
+              />
             </Grid>
 
-            <Grid onClick={() => {
-              if (this.state.drawerOpen) {
-                this.setState({ drawerOpen: false });
-              }
-            }} container item xs={12}>
+            <Grid
+              onClick={() => {
+                if (drawerOpen) {
+                  this.setState({ drawerOpen: false });
+                }
+              }}
+              container
+              item
+              xs={12}
+            >
               <Map
                 lockMap={false}
-                viewState={this.state.viewState}
+                viewState={viewState}
                 setViewState={(newState: any) => {
-                  this.setState({ viewState: newState.viewState })
+                  this.setState({ viewState: newState.viewState });
                 }}
                 onClickPin={(place: any) => {
                   this.setState({ currentPlace: place });
-                }} />
+                }}
+              />
 
-              {location === null ? '' : (
-                  <LocationModal
-                    location={location}
-                    onClose={() => { this.setState({ currentPlace: null }) }}
-                  />
+              {currentPlace === null ? '' : (
+                <LocationModal
+                  location={currentPlace}
+                  onClose={() => { this.setState({ currentPlace: null }); }}
+                />
               )}
             </Grid>
           </Grid>
