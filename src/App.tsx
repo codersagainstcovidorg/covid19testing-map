@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
+import { faTasks, faVial } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
@@ -27,7 +28,7 @@ const theme = createMuiTheme({
 
 export interface LabelMap {
   [key: string]: {
-    [key: string]: string;
+    [key: string]: any;
   };
 }
 
@@ -35,11 +36,13 @@ export interface LabelMap {
 export const labelMap: LabelMap = {
   is_ordering_tests_only_for_those_who_meeting_criteria: {
     sidebar: 'Tests only those meeting criteria',
-    card: 'Tests only those meeting criteria',
+    card: 'Testing criteria',
+    icon: faTasks,
   },
   is_collecting_samples: {
     sidebar: 'Collects samples for testing',
-    card: 'Collects samples for testing',
+    card: 'Collects samples',
+    icon: faVial,
   },
 };
 
