@@ -10,8 +10,6 @@ import {
   Collapse,
   createStyles,
   Divider,
-  FormControlLabel,
-  FormLabel,
   Grid,
   IconButton,
   List,
@@ -19,8 +17,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Modal,
-  Paper,
-  RadioGroup,
   Theme,
   Typography,
 } from '@material-ui/core';
@@ -46,13 +42,10 @@ import {
   faStethoscope,
   faUserMd,
   faVial,
+  faTasks,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  findIconDefinition,
-  Icon,
-  IconProp,
-} from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { labelMap } from '../App';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -150,7 +143,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
   };
 
   const classes = useStyles();
-
   function renderLocationIcon(param: any): IconProp {
     switch (param) {
       case 'Urgent Care':
@@ -173,7 +165,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         return faHospital;
     }
   }
-
   const handleLinkClicked = (locationId: string, action: string): void => {
     ReactGA.event({
       category: 'Location',
@@ -190,7 +181,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         type: 'boolean',
         title: labelMap[key].card,
         key,
-        icon: <InfoIcon />,
+        icon: labelMap[key].icon,
       });
     });
 
@@ -219,15 +210,17 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
               <IconButton
                 area-label="directions"
                 href={`https://maps.google.com/?&daddr=${address}`}
+                target="_blank"
               >
                 <DirectionsIcon />
               </IconButton>
-              <IconButton area-label="share">
-                <ShareIcon />
-              </IconButton>
+              {/* <IconButton area-label="share"> */}
+              {/*  <ShareIcon /> */}
+              {/* </IconButton> */}
               <IconButton
                 area-label="report"
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link"
+                target="_blank"
               >
                 <ReportProblemIcon />
               </IconButton>
@@ -239,66 +232,22 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           <Typography color="textPrimary" className={classes.cardMargin}>
             {location.additional_information_for_patients}
           </Typography>
+          {console.log(
+            location.location_contact_url_covid_screening_tool !== ''
+          )}
           <Button
             variant="contained"
             size="large"
             className={classes.callToAction}
+            href={
+              location.location_contact_url_covid_screening_tool !== ''
+                ? location.location_contact_url_covid_screening_tool
+                : 'https://www.apple.com/covid19/'
+            }
+            target="_blank"
           >
-            Learn More
+            Check your Symptoms
           </Button>
-          {/*          <Typography color="textPrimary" gutterBottom> */}
-          {/*            {location.additional_information_for_patients} */}
-          {/*          </Typography> */}
-
-          {/*          <List dense style={{ paddingBottom: 0, marginBottom: 0, fontSize: 12 }}> */}
-          {/*            {items.map((item: any) => { */}
-          {/*              if (location[item.key].length === 0) { */}
-          {/*                return ''; */}
-          {/*              } */}
-
-          {/*              return ( */}
-          {/*                <ListItem key={item.key}> */}
-          {/*                  <ListItemAvatar> */}
-          {/*                    <Avatar> */}
-          {/*                      {item.icon} */}
-          {/*                    </Avatar> */}
-          {/*                  </ListItemAvatar> */}
-
-          {/*                  {location[item.key].substr(0, 4) === 'http' */}
-          {/*                    ? ( */}
-          {/*                      <ListItemText */}
-          {/*                        style={{ wordWrap: 'break-word', textOverflow: 'ellipsis' }} */}
-          {/*                        primary={( */}
-          {/*                          <Link */}
-          {/*                            onClick={() => { */}
-          {/*                              handleLinkClicked(location.location_id, 'Website Click'); */}
-          {/*                            }} */}
-          {/*                            href={location[item.key]} */}
-          {/*                          > */}
-          {/*                            {location[item.key]} */}
-          {/*                          </Link> */}
-          {/* )} */}
-          {/*                      /> */}
-          {/*                    ) */}
-          {/*                    : <ListItemText primary={item.title} secondary={location[item.key]} />} */}
-          {/*                </ListItem> */}
-          {/*              ); */}
-          {/*            })} */}
-          {/*          </List> */}
-
-          {/*          <Divider style={{ margin: 10 }} /> */}
-
-          {/*          <Typography variant="h6">Details about this location</Typography> */}
-          {/*          <List> */}
-          {/*            {details.map((item: any) => { */}
-          {/*              const content = location[item.key] === 'TRUE' ? '✅' : '🔴'; */}
-          {/*              return ( */}
-          {/*                <ListItem key={item.key}> */}
-          {/*                  <ListItemText primary={`${content} ${item.title}`} /> */}
-          {/*                </ListItem> */}
-          {/*              ); */}
-          {/*            })} */}
-          {/*          </List> */}
         </CardContent>
         <Divider />
         <CardActions
@@ -354,7 +303,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                   </div>
                 </div>
               </Grid>
-              <Grid key={1} item md={4} xs={12}>
+              <Grid key={1} item md={5} xs={12}>
                 <Typography style={{ paddingTop: '20px' }}>
                   {'Visit '}
                   <Link href={location.location_contact_url_main}>
@@ -366,133 +315,25 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                 </Typography>
               </Grid>
               <Divider orientation="vertical" flexItem />
-              <Grid key={2} item md={4} xs={12}>
+              <Grid key={2} item md={3} xs={12}>
                 <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FontAwesomeIcon icon={faVial} />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="RX REQUIRED" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ShareIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="4-5 DAYS" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ShareIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="LAB ONSITE" />
-                  </ListItem>
+                  {details.map((item: any) => {
+                    return location[item.key] === 'TRUE' ? (
+                      <ListItem key={item.key}>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <FontAwesomeIcon icon={item.icon} />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText secondary={item.title} />
+                      </ListItem>
+                    ) : null;
+                  })}
                 </List>
               </Grid>
             </Grid>
-            {/* <Grid container justify="center"> */}
-            {/*  <Grid item> */}
-            {/*  </Grid> */}
-            {/*  <Grid item> */}
-            {/*  </Grid> */}
-            {/* </Grid> */}
           </CardContent>
         </Collapse>
-
-        {/* <BottomNavigation */}
-        {/*  value={value} */}
-        {/*  onChange={(event, newValue) => { */}
-        {/*    console.log(newValue); */}
-        {/*    setValue(newValue); */}
-        {/*  }} */}
-        {/*  showLabels */}
-        {/* > */}
-        {/*  <BottomNavigationAction */}
-        {/*    className={classes.bottomNavigation} */}
-        {/*    label="Detail" */}
-        {/*    icon={<InfoIcon />} */}
-        {/*  /> */}
-        {/*  <BottomNavigationAction */}
-        {/*    className={classes.bottomNavigation} */}
-        {/*    label="Criteria" */}
-        {/*    icon={<ListAltIcon />} */}
-        {/*  /> */}
-        {/*  <BottomNavigationAction */}
-        {/*    className={classes.bottomNavigation} */}
-        {/*    label="Feedback" */}
-        {/*    icon={<FeedbackIcon />} */}
-        {/*  /> */}
-        {/* </BottomNavigation> */}
-
-        {/* {location.location_contact_phone_main === '' ? '' : ( */}
-        {/*  <CardActions> */}
-        {/*    <Button size="small"> */}
-        {/*      <Link */}
-        {/*        onClick={() => { */}
-        {/*          handleLinkClicked(location.location_id, 'Call'); */}
-        {/*        }} */}
-        {/*        href={`tel://${location.location_contact_phone_main}`} */}
-        {/*      > */}
-        {/*        Call Main Line ( */}
-        {/*        {location.location_contact_phone_main} */}
-        {/*        ) */}
-        {/*      </Link> */}
-        {/*    </Button> */}
-        {/*  </CardActions> */}
-        {/* )} */}
-
-        {/* {location.location_contact_phone_appointments === '' ? '' : ( */}
-        {/*  <CardActions> */}
-        {/*    <Button size="small"> */}
-        {/*      <Link */}
-        {/*        onClick={() => { */}
-        {/*          handleLinkClicked(location.location_id, 'Call'); */}
-        {/*        }} */}
-        {/*        href={`tel://${location.location_contact_phone_appointments}`} */}
-        {/*      > */}
-        {/*        Call Appointments Line ( */}
-        {/*        {location.location_contact_phone_appointments} */}
-        {/*        ) */}
-        {/*      </Link> */}
-        {/*    </Button> */}
-        {/*  </CardActions> */}
-        {/* )} */}
-
-        {/* <Divider style={{ margin: 10 }} /> */}
-
-        {/* <Typography paragraph style={{ padding: 10 }}> */}
-        {/*  At this point in time, appointments for COVID-19 screening and testing are required */}
-        {/*  at virtually every location - make sure to call or book ahead */}
-        {/* </Typography> */}
-
-        {/* <CardActions> */}
-        {/*  <Button size="small"> */}
-        {/*    <Link */}
-        {/*      onClick={() => { */}
-        {/*        handleLinkClicked(location.location_id, 'Report Error'); */}
-        {/*      }} */}
-        {/*      href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link" */}
-        {/*    > */}
-        {/*      Report An Error */}
-        {/*    </Link> */}
-        {/*  </Button> */}
-
-        {/*  <Button size="small"> */}
-        {/*    <Link */}
-        {/*      onClick={() => { */}
-        {/*        handleLinkClicked(location.location_id, 'Suggest Edit'); */}
-        {/*      }} */}
-        {/*      href="https://docs.google.com/forms/d/e/1FAIpQLScK-lqYZAr6MdeN1aafCrcXKR0cc96Ym-mzwz-4h3OgTpAvyQ/viewform?usp=sf_link" */}
-        {/*    > */}
-        {/*      Suggest An Edit */}
-        {/*    </Link> */}
-        {/*  </Button> */}
-        {/* </CardActions> */}
       </Card>
     </Modal>
   );
