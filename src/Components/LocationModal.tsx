@@ -32,10 +32,26 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import ReactGA from 'react-ga';
-import { indigo, red } from '@material-ui/core/colors';
+import { indigo, orange, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import { Radio } from 'material-ui-icons';
+import {
+  faCampground,
+  faCircle,
+  faClinicMedical,
+  faFirstAid,
+  faHospital,
+  faMedkit,
+  faShieldAlt,
+  faStethoscope,
+  faUserMd,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  findIconDefinition,
+  Icon,
+  IconProp,
+} from '@fortawesome/fontawesome-svg-core';
 import { labelMap } from '../App';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,8 +123,10 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: '0px',
     },
     typeChip: {
-      backgroundColor: indigo[800],
+      backgroundColor: orange[900],
       color: theme.palette.getContrastText(indigo[800]),
+      height: '20px',
+      marginTop: '5px',
     },
   })
 );
@@ -116,6 +134,10 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ModalProps {
   location: any;
   onClose: Function;
+}
+
+interface LocationIconProps {
+  locationType: any;
 }
 
 const LocationModal = ({ location, onClose }: ModalProps) => {
@@ -127,6 +149,29 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
   };
 
   const classes = useStyles();
+
+  function renderLocationIcon(param: any): IconProp {
+    switch (param) {
+      case 'Urgent Care':
+        return faStethoscope;
+      case 'Medical Center':
+        return faHospital;
+      case 'Health Center':
+        return faFirstAid;
+      case 'Clinic':
+        return faClinicMedical;
+      case 'Primary Care':
+        return faUserMd;
+      case 'Temporary':
+        return faCampground;
+      case 'Immediate Care':
+        return faMedkit;
+      case 'Public Health Department':
+        return faShieldAlt;
+      default:
+        return faHospital;
+    }
+  }
 
   const handleLinkClicked = (locationId: string, action: string): void => {
     ReactGA.event({
@@ -274,21 +319,42 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Divider />
           <CardContent>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="flex-start"
-            >
-              <Grid key={0} item md={3} xs={12}>
-                <Chip
-                  size="medium"
-                  label="Health Center"
-                  className={classes.typeChip}
-                />
+            <Grid container spacing={2}>
+              <Grid item md={3} xs={12}>
+                <div
+                  style={{
+                    paddingTop: '20px',
+                  }}
+                >
+                  <span
+                    className="fa-layers fa-fw fa-4x"
+                    style={{ width: '100%' }}
+                  >
+                    <FontAwesomeIcon icon={faCircle} color={indigo[800]} />
+                    <FontAwesomeIcon
+                      icon={renderLocationIcon(
+                        location.location_place_of_service_type
+                      )}
+                      transform="shrink-6"
+                      color="white"
+                    />
+                  </span>
+                  <div style={{ width: '100%', textAlign: 'center' }}>
+                    <Chip
+                      size="medium"
+                      label={
+                        location.location_place_of_service_type ===
+                        'Public Health Department'
+                          ? 'Public Health Dept.'
+                          : location.location_place_of_service_type
+                      }
+                      className={classes.typeChip}
+                    />
+                  </div>
+                </div>
               </Grid>
               <Grid key={1} item md={4} xs={12}>
-                <Typography>
+                <Typography style={{ paddingTop: '20px' }}>
                   {'Visit '}
                   <Link href={location.location_contact_url_main}>
                     this website
@@ -328,7 +394,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                 </List>
               </Grid>
             </Grid>
-
             {/* <Grid container justify="center"> */}
             {/*  <Grid item> */}
             {/*  </Grid> */}
