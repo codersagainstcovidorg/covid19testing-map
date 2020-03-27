@@ -21,10 +21,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import InfoIcon from '@material-ui/icons/Info';
 import PhoneIcon from '@material-ui/icons/Phone';
 import DirectionsIcon from '@material-ui/icons/Directions';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import ReactGA from 'react-ga';
@@ -170,7 +168,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         icon: labelMap[key].icon,
       });
     });
-
   const address = `${location.location_address_street.trim()}, ${location.location_address_locality.trim()}, ${location.location_address_region.trim()} ${location.location_address_postal_code.trim()}`;
 
   return (
@@ -190,6 +187,9 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
               <IconButton
                 area-label="call"
                 href={`tel://${location.location_contact_phone_main}`}
+                onClick={() => {
+                  handleLinkClicked(location.location_id, 'Call');
+                }}
               >
                 <PhoneIcon />
               </IconButton>
@@ -207,6 +207,9 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                 area-label="report"
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link"
                 target="_blank"
+                onClick={() => {
+                  handleLinkClicked(location.location_id, 'Report Error');
+                }}
               >
                 <ReportProblemIcon />
               </IconButton>
@@ -218,9 +221,6 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           <Typography color="textPrimary" className={classes.cardMargin}>
             {location.additional_information_for_patients}
           </Typography>
-          {console.log(
-            location.location_contact_url_covid_screening_tool !== ''
-          )}
           <Button
             variant="contained"
             size="large"
@@ -231,6 +231,9 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                 ? location.location_contact_url_covid_screening_tool
                 : 'https://www.apple.com/covid19/'
             }
+            onClick={() => {
+              handleLinkClicked(location.location_id, 'Website Click');
+            }}
             target="_blank"
           >
             Check your Symptoms
