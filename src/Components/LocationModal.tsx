@@ -46,7 +46,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
     card: {
-      maxWidth: 550,
+      maxWidth: '90%',
+      width: '600px',
+      maxHeight: '90%',
+      overflowY: 'auto',
     },
     bottomNavigation: {
       '&.Mui-selected': {
@@ -91,11 +94,21 @@ const useStyles = makeStyles((theme: Theme) =>
     grid: {
       flexGrow: 1,
     },
-    detailsTypography: {
-      marginLeft: '16px',
+    cardMargin: {
+      marginBottom: '16px',
+    },
+    detailsButton: {
+      paddingLeft: '8px',
     },
     cardActions: {
       cursor: 'pointer',
+    },
+    cardHeader: {
+      paddingBottom: '0px',
+    },
+    typeChip: {
+      backgroundColor: indigo[800],
+      color: theme.palette.getContrastText(indigo[800]),
     },
   })
 );
@@ -148,6 +161,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         <CardHeader
           title={location.location_name}
           subheader={address}
+          className={classes.cardHeader}
           action={
             <div>
               <IconButton
@@ -176,6 +190,9 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
         />
 
         <CardContent>
+          <Typography color="textPrimary" className={classes.cardMargin}>
+            {location.additional_information_for_patients}
+          </Typography>
           <Button
             variant="contained"
             size="large"
@@ -243,7 +260,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           disableSpacing
           className={classes.cardActions}
         >
-          <Typography className={classes.detailsTypography}>Details</Typography>
+          <Typography className={classes.detailsButton}>Details</Typography>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -263,10 +280,14 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
               justify="center"
               alignItems="flex-start"
             >
-              <Grid key={0} item xs={3}>
-                <Chip size="medium" label="Health Center" color="primary" />
+              <Grid key={0} item md={3} xs={12}>
+                <Chip
+                  size="medium"
+                  label="Health Center"
+                  className={classes.typeChip}
+                />
               </Grid>
-              <Grid key={1} item xs={4}>
+              <Grid key={1} item md={4} xs={12}>
                 <Typography>
                   {'Visit '}
                   <Link href={location.location_contact_url_main}>
@@ -278,7 +299,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                 </Typography>
               </Grid>
               <Divider orientation="vertical" flexItem />
-              <Grid key={2} item xs={4}>
+              <Grid key={2} item md={4} xs={12}>
                 <List>
                   <ListItem>
                     <ListItemAvatar>
