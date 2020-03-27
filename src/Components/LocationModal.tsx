@@ -1,29 +1,41 @@
 import React from 'react';
 import {
-  BottomNavigation,
-  BottomNavigationAction,
+  Avatar,
   Button,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
+  Chip,
+  Collapse,
   createStyles,
   Divider,
+  FormControlLabel,
+  FormLabel,
+  Grid,
   IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Modal,
+  Paper,
+  RadioGroup,
   Theme,
+  Typography,
 } from '@material-ui/core';
-
+import clsx from 'clsx';
 import InfoIcon from '@material-ui/icons/Info';
-import LanguageIcon from '@material-ui/icons/Language';
 import PhoneIcon from '@material-ui/icons/Phone';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import ReactGA from 'react-ga';
 import { indigo, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
+import { Radio } from 'material-ui-icons';
 import { labelMap } from '../App';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,7 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
-    card: {},
+    card: {
+      maxWidth: 550,
+    },
     bottomNavigation: {
       '&.Mui-selected': {
         color: indigo[800],
@@ -42,6 +56,9 @@ const useStyles = makeStyles((theme: Theme) =>
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
+    },
+    detailText: {
+      marginLeft: 'auto',
     },
     expand: {
       transform: 'rotate(0deg)',
@@ -57,6 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: red[500],
     },
     callToAction: {
+      borderRadius: '20px',
       width: '100%',
       height: '60px',
       fontSize: '20px',
@@ -70,16 +88,14 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
-    speedDial: {
-      position: 'absolute',
-      '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-      },
-      '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-        top: theme.spacing(2),
-        left: theme.spacing(2),
-      },
+    grid: {
+      flexGrow: 1,
+    },
+    detailsTypography: {
+      marginLeft: '16px',
+    },
+    cardActions: {
+      cursor: 'pointer',
     },
   })
 );
@@ -90,7 +106,12 @@ interface ModalProps {
 }
 
 const LocationModal = ({ location, onClose }: ModalProps) => {
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   const classes = useStyles();
 
@@ -216,32 +237,110 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           {/*            })} */}
           {/*          </List> */}
         </CardContent>
-
         <Divider />
-        <BottomNavigation
-          value={value}
-          onChange={(event, newValue) => {
-            console.log(newValue);
-            setValue(newValue);
-          }}
-          showLabels
+        <CardActions
+          onClick={handleExpandClick}
+          disableSpacing
+          className={classes.cardActions}
         >
-          <BottomNavigationAction
-            className={classes.bottomNavigation}
-            label="Detail"
-            icon={<InfoIcon />}
-          />
-          <BottomNavigationAction
-            className={classes.bottomNavigation}
-            label="Criteria"
-            icon={<ListAltIcon />}
-          />
-          <BottomNavigationAction
-            className={classes.bottomNavigation}
-            label="Feedback"
-            icon={<FeedbackIcon />}
-          />
-        </BottomNavigation>
+          <Typography className={classes.detailsTypography}>Details</Typography>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Divider />
+          <CardContent>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="flex-start"
+            >
+              <Grid key={0} item xs={3}>
+                <Chip size="medium" label="Health Center" color="primary" />
+              </Grid>
+              <Grid key={1} item xs={4}>
+                <Typography>
+                  {'Visit '}
+                  <Link href={location.location_contact_url_main}>
+                    this website
+                  </Link>
+                  {
+                    ' for information about COVID-19 screening and testing services at this location.'
+                  }
+                </Typography>
+              </Grid>
+              <Divider orientation="vertical" flexItem />
+              <Grid key={2} item xs={4}>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <ShareIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="RX REQUIRED" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <ShareIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="4-5 DAYS" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <ShareIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="LAB ONSITE" />
+                  </ListItem>
+                </List>
+              </Grid>
+            </Grid>
+
+            {/* <Grid container justify="center"> */}
+            {/*  <Grid item> */}
+            {/*  </Grid> */}
+            {/*  <Grid item> */}
+            {/*  </Grid> */}
+            {/* </Grid> */}
+          </CardContent>
+        </Collapse>
+
+        {/* <BottomNavigation */}
+        {/*  value={value} */}
+        {/*  onChange={(event, newValue) => { */}
+        {/*    console.log(newValue); */}
+        {/*    setValue(newValue); */}
+        {/*  }} */}
+        {/*  showLabels */}
+        {/* > */}
+        {/*  <BottomNavigationAction */}
+        {/*    className={classes.bottomNavigation} */}
+        {/*    label="Detail" */}
+        {/*    icon={<InfoIcon />} */}
+        {/*  /> */}
+        {/*  <BottomNavigationAction */}
+        {/*    className={classes.bottomNavigation} */}
+        {/*    label="Criteria" */}
+        {/*    icon={<ListAltIcon />} */}
+        {/*  /> */}
+        {/*  <BottomNavigationAction */}
+        {/*    className={classes.bottomNavigation} */}
+        {/*    label="Feedback" */}
+        {/*    icon={<FeedbackIcon />} */}
+        {/*  /> */}
+        {/* </BottomNavigation> */}
 
         {/* {location.location_contact_phone_main === '' ? '' : ( */}
         {/*  <CardActions> */}
