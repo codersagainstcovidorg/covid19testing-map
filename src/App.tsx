@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
 import { faTasks, faVial } from '@fortawesome/free-solid-svg-icons';
+import { indigo } from '@material-ui/core/colors';
 import { Sidebar } from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
@@ -12,7 +13,7 @@ import Header from './Components/Header';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#4a138c',
+      main: indigo[900],
       light: '#7c42bd',
       dark: '#12005e',
       contrastText: '#ffffff',

@@ -61,11 +61,6 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '90%',
       overflowY: 'auto',
     },
-    bottomNavigation: {
-      '&.Mui-selected': {
-        color: indigo[800],
-      },
-    },
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
@@ -91,15 +86,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       height: '60px',
       fontSize: '20px',
-      color: theme.palette.getContrastText(indigo[800]),
-      backgroundColor: indigo[800],
-      '&:hover': {
-        backgroundColor: indigo[900],
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: indigo[800],
-        },
-      },
     },
     grid: {
       flexGrow: 1,
@@ -238,6 +224,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
           <Button
             variant="contained"
             size="large"
+            color="primary"
             className={classes.callToAction}
             href={
               location.location_contact_url_covid_screening_tool !== ''
