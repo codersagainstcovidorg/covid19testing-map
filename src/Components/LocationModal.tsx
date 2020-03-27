@@ -45,6 +45,7 @@ import {
   faShieldAlt,
   faStethoscope,
   faUserMd,
+  faVial,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -370,7 +371,7 @@ const LocationModal = ({ location, onClose }: ModalProps) => {
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar>
-                        <ShareIcon />
+                        <FontAwesomeIcon icon={faVial} />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="RX REQUIRED" />
