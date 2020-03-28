@@ -45,11 +45,6 @@ export const labelMap: LabelMap = {
     card: 'Collects samples',
     icon: faVial,
   },
-  is_collecting_samples_onsite: {
-    sidebar: 'Collects samples for testing',
-    card: 'Collects samples onsite',
-    icon: faVial,
-  },
 };
 
 // Controls toggles
