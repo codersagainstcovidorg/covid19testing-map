@@ -42,14 +42,14 @@ function getSteps() {
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return `If you're feeling well or only have mild symptoms, it's best to 
-              touch base with your local health department before seeing a doctor.
-              That's because people who live in areas with limited COVID-19 testing 
-              capacity will require approval from public health officials before 
-              they are tested.`;
+      return `If you've been exposed to COVID-19, but do not have symptoms and do not
+              suffer from an chronic health condition, it's unlikely that you will meet
+              testing criteria at any of the locations listed on this website. If you fall
+              into this category, it's best to visit your local health department
+              website for guidance about self-isolation and social distancing.`;
     case 1:
       return `If you have fever, chills, cough, headache or another flu-like symptom
-              do NOT walk into a clinic or hospital. You may be turned away
+              DO NOT walk into a clinic or hospital. You may be turned away
               and asked to make an appointment. Many providers around the country
               offer telemedicine visits for COVID-19 evaluations at no charge. 
               Some providers even allow patients to book appointments online. Click 

@@ -49,8 +49,7 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
 
     <InfoPrompt variant="filled" severity="info">
       <AlertTitle>
-        Data updated: Mar 26, 2020 1:42AM PDT. Added to NJ, NY, and TX. States
-        with data in queue: NJ, NY, TX, MD, WI, MN, MI, AZ, CA, OH, PA, CT.
+        Data updated: 03/28/2020 10:38AM PDT. Thanks to student volunteers at Georgetown School of Medicine, 150+ locations were added across: NJ, NY, MD, WI, MN, MI, IL, AZ, OH, PA, CT. Next update will add new sites for 10+ states.
       </AlertTitle>
       <AlertText>
         {'You can help by '}
