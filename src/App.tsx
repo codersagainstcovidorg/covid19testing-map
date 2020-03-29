@@ -8,6 +8,7 @@ import { Sidebar } from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
+import DataUpdateSnackbar from "./Components/DataUpdateSnackbar";
 
 // Building a custom theme
 const theme = createMuiTheme({
@@ -184,6 +185,7 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
+          <DataUpdateSnackbar />
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 110 }}>
               <Header
@@ -227,7 +229,7 @@ export class App extends React.Component<{}, AppState> {
                   this.setState({ currentPlace: place });
                 }}
               />
-
+              
               {currentPlace === null ? (
                 ''
               ) : (
