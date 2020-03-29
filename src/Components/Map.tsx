@@ -25,7 +25,7 @@ const Zoom = styled.div`
 const Navigation = styled.div`
   bottom: 40px;
   right: 10px;
-  position: fixed;
+  position: absolute;
   z-index: 1;
 `;
 
@@ -50,70 +50,68 @@ const Map = (props: MapProps) => {
   }
 
   return (
-    <div>
-      <ReactMapGL
-        width="100vw"
-        height="calc(100vh - 124px)"
-        viewState={viewState}
-        getCursor={() => 'cursor'}
-        onViewStateChange={setViewState}
-        ref={mapRef}
-        style={{ zIndex: 50, position: 'relative' }}
-        mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
-        mapboxApiAccessToken={MAPBOX_TOKEN}
-      >
-        <Navigation>
-          <Geocoder
+    <ReactMapGL
+      width="100%"
+      height="100%"
+      viewState={viewState}
+      getCursor={() => 'cursor'}
+      onViewStateChange={setViewState}
+      ref={mapRef}
+      style={{ zIndex: 50, position: 'relative' }}
+      mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
+      mapboxApiAccessToken={MAPBOX_TOKEN}
+    >
+      <Navigation>
+        <Geocoder
+          onViewportChange={(data: any) => {
+            const { longitude, latitude, zoom } = data;
+            setViewState({
+              viewState: {
+                ...viewState,
+                longitude,
+                latitude,
+                zoom,
+              },
+            });
+          }}
+          position="top-left"
+          countries="US"
+          mapRef={mapRef}
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+        />
+        <Zoom>
+          <NavigationControl
+            showCompass={false}
+            captureClick
+            captureDoubleClick
             onViewportChange={(data: any) => {
-              const { longitude, latitude, zoom } = data;
+              const { zoom } = data;
               setViewState({
-                viewState: {
-                  ...viewState,
-                  longitude,
-                  latitude,
-                  zoom,
-                },
+                viewState: { ...viewState, zoom },
               });
             }}
-            position="top-left"
-            countries="US"
-            mapRef={mapRef}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
           />
-          <Zoom>
-            <NavigationControl
-              showCompass={false}
-              captureClick
-              captureDoubleClick
-              onViewportChange={(data: any) => {
-                const { zoom } = data;
-                setViewState({
-                  viewState: { ...viewState, zoom },
-                });
-              }}
-            />
-          </Zoom>
-          <Geolocation>
-            <GeolocateControl
-              label="Use my location"
-              positionOptions={{ enableHighAccuracy: true }}
-              onGeolocate={(data: any) => {
-                const { latitude, longitude } = data.coords;
-                setViewState({
-                  viewState: { ...viewState, latitude, longitude },
-                });
-              }}
-            />
-          </Geolocation>
-        </Navigation>
-        <Pins
-          data={filteredPins}
-          onClickPin={onClickPin}
-          onClickCluster={onClickCluster}
-          mapRef={mapRef}
-        />
-      </ReactMapGL>
-    </div>
+        </Zoom>
+        <Geolocation>
+          <GeolocateControl
+            label="Use my location"
+            positionOptions={{ enableHighAccuracy: true }}
+            onGeolocate={(data: any) => {
+              const { latitude, longitude } = data.coords;
+              setViewState({
+                viewState: { ...viewState, latitude, longitude },
+              });
+            }}
+          />
+        </Geolocation>
+      </Navigation>
+      <Pins
+        data={filteredPins}
+        onClickPin={onClickPin}
+        onClickCluster={onClickCluster}
+        mapRef={mapRef}
+      />
+    </ReactMapGL>
   );
 };
 

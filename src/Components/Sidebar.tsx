@@ -16,7 +16,7 @@ type SidebarProps = {
   toggleFilter: Function;
 };
 
-export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
+const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
   <SearchContext.Consumer>
     {(searchFilters) => (
       <Drawer variant="persistent" anchor="left" open={drawerOpen}>
@@ -74,3 +74,5 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
     )}
   </SearchContext.Consumer>
 );
+
+export default Sidebar;
