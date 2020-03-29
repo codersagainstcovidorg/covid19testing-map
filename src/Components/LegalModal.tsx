@@ -111,10 +111,10 @@ class LegalModal extends React.Component<iProps, iState> {
           <DialogContent dividers>
             <Typography
               style={{
-                padding: '12%',
+                padding: '5%',
                 fontWeight: 'bold',
                 fontSize: '1.3rem',
-                color: '#E45B26',
+                color: '#E43E2F',
                 textAlign: 'center',
               }}
             >
