@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: -apple-system, 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,6 +11,27 @@ code {
     monospace;
 }
 
-.mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-top-right {
   width: 96%;
+}
+
+.mapboxgl-ctrl-geocoder {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions {
+  top: auto !important;
+  bottom: 90px;
+}
+
+.mapboxgl-ctrl-geocoder--button {
+  background-color: transparent !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon {
+  fill: rgba(0, 0, 0, 0.87) !important;
 }

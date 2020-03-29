@@ -28,6 +28,8 @@
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
     "react/jsx-props-no-spreading": "off",
     "react/jsx-wrap-multilines": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    // Data comes in snake_case
+    "camelcase": "off"
   }
 }

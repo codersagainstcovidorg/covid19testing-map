@@ -16,12 +16,16 @@ type SidebarProps = {
   toggleFilter: Function;
 };
 
-export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
+const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
   <SearchContext.Consumer>
     {(searchFilters) => (
       <Drawer variant="persistent" anchor="left" open={drawerOpen}>
         <div
-          style={{ paddingTop: '135px', minWidth: '25%', maxWidth: '450px' }}
+          style={{
+            paddingBottom: '75px',
+            minWidth: '25%',
+            maxWidth: '450px',
+          }}
         >
           <h3
             style={{ color: 'black', textAlign: 'center', paddingTop: '10px' }}
@@ -74,3 +78,5 @@ export const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
     )}
   </SearchContext.Consumer>
 );
+
+export default Sidebar;

@@ -1,36 +1,54 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import ReactGA from 'react-ga';
-import { faTasks, faVial } from '@fortawesome/free-solid-svg-icons';
-import { indigo } from '@material-ui/core/colors';
-import { Sidebar } from './Components/Sidebar';
+import styled from 'styled-components';
+import {
+  faTasks,
+  faVial,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
+import { ThemeProvider } from '@material-ui/core/styles';
+import AppBar from './Components/AppBar';
+import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
+import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 import LegalModal from './Components/LegalModal';
+import theme from './theme';
+import { trackLocationPrompt, trackDrawerStatus } from './utils/tracking';
 
-// Building a custom theme
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: indigo[900],
-      light: '#7c42bd',
-      dark: '#12005e',
-      contrastText: '#ffffff',
-    },
-    secondary: {
-      main: '#ace520',
-      light: '#e2ff5e',
-      dark: '#77b300',
-      contrastText: '#4a148c',
-    },
-  },
-});
+// Layout Component styles
+const LayoutContainer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderContainer = styled.div`
+  z-index: 100;
+  position: relative;
+`;
+
+const SidebarContainer = styled.div`
+  z-index: 110;
+  position: relative;
+`;
+
+const MapContainer = styled.div`
+  height: 100%;
+  position: relative;
+`;
+
+const AppBarContainer = styled.div`
+  z-index: 120;
+  position: relative;
+`;
 
 export interface LabelMap {
   [key: string]: {
-    [key: string]: any;
+    sidebar: string;
+    card: string;
+    icon: IconDefinition;
   };
 }
 
@@ -77,26 +95,12 @@ interface GeolocationCoordinates {
 }
 
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
+const geocoderContainerRef = React.createRef<any>();
 
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
 export class App extends React.Component<{}, AppState> {
-  static handleLocationPrompt(action: string, response: string): void {
-    ReactGA.event({
-      category: 'Location Prompt',
-      action,
-      label: response,
-    });
-  }
-
-  static handleDrawerStatus(action: boolean): void {
-    ReactGA.event({
-      category: 'Drawer',
-      action: action ? 'Close' : 'Open',
-    });
-  }
-
   constructor(props: any) {
     super(props);
 
@@ -156,7 +160,7 @@ export class App extends React.Component<{}, AppState> {
   }
 
   geoIPFallback() {
-    App.handleLocationPrompt('GeoIP', 'Attempt');
+    trackLocationPrompt('Attempt');
 
     fetch(
       'https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0'
@@ -164,7 +168,7 @@ export class App extends React.Component<{}, AppState> {
       .then((r: Response) => r.json())
       .then((data) => {
         if (data.status === 'success') {
-          App.handleLocationPrompt('GeoIP', 'Success');
+          trackLocationPrompt('Success');
 
           this.setState({
             viewState: {
@@ -181,24 +185,23 @@ export class App extends React.Component<{}, AppState> {
 
   render() {
     const { currentPlace, filters, drawerOpen, viewState } = this.state;
+    const toggleDrawer = () => {
+      this.setState({ drawerOpen: !drawerOpen });
+      trackDrawerStatus(drawerOpen);
+    };
 
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
-          <LegalModal />
-          <Grid className="container" container direction="row">
-            <Grid container item xs={12} style={{ zIndex: 110 }}>
-              <Header
-                toggleDrawer={() => {
-                  App.handleDrawerStatus(drawerOpen);
-                  this.setState({ drawerOpen: !drawerOpen });
-                }}
-              />
-            </Grid>
-          </Grid>
+          <LayoutContainer>
+            <LegalModal />
+            <DataUpdateSnackbar />
 
-          <Grid container direction="column">
-            <Grid container item xs={4} style={{ zIndex: 100 }}>
+            <HeaderContainer>
+              <Header toggleDrawer={toggleDrawer} />
+            </HeaderContainer>
+
+            <SidebarContainer>
               <Sidebar
                 drawerOpen={drawerOpen}
                 toggleFilter={(filterKey: keyof SearchFilters) => {
@@ -207,17 +210,14 @@ export class App extends React.Component<{}, AppState> {
                   });
                 }}
               />
-            </Grid>
+            </SidebarContainer>
 
-            <Grid
+            <MapContainer
               onClick={() => {
                 if (drawerOpen) {
                   this.setState({ drawerOpen: false });
                 }
               }}
-              container
-              item
-              xs={12}
             >
               <Map
                 lockMap={false}
@@ -228,6 +228,7 @@ export class App extends React.Component<{}, AppState> {
                 onClickPin={(place: any) => {
                   this.setState({ currentPlace: place });
                 }}
+                geocoderContainerRef={geocoderContainerRef}
               />
 
               {currentPlace === null ? (
@@ -240,8 +241,15 @@ export class App extends React.Component<{}, AppState> {
                   }}
                 />
               )}
-            </Grid>
-          </Grid>
+            </MapContainer>
+
+            <AppBarContainer>
+              <AppBar
+                geocoderContainerRef={geocoderContainerRef}
+                toggleDrawer={toggleDrawer}
+              />
+            </AppBarContainer>
+          </LayoutContainer>
         </SearchContext.Provider>
       </ThemeProvider>
     );
