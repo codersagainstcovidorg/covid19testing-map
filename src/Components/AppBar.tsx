@@ -1,70 +1,62 @@
 import React from 'react';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
-import AssistantIcon from '@material-ui/icons/Assistant';
 import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import Tooltip from '@material-ui/core/Tooltip';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    text: {
-      padding: theme.spacing(2, 2, 0),
-    },
-    paper: {
-      paddingBottom: 50,
-    },
-    list: {
-      marginBottom: theme.spacing(2),
-    },
-    subheader: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    appBar: {
-      top: 'auto',
-      bottom: 0,
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    fabButton: {
-      position: 'absolute',
-      zIndex: 1,
-      top: -30,
-      left: 0,
-      right: 0,
-      margin: '0 auto',
-    },
-  })
-);
+import ActionButton from './ActionButton';
+import MoreButton from './MoreButton';
+import { ADD_LOCATION_FORM } from '../constants';
 
-const AppBar = () => {
-  const classes = useStyles();
+const SearchContainer = styled.div`
+  position: relative;
+`;
+
+const ActionButtonContainer = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: -24px;
+  left: 50%;
+  transform: translate(-50%, 0);
+`;
+
+const Spacer = styled.div`
+  flex-grow: 1;
+`;
+
+type AppBarProps = {
+  geocoderContainerRef: any;
+  toggleDrawer: () => void;
+};
+
+const AppBar = (props: AppBarProps) => {
+  const { geocoderContainerRef, toggleDrawer } = props;
 
   return (
-    <MuiAppBar position="relative" color="default" className={classes.appBar}>
+    <MuiAppBar position="relative" color="default">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="search">
-          <SearchIcon />
-        </IconButton>
-        <Fab
-          color="primary"
-          aria-label="guide"
-          size="medium"
-          className={classes.fabButton}
-        >
-          <AssistantIcon />
-        </Fab>
-        <div className={classes.grow} />
-        <IconButton color="inherit">
-          <AddIcon />
-        </IconButton>
-        <IconButton edge="end" color="inherit">
-          <MoreIcon />
-        </IconButton>
+        <SearchContainer ref={geocoderContainerRef} />
+
+        <ActionButtonContainer>
+          <ActionButton onClick={toggleDrawer} />
+        </ActionButtonContainer>
+
+        <Spacer />
+
+        <Tooltip title="Add a new location" placement="top" arrow>
+          <IconButton
+            color="inherit"
+            href={ADD_LOCATION_FORM}
+            target="_blank"
+            rel="noopener"
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+
+        <MoreButton />
       </Toolbar>
     </MuiAppBar>
   );

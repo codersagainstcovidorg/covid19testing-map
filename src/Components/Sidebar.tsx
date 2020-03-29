@@ -21,7 +21,11 @@ const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
     {(searchFilters) => (
       <Drawer variant="persistent" anchor="left" open={drawerOpen}>
         <div
-          style={{ paddingTop: '135px', minWidth: '25%', maxWidth: '450px' }}
+          style={{
+            paddingBottom: '75px',
+            minWidth: '25%',
+            maxWidth: '450px',
+          }}
         >
           <h3
             style={{ color: 'black', textAlign: 'center', paddingTop: '10px' }}

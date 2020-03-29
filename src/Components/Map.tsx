@@ -14,6 +14,7 @@ type MapProps = {
   lockMap: boolean;
   viewState: any;
   setViewState: (viewState: any) => any;
+  geocoderContainerRef: any;
 };
 
 const Geolocation = styled.div``;
@@ -32,7 +33,7 @@ const Navigation = styled.div`
 const mapRef = React.createRef<ReactMapGL>();
 
 const Map = (props: MapProps) => {
-  const { viewState, setViewState, onClickPin } = props;
+  const { viewState, setViewState, onClickPin, geocoderContainerRef } = props;
   const searchFilters = useContext(SearchContext);
   const filteredPins = useMemo(() => getFilteredPins(searchFilters), [
     searchFilters,
@@ -74,7 +75,7 @@ const Map = (props: MapProps) => {
               },
             });
           }}
-          position="top-left"
+          containerRef={geocoderContainerRef}
           countries="US"
           mapRef={mapRef}
           mapboxApiAccessToken={MAPBOX_TOKEN}

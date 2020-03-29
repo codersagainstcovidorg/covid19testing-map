@@ -25,16 +25,12 @@ const LayoutContainer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  z-index: 110;
+  z-index: 100;
   position: relative;
 `;
 
-const ContentContainer = styled.div`
-  height: 100%;
-`;
-
 const SidebarContainer = styled.div`
-  z-index: 100;
+  z-index: 110;
   position: relative;
 `;
 
@@ -44,6 +40,7 @@ const MapContainer = styled.div`
 `;
 
 const AppBarContainer = styled.div`
+  z-index: 120;
   position: relative;
 `;
 
@@ -98,6 +95,7 @@ interface GeolocationCoordinates {
 }
 
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
+const geocoderContainerRef = React.createRef<any>();
 
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
@@ -187,6 +185,10 @@ export class App extends React.Component<{}, AppState> {
 
   render() {
     const { currentPlace, filters, drawerOpen, viewState } = this.state;
+    const toggleDrawer = () => {
+      this.setState({ drawerOpen: !drawerOpen });
+      trackDrawerStatus(drawerOpen);
+    };
 
     return (
       <ThemeProvider theme={theme}>
@@ -195,59 +197,56 @@ export class App extends React.Component<{}, AppState> {
           <DataUpdateSnackbar />
           <LayoutContainer>
             <HeaderContainer>
-              <Header
-                toggleDrawer={() => {
-                  this.setState({ drawerOpen: !drawerOpen });
-                  trackDrawerStatus(drawerOpen);
-                }}
-              />
+              <Header toggleDrawer={toggleDrawer} />
             </HeaderContainer>
 
-            <ContentContainer>
-              <SidebarContainer>
-                <Sidebar
-                  drawerOpen={drawerOpen}
-                  toggleFilter={(filterKey: keyof SearchFilters) => {
-                    this.setState({
-                      filters: { ...filters, [filterKey]: !filters[filterKey] },
-                    });
-                  }}
-                />
-              </SidebarContainer>
-
-              <MapContainer
-                onClick={() => {
-                  if (drawerOpen) {
-                    this.setState({ drawerOpen: false });
-                  }
+            <SidebarContainer>
+              <Sidebar
+                drawerOpen={drawerOpen}
+                toggleFilter={(filterKey: keyof SearchFilters) => {
+                  this.setState({
+                    filters: { ...filters, [filterKey]: !filters[filterKey] },
+                  });
                 }}
-              >
-                <Map
-                  lockMap={false}
-                  viewState={viewState}
-                  setViewState={(newState: any) => {
-                    this.setState({ viewState: newState.viewState });
-                  }}
-                  onClickPin={(place: any) => {
-                    this.setState({ currentPlace: place });
+              />
+            </SidebarContainer>
+
+            <MapContainer
+              onClick={() => {
+                if (drawerOpen) {
+                  this.setState({ drawerOpen: false });
+                }
+              }}
+            >
+              <Map
+                lockMap={false}
+                viewState={viewState}
+                setViewState={(newState: any) => {
+                  this.setState({ viewState: newState.viewState });
+                }}
+                onClickPin={(place: any) => {
+                  this.setState({ currentPlace: place });
+                }}
+                geocoderContainerRef={geocoderContainerRef}
+              />
+
+              {currentPlace === null ? (
+                ''
+              ) : (
+                <LocationModal
+                  location={currentPlace}
+                  onClose={() => {
+                    this.setState({ currentPlace: null });
                   }}
                 />
-
-                {currentPlace === null ? (
-                  ''
-                ) : (
-                  <LocationModal
-                    location={currentPlace}
-                    onClose={() => {
-                      this.setState({ currentPlace: null });
-                    }}
-                  />
-                )}
-              </MapContainer>
-            </ContentContainer>
+              )}
+            </MapContainer>
 
             <AppBarContainer>
-              <AppBar />
+              <AppBar
+                geocoderContainerRef={geocoderContainerRef}
+                toggleDrawer={toggleDrawer}
+              />
             </AppBarContainer>
           </LayoutContainer>
         </SearchContext.Provider>

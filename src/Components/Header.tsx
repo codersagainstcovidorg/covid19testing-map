@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import MenuIcon from '@material-ui/icons/Menu';
+import { ADD_LOCATION_FORM } from '../constants';
 
 const InfoPrompt = styled(Alert)`
   border-radius: 0 !important;
@@ -34,18 +35,21 @@ const HeaderText = styled(Typography)`
 const AlertText = styled.div``;
 
 type HeaderProps = {
+  showToolbar: boolean;
   toggleDrawer: Function;
 };
 
-const Header = ({ toggleDrawer }: HeaderProps) => (
+const Header = ({ showToolbar, toggleDrawer }: HeaderProps) => (
   <AppBar position="static">
-    <HeaderToolbar variant="dense">
-      <IconButton onClick={() => toggleDrawer()}>
-        <DrawerIcon />
-      </IconButton>
+    {showToolbar && (
+      <HeaderToolbar variant="dense">
+        <IconButton onClick={() => toggleDrawer()}>
+          <DrawerIcon />
+        </IconButton>
 
-      <HeaderText variant="h5">Find Covid Testing</HeaderText>
-    </HeaderToolbar>
+        <HeaderText variant="h5">Find Covid Testing</HeaderText>
+      </HeaderToolbar>
+    )}
 
     <InfoPrompt variant="filled" severity="info">
       <AlertTitle>
@@ -54,11 +58,7 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
       </AlertTitle>
       <AlertText>
         Next update will add new sites for 10+ states. You can help by
-        <Link
-          href="https://docs.google.com/forms/d/e/1FAIpQLSe2sCuCrQwEHwi3FLiyRB9CYWRmSUiGyyK8RLsQPwhfrJTI4g/viewform"
-          target="_blank"
-          rel="noopener"
-        >
+        <Link href={ADD_LOCATION_FORM} target="_blank" rel="noopener">
           &nbsp;adding a new location
         </Link>
         .
@@ -66,5 +66,9 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
     </InfoPrompt>
   </AppBar>
 );
+
+Header.defaultProps = {
+  showToolbar: false,
+};
 
 export default Header;
