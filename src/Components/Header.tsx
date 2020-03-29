@@ -46,13 +46,13 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
 
       <HeaderText variant="h5">Find Covid Testing</HeaderText>
     </HeaderToolbar>
-
+    
     <InfoPrompt variant="filled" severity="info">
       <AlertTitle>
-        Data updated: 03/28/2020 10:38AM PDT. Thanks to student volunteers at Georgetown School of Medicine, 150+ locations were added across: NJ, NY, MD, WI, MN, MI, IL, AZ, OH, PA, CT. Next update will add new sites for 10+ states.
+        Thanks to student volunteers at Georgetown School of Medicine, 150+ locations were added across eleven (11) states.
       </AlertTitle>
       <AlertText>
-        {'You can help by '}
+        Next update will add new sites for 10+ states. {'You can help by '}
         <Link
           href="https://docs.google.com/forms/d/e/1FAIpQLSe2sCuCrQwEHwi3FLiyRB9CYWRmSUiGyyK8RLsQPwhfrJTI4g/viewform"
           target="_blank"
@@ -62,7 +62,7 @@ const Header = ({ toggleDrawer }: HeaderProps) => (
         </Link>
         .
       </AlertText>
-    </InfoPrompt>
+    </InfoPrompt> 
   </AppBar>
 );
 
