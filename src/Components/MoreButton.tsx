@@ -20,10 +20,10 @@ const MenuText = styled.span`
 `;
 
 const MoreButton = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<any>(null);
   const open = React.useMemo(() => Boolean(anchorEl), [anchorEl]);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };
 

@@ -193,9 +193,10 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
-          <LegalModal />
-          <DataUpdateSnackbar />
           <LayoutContainer>
+            <LegalModal />
+            <DataUpdateSnackbar />
+
             <HeaderContainer>
               <Header toggleDrawer={toggleDrawer} />
             </HeaderContainer>

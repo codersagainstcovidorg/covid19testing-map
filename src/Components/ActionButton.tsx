@@ -13,6 +13,7 @@ type ActionButtonProps = {
 
 const ActionButton = (props: ActionButtonProps) => {
   const { onClick } = props;
+
   return (
     <ActionButtonContainer
       color="primary"
