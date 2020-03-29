@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
 import { faTasks, faVial } from '@fortawesome/free-solid-svg-icons';
 import { indigo } from '@material-ui/core/colors';
@@ -8,7 +8,7 @@ import { Sidebar } from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
-import DataUpdateSnackbar from "./Components/DataUpdateSnackbar";
+import LegalModal from './Components/LegalModal';
 
 // Building a custom theme
 const theme = createMuiTheme({
@@ -185,7 +185,7 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
-          <DataUpdateSnackbar />
+          <LegalModal />
           <Grid className="container" container direction="row">
             <Grid container item xs={12} style={{ zIndex: 110 }}>
               <Header
@@ -229,7 +229,7 @@ export class App extends React.Component<{}, AppState> {
                   this.setState({ currentPlace: place });
                 }}
               />
-              
+
               {currentPlace === null ? (
                 ''
               ) : (

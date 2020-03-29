@@ -1,8 +1,8 @@
 import React from 'react';
-import Snackbar  from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import InfoIcon from '@material-ui/icons/Info'
+import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
     // close: {
     //   padding: theme.spacing(0.5),
     // },
-  }),
+  })
 );
 
 const DataUpdateSnackbar = () => {
@@ -29,28 +29,27 @@ const DataUpdateSnackbar = () => {
 
     setOpen(false);
   };
-  
+
   return (
     <div className={classes.root}>
-      <Snackbar 
-        open={open} 
-        autoHideDuration={6000} 
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
         onClose={handleClose}
-        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         disableWindowBlurListener={false}
-        
-        >
-        <MuiAlert 
-        onClose={handleClose} 
-        severity="warning" 
-        variant="filled"
-        icon={<InfoIcon/>}
+      >
+        <MuiAlert
+          onClose={handleClose}
+          severity="warning"
+          variant="filled"
+          icon={<InfoIcon />}
         >
           Data updated: 03/29/2020 6:52AM EDT
-        </MuiAlert> 
+        </MuiAlert>
       </Snackbar>
     </div>
   );
-}
+};
 
 export default DataUpdateSnackbar;
