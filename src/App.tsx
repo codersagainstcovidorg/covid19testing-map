@@ -41,7 +41,7 @@ const MapContainer = styled.div`
 
 const AppBarContainer = styled.div`
   z-index: 120;
-  position: relative;
+  position: sticky;
 `;
 
 export interface LabelMap {
