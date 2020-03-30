@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';

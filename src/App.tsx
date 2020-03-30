@@ -1,48 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
+import Grid from '@material-ui/core/Grid';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import {
   faTasks,
   faVial,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
-import { ThemeProvider } from '@material-ui/core/styles';
-import AppBar from './Components/AppBar';
+import { indigo } from '@material-ui/core/colors';
 import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
-import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 import LegalModal from './Components/LegalModal';
-import theme from './theme';
-import { trackLocationPrompt, trackDrawerStatus } from './utils/tracking';
+import AppBar from './Components/AppBar';
+import { trackDrawerStatus, trackLocationPrompt } from './utils/tracking';
+import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 
-// Layout Component styles
-const LayoutContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-`;
-
-const HeaderContainer = styled.div`
-  z-index: 100;
-  position: relative;
-`;
-
-const SidebarContainer = styled.div`
-  z-index: 110;
-  position: relative;
-`;
-
-const MapContainer = styled.div`
-  height: 100%;
-  position: relative;
-`;
-
-const AppBarContainer = styled.div`
-  z-index: 120;
-  position: sticky;
-`;
+// Building a custom theme
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: indigo[900],
+      light: '#7c42bd',
+      dark: '#12005e',
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      main: '#ace520',
+      light: '#e2ff5e',
+      dark: '#77b300',
+      contrastText: '#4a148c',
+    },
+  },
+});
 
 export interface LabelMap {
   [key: string]: {
@@ -193,15 +183,11 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
-          <LayoutContainer>
-            <LegalModal />
-            <DataUpdateSnackbar />
+          <LegalModal />
+          <DataUpdateSnackbar />
 
-            <HeaderContainer>
-              <Header toggleDrawer={toggleDrawer} />
-            </HeaderContainer>
-
-            <SidebarContainer>
+          <Grid container direction="column">
+            <Grid container item xs={4} style={{ zIndex: 100 }}>
               <Sidebar
                 drawerOpen={drawerOpen}
                 toggleFilter={(filterKey: keyof SearchFilters) => {
@@ -210,14 +196,17 @@ export class App extends React.Component<{}, AppState> {
                   });
                 }}
               />
-            </SidebarContainer>
+            </Grid>
 
-            <MapContainer
+            <Grid
               onClick={() => {
                 if (drawerOpen) {
                   this.setState({ drawerOpen: false });
                 }
               }}
+              container
+              item
+              xs={12}
             >
               <Map
                 lockMap={false}
@@ -230,7 +219,6 @@ export class App extends React.Component<{}, AppState> {
                 }}
                 geocoderContainerRef={geocoderContainerRef}
               />
-
               {currentPlace === null ? (
                 ''
               ) : (
@@ -241,15 +229,12 @@ export class App extends React.Component<{}, AppState> {
                   }}
                 />
               )}
-            </MapContainer>
-
-            <AppBarContainer>
-              <AppBar
-                geocoderContainerRef={geocoderContainerRef}
-                toggleDrawer={toggleDrawer}
-              />
-            </AppBarContainer>
-          </LayoutContainer>
+            </Grid>
+          </Grid>
+          <AppBar
+            geocoderContainerRef={geocoderContainerRef}
+            toggleDrawer={toggleDrawer}
+          />
         </SearchContext.Provider>
       </ThemeProvider>
     );
