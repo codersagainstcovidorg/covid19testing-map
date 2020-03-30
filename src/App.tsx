@@ -14,11 +14,11 @@ import Header from './Components/Header';
 import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
+import getViewportHeight from './utils/getViewportHeight';
 import { trackLocationPrompt, trackDrawerStatus } from './utils/tracking';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
-  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -35,13 +35,14 @@ const SidebarContainer = styled.div`
 `;
 
 const MapContainer = styled.div`
-  height: 100%;
+  flex-basis: 100%;
+  flex-grow: 1;
   position: relative;
 `;
 
 const AppBarContainer = styled.div`
   z-index: 120;
-  position: sticky;
+  position: relative;
 `;
 
 export interface LabelMap {
@@ -83,6 +84,7 @@ interface AppState {
   drawerOpen: boolean;
   currentPlace: any;
   viewState: any;
+  viewportHeight: number;
 }
 
 interface GeolocationCoordinates {
@@ -97,6 +99,8 @@ interface GeolocationCoordinates {
 export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
 
+let windowListener: any; // store event handler for resize events
+
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
@@ -105,6 +109,7 @@ export class App extends React.Component<{}, AppState> {
     super(props);
 
     this.state = {
+      viewportHeight: 0,
       filters: defaultFilters,
       currentPlace: null,
       drawerOpen: false,
@@ -124,6 +129,20 @@ export class App extends React.Component<{}, AppState> {
     } catch (e) {
       console.error('failed to locate user', e);
     }
+
+    // detect resize events and set viewport height
+    windowListener = window.addEventListener('resize', () => this.setHeight());
+    this.setHeight();
+  }
+
+  componentWillUnmount(): void {
+    window.removeEventListener('resize', windowListener);
+  }
+
+  // set height using js, as 100vh doesn't work as expected in mobile safari
+  setHeight(): void {
+    const viewportHeight = getViewportHeight();
+    this.setState({ viewportHeight });
   }
 
   locateUser() {
@@ -184,7 +203,13 @@ export class App extends React.Component<{}, AppState> {
   }
 
   render() {
-    const { currentPlace, filters, drawerOpen, viewState } = this.state;
+    const {
+      currentPlace,
+      filters,
+      drawerOpen,
+      viewState,
+      viewportHeight,
+    } = this.state;
     const toggleDrawer = () => {
       this.setState({ drawerOpen: !drawerOpen });
       trackDrawerStatus(drawerOpen);
@@ -193,7 +218,7 @@ export class App extends React.Component<{}, AppState> {
     return (
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
-          <LayoutContainer>
+          <LayoutContainer style={{ height: viewportHeight }}>
             <LegalModal />
             <DataUpdateSnackbar />
 
@@ -230,18 +255,16 @@ export class App extends React.Component<{}, AppState> {
                 }}
                 geocoderContainerRef={geocoderContainerRef}
               />
-
-              {currentPlace === null ? (
-                ''
-              ) : (
-                <LocationModal
-                  location={currentPlace}
-                  onClose={() => {
-                    this.setState({ currentPlace: null });
-                  }}
-                />
-              )}
             </MapContainer>
+
+            {currentPlace !== null && (
+              <LocationModal
+                location={currentPlace}
+                onClose={() => {
+                  this.setState({ currentPlace: null });
+                }}
+              />
+            )}
 
             <AppBarContainer>
               <AppBar
