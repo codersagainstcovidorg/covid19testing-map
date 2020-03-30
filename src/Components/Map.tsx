@@ -53,7 +53,7 @@ const Map = (props: MapProps) => {
   return (
     <ReactMapGL
       width="100%"
-      height="100%"
+      height="calc(100% - 54px)"
       viewState={viewState}
       getCursor={() => 'cursor'}
       onViewStateChange={setViewState}
