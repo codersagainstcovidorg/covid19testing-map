@@ -6,25 +6,47 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import ActionButton from './ActionButton';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Fab } from '@material-ui/core';
+import AssistantIcon from '@material-ui/icons/Assistant';
 import MoreButton from './MoreButton';
 import { ADD_LOCATION_FORM } from '../constants';
 
-const SearchContainer = styled.div`
-  position: relative;
-`;
-
-const ActionButtonContainer = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: -24px;
-  left: 50%;
-  transform: translate(-50%, 0);
-`;
-
-const Spacer = styled.div`
-  flex-grow: 1;
-`;
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    text: {
+      padding: theme.spacing(2, 2, 0),
+    },
+    paper: {
+      paddingBottom: 50,
+    },
+    list: {
+      marginBottom: theme.spacing(2),
+    },
+    subheader: {
+      backgroundColor: theme.palette.background.paper,
+    },
+    appBar: {
+      top: 'auto',
+      bottom: 0,
+      height: '60px',
+    },
+    grow: {
+      flexGrow: 1,
+    },
+    fabButton: {
+      position: 'absolute',
+      zIndex: 1,
+      top: -30,
+      left: 0,
+      right: 0,
+      margin: '0 auto',
+    },
+    searchContainer: {
+      position: 'relative',
+    },
+  })
+);
 
 type AppBarProps = {
   geocoderContainerRef: any;
@@ -32,18 +54,24 @@ type AppBarProps = {
 };
 
 const AppBar = (props: AppBarProps) => {
+  const classes = useStyles();
+
   const { geocoderContainerRef, toggleDrawer } = props;
 
   return (
-    <MuiAppBar position="relative" color="default">
+    <MuiAppBar position="fixed" color="default" className={classes.appBar}>
       <Toolbar>
-        <SearchContainer ref={geocoderContainerRef} />
+        <div className={classes.searchContainer} ref={geocoderContainerRef} />
 
-        <ActionButtonContainer>
-          <ActionButton onClick={toggleDrawer} />
-        </ActionButtonContainer>
+        <Fab
+          onClick={toggleDrawer}
+          className={classes.fabButton}
+          color="primary"
+        >
+          <AssistantIcon />
+        </Fab>
 
-        <Spacer />
+        <div className={classes.grow} />
 
         <Tooltip title="Add a new location" placement="top" arrow>
           <IconButton
