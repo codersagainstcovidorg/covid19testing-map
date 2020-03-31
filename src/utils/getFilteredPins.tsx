@@ -1,7 +1,9 @@
 import { SearchFilters } from '../App';
 
 const getFilteredPins = (searchFilters: SearchFilters) => {
-  return fetch('https://api.findcovidtesting.com/api/v1/location')
+  console.log(process.env.NODE_ENV);
+  const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/api/v1/location`;
+  return fetch(endpoint)
     .then((results: any) => results.json())
     .then((data: any) => {
       return (data as any).filter((place: any) => {
