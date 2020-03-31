@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ReactMapGL, { GeolocateControl, NavigationControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
@@ -35,10 +35,12 @@ const mapRef = React.createRef<ReactMapGL>();
 const Map = (props: MapProps) => {
   const { viewState, setViewState, onClickPin, geocoderContainerRef } = props;
   const searchFilters = useContext(SearchContext);
-  const filteredPins = useMemo(() => getFilteredPins(searchFilters), [
-    searchFilters,
-  ]);
-
+  const [pinData, setPinData] = useState([]);
+  useMemo(() => getFilteredPins(searchFilters), [searchFilters]).then(
+    (result) => {
+      setPinData(result);
+    }
+  );
   function onClickCluster(latitude: number, longitude: number, zoom: number) {
     setViewState({
       viewState: {
@@ -107,7 +109,7 @@ const Map = (props: MapProps) => {
         </Geolocation>
       </Navigation>
       <Pins
-        data={filteredPins}
+        data={pinData}
         onClickPin={onClickPin}
         onClickCluster={onClickCluster}
         mapRef={mapRef}
