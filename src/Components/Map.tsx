@@ -79,6 +79,7 @@ const Map = (props: MapProps) => {
           }}
           containerRef={geocoderContainerRef}
           countries="US"
+          placeholder="Enter a location"
           mapRef={mapRef}
           mapboxApiAccessToken={MAPBOX_TOKEN}
         />
