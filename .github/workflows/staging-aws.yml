@@ -20,6 +20,8 @@ jobs:
     
     - name: Generate static
       run: npm run build
+      env:
+        REACT_APP_API_ENDPOINT: 'https://api.staging.findcovidtesting.com'
 
     # Upload to S3
     - name: sync s3

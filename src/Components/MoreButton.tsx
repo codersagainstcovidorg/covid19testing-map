@@ -43,6 +43,7 @@ const MoreButton = () => {
             onClick={handleClose}
             component="a"
             href={href}
+            key={title}
             target="_blank"
             rel="noopener"
           >

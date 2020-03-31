@@ -2,7 +2,6 @@ import * as React from 'react';
 import { withTheme } from '@material-ui/core/styles';
 
 const LocationIcon = ({ theme, ...props }: any) => {
-  console.log(theme);
   return (
     <svg viewBox="0 0 18 24" {...props}>
       <defs>

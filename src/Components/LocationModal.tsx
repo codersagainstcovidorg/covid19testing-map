@@ -101,16 +101,14 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
   };
 
   const details: any = [];
-  Object.keys(labelMap)
-    .filter((key: string) => key !== 'is_verified')
-    .forEach((key: string) => {
-      details.push({
-        type: 'boolean',
-        title: labelMap[key].card,
-        key,
-        icon: labelMap[key].icon,
-      });
+  Object.keys(labelMap).forEach((key: string) => {
+    details.push({
+      type: 'boolean',
+      title: labelMap[key].card,
+      key,
+      icon: labelMap[key].icon,
     });
+  });
   const address = `${location.location_address_street.trim()}, ${location.location_address_locality.trim()}, ${location.location_address_region.trim()} ${location.location_address_postal_code.trim()}`;
 
   return (
