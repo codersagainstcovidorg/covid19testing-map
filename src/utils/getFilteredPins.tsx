@@ -1,7 +1,6 @@
 import { SearchFilters } from '../App';
 
 const getFilteredPins = (searchFilters: SearchFilters) => {
-  console.log(process.env.NODE_ENV);
   const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/api/v1/location`;
   return fetch(endpoint)
     .then((results: any) => results.json())
