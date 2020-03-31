@@ -21,8 +21,8 @@ code {
 .mapboxgl-ctrl-geocoder {
   box-shadow: none !important;
   background-color: transparent !important;
-  max-width: 42vw;
-  width: 42vw;
+  max-width: 42vw !important;
+  width: 42vw !important;
 }
 
 .mapboxgl-ctrl-geocoder .suggestions {

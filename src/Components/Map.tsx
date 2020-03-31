@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import React, {useContext, useMemo, useState} from 'react';
-import ReactMapGL, {GeolocateControl, NavigationControl} from 'react-map-gl';
+import React, { useContext, useMemo, useState } from 'react';
+import ReactMapGL, { GeolocateControl, NavigationControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import Pins from './Pins';
-import {SearchContext} from '../App';
-import {MAPBOX_TOKEN} from '../constants';
+import { SearchContext } from '../App';
+import { MAPBOX_TOKEN } from '../constants';
 import getFilteredPins from '../utils/getFilteredPins';
 
 type MapProps = {
@@ -79,7 +79,6 @@ const Map = (props: MapProps) => {
           }}
           containerRef={geocoderContainerRef}
           countries="US"
-          placeholder="Enter a location"
           mapRef={mapRef}
           mapboxApiAccessToken={MAPBOX_TOKEN}
         />
