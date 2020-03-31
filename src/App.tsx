@@ -14,7 +14,7 @@ import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
-import { trackLocationPrompt, trackDrawerStatus } from './utils/tracking';
+import { trackDrawerStatus, trackLocationPrompt } from './utils/tracking';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
