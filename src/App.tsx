@@ -220,8 +220,6 @@ export class App extends React.Component<{}, AppState> {
         <SearchContext.Provider value={filters}>
           <LayoutContainer style={{ height: viewportHeight }}>
             <LegalModal />
-            <DataUpdateSnackbar />
-
             <HeaderContainer>
               <Header toggleDrawer={toggleDrawer} />
             </HeaderContainer>
