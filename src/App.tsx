@@ -11,7 +11,6 @@ import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
 import Header from './Components/Header';
-import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
