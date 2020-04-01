@@ -124,7 +124,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
           <Grid key={2} item md={3} xs={12}>
             <List>
               {details.map((item: any) => {
-                return location[item.key] === 'TRUE' ? (
+                return location[item.key] === true ? (
                   <ListItem key={item.key}>
                     <ListItemAvatar>
                       <Avatar>
