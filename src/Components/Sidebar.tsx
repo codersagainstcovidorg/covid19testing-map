@@ -1,82 +1,51 @@
 import React from 'react';
-import {
-  Drawer,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Divider,
-} from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
+import styled from 'styled-components';
 
 import VerticalLinearStepper from './StepperVertical';
-import { SearchContext, SearchFilters, labelMap } from '../App';
+
+const DrawerContent = styled.div`
+  padding-bottom: 75px;
+  min-width: 25%;
+  max-width: 450px;
+`;
+
+const Heading = styled.h3`
+  color: black;
+  text-align: center;
+  padding-top: 10px;
+`;
+
+const Warning = styled(Typography)`
+  padding: 12%;
+  font-weight: bold !important;
+  font-size: 1.3rem !important;
+  color: #e45b26;
+  text-align: center;
+`;
+
+const SectionDivider = styled(Divider)`
+  margin: 10px 24px !important;
+`;
 
 type SidebarProps = {
   drawerOpen: boolean;
   toggleFilter: Function;
 };
 
-const Sidebar = ({ drawerOpen, toggleFilter }: SidebarProps) => (
-  <SearchContext.Consumer>
-    {(searchFilters) => (
-      <Drawer variant="persistent" anchor="left" open={drawerOpen}>
-        <div
-          style={{
-            paddingBottom: '75px',
-            minWidth: '25%',
-            maxWidth: '450px',
-          }}
-        >
-          <h3
-            style={{ color: 'black', textAlign: 'center', paddingTop: '10px' }}
-          >
-            Before you get started
-          </h3>
-          <Typography
-            style={{
-              padding: '12%',
-              fontWeight: 'bold',
-              fontSize: '1.3rem',
-              color: '#E45B26',
-              textAlign: 'center',
-            }}
-          >
-            If this is a medical emergency, stop and dial 911.
-          </Typography>
+const Sidebar = ({ drawerOpen }: SidebarProps) => (
+  <Drawer variant="persistent" anchor="left" open={drawerOpen}>
+    <DrawerContent>
+      <Heading>Before you get started</Heading>
+      <Warning>If this is a medical emergency, stop and dial 911.</Warning>
 
-          <Divider style={{ margin: 10 }} />
+      <SectionDivider />
 
-          <FormGroup
-            style={{
-              paddingLeft: '15%',
-              paddingRight: '10%',
-              paddingTop: '16px',
-              paddingBottom: '16px',
-            }}
-          >
-            {Object.keys(searchFilters).map((filter: string, idx: number) => (
-              <FormControlLabel
-                key={`toggle-${idx}`}
-                label={labelMap[filter].sidebar}
-                labelPlacement="start"
-                control={
-                  <Switch
-                    size="small"
-                    checked={searchFilters[filter as keyof SearchFilters]}
-                    onChange={() => toggleFilter(filter)}
-                  />
-                }
-              />
-            ))}
-          </FormGroup>
-
-          <Divider style={{ margin: 10 }} />
-
-          <VerticalLinearStepper />
-        </div>
-      </Drawer>
-    )}
-  </SearchContext.Consumer>
+      <VerticalLinearStepper />
+    </DrawerContent>
+  </Drawer>
 );
 
 export default Sidebar;
