@@ -142,9 +142,9 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
             color="primary"
             className={classes.callToAction}
             href={
-              location.location_contact_url_covid_screening_tool !== ''
-                ? location.location_contact_url_covid_screening_tool
-                : 'https://www.apple.com/covid19/'
+              (location.location_contact_url_covid_screening_tool == '' || location.location_contact_url_covid_screening_tool == null)
+                ? 'https://www.apple.com/covid19/'
+                : location.location_contact_url_covid_screening_tool
             }
             onClick={() => {
               handleLinkClicked(location.location_id, 'Website Click');
