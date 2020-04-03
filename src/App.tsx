@@ -10,7 +10,7 @@ import AppBar from './Components/AppBar';
 import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
-import Header from './Components/Header';
+// import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
@@ -23,10 +23,12 @@ const LayoutContainer = styled.div`
   flex-direction: column;
 `;
 
+/*
 const HeaderContainer = styled.div`
   z-index: 100;
   position: relative;
 `;
+*/
 
 const SidebarContainer = styled.div`
   z-index: 110;
@@ -154,7 +156,6 @@ export class App extends React.Component<{}, AppState> {
             longitude: res.coords.longitude,
           },
         });
-        console.log('setting', res.coords);
 
         this.setState({
           viewState: {
@@ -219,9 +220,10 @@ export class App extends React.Component<{}, AppState> {
         <SearchContext.Provider value={filters}>
           <LayoutContainer style={{ height: viewportHeight }}>
             <LegalModal />
-            <HeaderContainer>
+            {/* Not being used at the moment */}
+            {/* <HeaderContainer>
               <Header toggleDrawer={toggleDrawer} />
-            </HeaderContainer>
+            </HeaderContainer> */}
 
             <SidebarContainer>
               <Sidebar
