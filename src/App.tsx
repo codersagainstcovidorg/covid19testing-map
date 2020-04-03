@@ -74,7 +74,7 @@ export interface SearchFilters {
 
 // Initial state
 const defaultFilters: SearchFilters = {
-  is_ordering_tests_only_for_those_who_meeting_criteria: true,
+  is_ordering_tests_only_for_those_who_meeting_criteria: false,
   is_collecting_samples: true,
 };
 
