@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
-import ReactMapGL, { GeolocateControl, NavigationControl } from 'react-map-gl';
+import React, {useContext, useMemo, useState} from 'react';
+import ReactMapGL, {GeolocateControl, NavigationControl} from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import Pins from './Pins';
-import fetchPins from '../utils/fetchPins';
-import { MAPBOX_TOKEN } from '../constants';
+import {SearchContext} from '../App';
+import {MAPBOX_TOKEN} from '../constants';
+import getFilteredPins from '../utils/getFilteredPins';
 
 type MapProps = {
   onClickPin: Function;
@@ -33,12 +34,13 @@ const mapRef = React.createRef<ReactMapGL>();
 
 const Map = (props: MapProps) => {
   const { viewState, setViewState, onClickPin, geocoderContainerRef } = props;
-
+  const searchFilters = useContext(SearchContext);
   const [pinData, setPinData] = useState([]);
-  useEffect(() => {
-    fetchPins().then(setPinData);
-  }, []);
-
+  useMemo(() => getFilteredPins(searchFilters), [searchFilters]).then(
+    (result) => {
+      setPinData(result);
+    }
+  );
   function onClickCluster(latitude: number, longitude: number, zoom: number) {
     setViewState({
       viewState: {
