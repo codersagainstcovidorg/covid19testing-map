@@ -23,10 +23,12 @@ const LayoutContainer = styled.div`
   flex-direction: column;
 `;
 
+/*
 const HeaderContainer = styled.div`
   z-index: 100;
   position: relative;
 `;
+*/
 
 const SidebarContainer = styled.div`
   z-index: 110;

@@ -30,6 +30,7 @@ const LocationActions = ({
         area-label="directions"
         href={`https://maps.google.com/?&daddr=${address}`}
         target="_blank"
+        rel="noopener"
       >
         <DirectionsIcon />
       </IconButton>
@@ -40,6 +41,7 @@ const LocationActions = ({
         area-label="report"
         href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link"
         target="_blank"
+        rel="noopener"
         onClick={() => {
           onLinkClick(location.location_id, 'Report Error');
         }}

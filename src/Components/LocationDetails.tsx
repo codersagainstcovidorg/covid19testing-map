@@ -112,7 +112,11 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
           <Grid key={1} item md={5} xs={12}>
             <Typography style={{ paddingTop: '20px' }}>
               {'Visit '}
-              <Link href={location.location_contact_url_main}>
+              <Link
+                href={location.location_contact_url_main}
+                target="_blank"
+                rel="noopener"
+              >
                 this website
               </Link>
               {
