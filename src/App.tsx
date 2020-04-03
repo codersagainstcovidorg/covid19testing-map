@@ -154,7 +154,6 @@ export class App extends React.Component<{}, AppState> {
             longitude: res.coords.longitude,
           },
         });
-        console.log('setting', res.coords);
 
         this.setState({
           viewState: {
