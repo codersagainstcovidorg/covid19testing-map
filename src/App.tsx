@@ -10,7 +10,7 @@ import AppBar from './Components/AppBar';
 import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
 import LocationModal from './Components/LocationModal';
-import Header from './Components/Header';
+// import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
@@ -218,9 +218,10 @@ export class App extends React.Component<{}, AppState> {
         <SearchContext.Provider value={filters}>
           <LayoutContainer style={{ height: viewportHeight }}>
             <LegalModal />
-            <HeaderContainer>
+            {/* Not being used at the moment */}
+            {/* <HeaderContainer>
               <Header toggleDrawer={toggleDrawer} />
-            </HeaderContainer>
+            </HeaderContainer> */}
 
             <SidebarContainer>
               <Sidebar
