@@ -109,7 +109,7 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
       icon: labelMap[key].icon,
     });
   });
-  const address = `${location.location_address_street.trim()}, ${location.location_address_locality.trim()}, ${location.location_address_region.trim()} ${location.location_address_postal_code.trim()}`;
+  const address = `${location.location_address_street}, ${location.location_address_locality}, ${location.location_address_region} ${location.location_address_postal_code}`;
 
   return (
     <Modal
