@@ -45,7 +45,7 @@ const DataUpdateSnackbar = () => {
           variant="filled"
           icon={<InfoIcon />}
         >
-          Data updated: 04/3/2020 8:30AM EDT
+          Data updated: 04/4/2020 12:30AM EDT
         </MuiAlert>
       </Snackbar>
     </div>
