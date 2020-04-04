@@ -1,5 +1,6 @@
 import { IconButton } from '@material-ui/core';
 import PhoneIcon from '@material-ui/icons/Phone';
+import PhoneDisabledIcon from '@material-ui/icons/PhoneDisabled';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import React from 'react';
@@ -12,7 +13,7 @@ interface LocationActionsProps {
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
   return (
     <div>
-      {location.location_contact_phone_main !== null && (
+      {location.location_contact_phone_main !== null ? (
         <IconButton
           area-label="call"
           href={`tel://${location.location_contact_phone_main}`}
@@ -21,6 +22,10 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
           }}
         >
           <PhoneIcon />
+        </IconButton>
+      ) : (
+        <IconButton area-label="call" disabled>
+          <PhoneDisabledIcon />
         </IconButton>
       )}
       <IconButton
