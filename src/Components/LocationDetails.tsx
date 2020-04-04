@@ -15,14 +15,18 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faAmbulance,
   faCampground,
+  faCarSide,
   faCircle,
   faClinicMedical,
   faFirstAid,
   faHospital,
+  faHospitalAlt,
   faMedkit,
   faShieldAlt,
   faStethoscope,
+  faStore,
   faUserMd,
 } from '@fortawesome/free-solid-svg-icons';
 import { indigo, orange } from '@material-ui/core/colors';
@@ -51,6 +55,16 @@ interface DetailsProps {
 const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
   const classes = useStyles();
 
+  function getLocationName(param: String): String {
+    if (param === ' ') {
+      return 'Other';
+    }
+    if (param === 'Public Health Department') {
+      return 'Public Health Dept.';
+    }
+    return param;
+  }
+
   function renderLocationIcon(param: any): IconProp {
     switch (param) {
       case 'Urgent Care':
@@ -69,6 +83,14 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
         return faMedkit;
       case 'Public Health Department':
         return faShieldAlt;
+      case 'Drive-thru':
+        return faCarSide;
+      case 'Emergency Room':
+        return faAmbulance;
+      case 'FQHC':
+        return faHospitalAlt;
+      case 'Retail':
+        return faStore;
       default:
         return faHospital;
     }
@@ -98,12 +120,9 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
               <div style={{ width: '100%', textAlign: 'center' }}>
                 <Chip
                   size="medium"
-                  label={
-                    location.location_place_of_service_type ===
-                    'Public Health Department'
-                      ? 'Public Health Dept.'
-                      : location.location_place_of_service_type
-                  }
+                  label={getLocationName(
+                    location.location_place_of_service_typeZ
+                  )}
                   className={classes.typeChip}
                 />
               </div>
