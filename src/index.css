@@ -20,7 +20,10 @@ code {
 
 .mapboxgl-ctrl-geocoder {
   box-shadow: none !important;
-  background-color: transparent !important;
+  background-color: lightgray !important;
+}
+::placeholder {
+  color: dimgray;
 }
 
 .mapboxgl-ctrl-geocoder .suggestions {

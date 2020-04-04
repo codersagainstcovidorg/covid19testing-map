@@ -36,7 +36,7 @@ const DataUpdateSnackbar = () => {
         open={open}
         autoHideDuration={4500}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         disableWindowBlurListener={false}
       >
         <MuiAlert
