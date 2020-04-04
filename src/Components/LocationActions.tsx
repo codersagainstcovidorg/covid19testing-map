@@ -7,14 +7,9 @@ import React from 'react';
 interface LocationActionsProps {
   location: any;
   onLinkClick: Function;
-  address: string;
 }
 
-const LocationActions = ({
-  location,
-  onLinkClick,
-  address,
-}: LocationActionsProps) => {
+const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
   return (
     <div>
       <IconButton
@@ -28,7 +23,7 @@ const LocationActions = ({
       </IconButton>
       <IconButton
         area-label="directions"
-        href={`https://maps.google.com/?&daddr=${address}`}
+        href={`https://www.google.com/maps/dir/?api=1&destination=${location.location_latitude},${location.location_longitude}`}
         target="_blank"
         rel="noopener"
       >

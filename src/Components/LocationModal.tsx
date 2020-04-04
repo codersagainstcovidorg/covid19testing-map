@@ -127,7 +127,6 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
             <LocationActions
               onLinkClick={handleLinkClicked}
               location={location}
-              address={address}
             />
           }
         />
