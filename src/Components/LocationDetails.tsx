@@ -51,6 +51,16 @@ interface DetailsProps {
 const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
   const classes = useStyles();
 
+  function getLocationName(param: String): String {
+    if (param === ' ') {
+      return 'Other';
+    }
+    if (param === 'Public Health Department') {
+      return 'Public Health Dept.';
+    }
+    return param;
+  }
+
   function renderLocationTestingDetails(locationToRender: any): any {
     if (
       locationToRender.location_specific_testing_criteria !== null &&
@@ -122,6 +132,14 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
         return faMedkit;
       case 'Public Health Department':
         return faShieldAlt;
+      case 'Drive-thru':
+        return faCarSide;
+      case 'Emergency Room':
+        return faAmbulance;
+      case 'FQHC':
+        return faHospitalAlt;
+      case 'Retail':
+        return faStore;
       default:
         return faHospital;
     }
@@ -151,12 +169,9 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
               <div style={{ width: '100%', textAlign: 'center' }}>
                 <Chip
                   size="medium"
-                  label={
-                    location.location_place_of_service_type ===
-                    'Public Health Department'
-                      ? 'Public Health Dept.'
-                      : location.location_place_of_service_type
-                  }
+                  label={getLocationName(
+                    location.location_place_of_service_typeZ
+                  )}
                   className={classes.typeChip}
                 />
               </div>

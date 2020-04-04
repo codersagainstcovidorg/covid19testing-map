@@ -1,5 +1,6 @@
 import { IconButton } from '@material-ui/core';
 import PhoneIcon from '@material-ui/icons/Phone';
+import PhoneDisabledIcon from '@material-ui/icons/PhoneDisabled';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import React from 'react';
@@ -12,15 +13,21 @@ interface LocationActionsProps {
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
   return (
     <div>
-      <IconButton
-        area-label="call"
-        href={`tel://${location.location_contact_phone_main}`}
-        onClick={() => {
-          onLinkClick(location.location_id, 'Call');
-        }}
-      >
-        <PhoneIcon />
-      </IconButton>
+      {location.location_contact_phone_main !== null ? (
+        <IconButton
+          area-label="call"
+          href={`tel://${location.location_contact_phone_main}`}
+          onClick={() => {
+            onLinkClick(location.location_id, 'Call');
+          }}
+        >
+          <PhoneIcon />
+        </IconButton>
+      ) : (
+        <IconButton area-label="call" disabled>
+          <PhoneDisabledIcon />
+        </IconButton>
+      )}
       <IconButton
         area-label="directions"
         href={`https://www.google.com/maps/dir/?api=1&destination=${location.location_latitude},${location.location_longitude}`}
