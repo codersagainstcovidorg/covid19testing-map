@@ -3,6 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
+import fetchLastUpdated from '../utils/fetchLastUpdated';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const DataUpdateSnackbar = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [lastUpdated, setLastUpdated] = React.useState<string>('');
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
@@ -29,6 +31,13 @@ const DataUpdateSnackbar = () => {
 
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    fetchLastUpdated().then((time) => {
+      setLastUpdated(time);
+      setOpen(true);
+    });
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -45,7 +54,8 @@ const DataUpdateSnackbar = () => {
           variant="filled"
           icon={<InfoIcon />}
         >
-          Data updated: 04/4/2020 12:30AM EDT
+          Data updated:
+          {` ${lastUpdated}`}
         </MuiAlert>
       </Snackbar>
     </div>
