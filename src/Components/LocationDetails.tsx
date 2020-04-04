@@ -15,14 +15,18 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faAmbulance,
   faCampground,
+  faCarSide,
   faCircle,
   faClinicMedical,
   faFirstAid,
   faHospital,
+  faHospitalAlt,
   faMedkit,
   faShieldAlt,
   faStethoscope,
+  faStore,
   faUserMd,
 } from '@fortawesome/free-solid-svg-icons';
 import { indigo, orange } from '@material-ui/core/colors';
