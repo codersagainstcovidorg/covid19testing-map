@@ -12,15 +12,17 @@ interface LocationActionsProps {
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
   return (
     <div>
-      <IconButton
-        area-label="call"
-        href={`tel://${location.location_contact_phone_main}`}
-        onClick={() => {
-          onLinkClick(location.location_id, 'Call');
-        }}
-      >
-        <PhoneIcon />
-      </IconButton>
+      {location.location_contact_phone_main !== null && (
+        <IconButton
+          area-label="call"
+          href={`tel://${location.location_contact_phone_main}`}
+          onClick={() => {
+            onLinkClick(location.location_id, 'Call');
+          }}
+        >
+          <PhoneIcon />
+        </IconButton>
+      )}
       <IconButton
         area-label="directions"
         href={`https://www.google.com/maps/dir/?api=1&destination=${location.location_latitude},${location.location_longitude}`}
