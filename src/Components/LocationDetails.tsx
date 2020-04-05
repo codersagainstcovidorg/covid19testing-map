@@ -56,7 +56,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
   const classes = useStyles();
 
   function getLocationName(param: String): String {
-    if (param === ' ') {
+    if (param === null || param === undefined || param.length < 4) {
       return 'Other';
     }
     if (param === 'Public Health Department') {

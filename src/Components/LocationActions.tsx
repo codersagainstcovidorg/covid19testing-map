@@ -13,7 +13,8 @@ interface LocationActionsProps {
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
   return (
     <div>
-      {location.location_contact_phone_main !== null ? (
+      {location.location_contact_phone_main !== null &&
+      location.location_contact_phone_main.length > 4 ? (
         <IconButton
           area-label="call"
           href={`tel://${location.location_contact_phone_main}`}
