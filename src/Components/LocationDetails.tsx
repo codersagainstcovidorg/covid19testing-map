@@ -65,6 +65,59 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     return param;
   }
 
+  function renderLocationTestingDetails(locationToRender: any): any {
+    if (
+      locationToRender.location_specific_testing_criteria !== null &&
+      locationToRender.location_specific_testing_criteria.substring(0, 4) !==
+        'http' &&
+      locationToRender.location_specific_testing_criteria.length > 3
+    ) {
+      return (
+        <Grid key={1} item md={5} xs={12}>
+          <Typography style={{ paddingTop: '20px' }}>
+            {locationToRender.location_specific_testing_criteria}
+          </Typography>
+        </Grid>
+      );
+    }
+
+    let urlToRender = '';
+
+    if (
+      locationToRender.location_contact_url_main !== null &&
+      locationToRender.location_specific_testing_criteria.substring(0, 4) ===
+        'http'
+    ) {
+      urlToRender = locationToRender.location_contact_url_main;
+    } else if (
+      locationToRender.location_contact_url_covid_info !== null &&
+      locationToRender.location_contact_url_covid_info.length > 3
+    ) {
+      urlToRender = locationToRender.location_contact_url_covid_info;
+    } else if (
+      locationToRender.location_contact_url_main !== null &&
+      locationToRender.location_contact_url_main.length > 3
+    ) {
+      urlToRender = locationToRender.location_contact_url_main;
+    } else {
+      urlToRender =
+        'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#';
+    }
+    return (
+      <Grid key={1} item md={5} xs={12}>
+        <Typography style={{ paddingTop: '20px' }}>
+          {'Visit '}
+          <Link href={urlToRender} target="_blank" rel="noopener">
+            this website
+          </Link>
+          {
+            ' for information about COVID-19 screening and testing services at this location.'
+          }
+        </Typography>
+      </Grid>
+    );
+  }
+
   function renderLocationIcon(param: any): IconProp {
     switch (param) {
       case 'Urgent Care':
@@ -128,21 +181,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
               </div>
             </div>
           </Grid>
-          <Grid key={1} item md={5} xs={12}>
-            <Typography style={{ paddingTop: '20px' }}>
-              {'Visit '}
-              <Link
-                href={location.location_contact_url_main}
-                target="_blank"
-                rel="noopener"
-              >
-                this website
-              </Link>
-              {
-                ' for information about COVID-19 screening and testing services at this location.'
-              }
-            </Typography>
-          </Grid>
+          {renderLocationTestingDetails(location)}
           <Divider orientation="vertical" flexItem />
           <Grid key={2} item md={3} xs={12}>
             <List>
