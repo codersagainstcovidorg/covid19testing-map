@@ -14,7 +14,11 @@ import LocationModal from './Components/LocationModal';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
-import { trackDrawerStatus, trackLocationPrompt } from './utils/tracking';
+import {
+  trackDrawerStatus,
+  trackLocationPrompt,
+  trackUserLocation,
+} from './utils/tracking';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -149,18 +153,21 @@ export class App extends React.Component<{}, AppState> {
   locateUser() {
     navigator.geolocation.getCurrentPosition(
       (res: GeolocationCoordinates) => {
+        const { latitude, longitude } = res.coords;
+        trackUserLocation(latitude, longitude);
+
         dataLayer.push({
           event: 'pageview',
           location: {
-            latitude: res.coords.latitude,
-            longitude: res.coords.longitude,
+            latitude,
+            longitude,
           },
         });
 
         this.setState({
           viewState: {
-            latitude: res.coords.latitude,
-            longitude: res.coords.longitude,
+            latitude,
+            longitude,
             zoom: 8,
             bearing: 0,
             pitch: 0,
@@ -187,12 +194,22 @@ export class App extends React.Component<{}, AppState> {
       .then((r: Response) => r.json())
       .then((data) => {
         if (data.status === 'success') {
+          const { lat, lon } = data;
           trackLocationPrompt('Success');
+
+          trackUserLocation(lat, lon);
+          dataLayer.push({
+            event: 'pageview',
+            location: {
+              latitude: lat,
+              longitude: lon,
+            },
+          });
 
           this.setState({
             viewState: {
-              latitude: data.lat,
-              longitude: data.lon,
+              latitude: lat,
+              longitude: lon,
               zoom: 8,
               bearing: 0,
               pitch: 0,
