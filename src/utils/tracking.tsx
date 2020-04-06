@@ -22,12 +22,16 @@ export const trackDrawerStatus = (action: boolean): void => {
   });
 };
 
+let isLocationTracked = false;
 export const trackUserLocation = (lat: number, lon: number): void => {
-  ReactGA.event({
-    category: 'Geolocation',
-    action: 'Set',
-    label: `${lat},${lon}`,
-  });
+  if (!isLocationTracked) {
+    ReactGA.event({
+      category: 'Geolocation',
+      action: 'Set',
+      label: `${lat},${lon}`,
+    });
+    isLocationTracked = true;
+  }
 };
 
 export const trackEvent = (eventData: any): void => ReactGA.event(eventData);
