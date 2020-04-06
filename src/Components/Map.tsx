@@ -6,6 +6,7 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import Pins from './Pins';
 import fetchPins from '../utils/fetchPins';
+import { trackUserLocation } from '../utils/tracking';
 import { MAPBOX_TOKEN } from '../constants';
 
 type MapProps = {
@@ -99,6 +100,7 @@ const Map = (props: MapProps) => {
             positionOptions={{ enableHighAccuracy: true }}
             onGeolocate={(data: any) => {
               const { latitude, longitude } = data.coords;
+              trackUserLocation(latitude, longitude);
               setViewState({
                 viewState: { ...viewState, latitude, longitude },
               });
