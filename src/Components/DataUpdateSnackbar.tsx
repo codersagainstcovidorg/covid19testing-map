@@ -54,7 +54,6 @@ const DataUpdateSnackbar = () => {
           variant="filled"
           icon={<InfoIcon />}
         > 
-          GA residents - we're adding more locations check back often |
           Last update:
           {` ${lastUpdated}`}
         </MuiAlert>
