@@ -6,6 +6,7 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
+import Joyride from 'react-joyride';
 import AppBar from './Components/AppBar';
 import Sidebar from './Components/Sidebar';
 import Map from './Components/Map';
@@ -19,6 +20,8 @@ import {
   trackLocationPrompt,
   trackUserLocation,
 } from './utils/tracking';
+import GuideModal from './Components/GuideModal';
+import SearchStep from './Components/SearchStep';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -88,7 +91,10 @@ interface AppState {
   filters: SearchFilters;
   drawerOpen: boolean;
   currentPlace: any;
+  guideAnswered: boolean;
+  searchEmpty: boolean;
   viewState: any;
+  steps: any;
   viewportHeight: number;
 }
 
@@ -112,11 +118,12 @@ const dataLayer = (window as any).dataLayer || [];
 export class App extends React.Component<{}, AppState> {
   constructor(props: any) {
     super(props);
-
     this.state = {
       viewportHeight: 0,
       filters: defaultFilters,
       currentPlace: null,
+      guideAnswered: false,
+      searchEmpty: true,
       drawerOpen: false,
       viewState: {
         longitude: -122.1419,
@@ -125,6 +132,14 @@ export class App extends React.Component<{}, AppState> {
         bearing: 0,
         pitch: 0,
       },
+      steps: [
+        {
+          target: '.search-container',
+          content: <SearchStep />,
+          placement: 'right-end',
+          disableBeacon: true,
+        },
+      ],
     };
   }
 
@@ -135,6 +150,7 @@ export class App extends React.Component<{}, AppState> {
       console.error('failed to locate user', e);
     }
 
+    geocoderContainerRef.current.focus();
     // detect resize events and set viewport height
     windowListener = window.addEventListener('resize', () => this.setHeight());
     this.setHeight();
@@ -226,6 +242,9 @@ export class App extends React.Component<{}, AppState> {
       drawerOpen,
       viewState,
       viewportHeight,
+      guideAnswered,
+      searchEmpty,
+      steps,
     } = this.state;
     const toggleDrawer = () => {
       this.setState({ drawerOpen: !drawerOpen });
@@ -236,12 +255,28 @@ export class App extends React.Component<{}, AppState> {
       <ThemeProvider theme={theme}>
         <SearchContext.Provider value={filters}>
           <LayoutContainer style={{ height: viewportHeight }}>
+            <GuideModal
+              onClose={() => {
+                this.setState({ guideAnswered: true });
+              }}
+            />
+            <Joyride
+              steps={steps}
+              styles={{
+                options: {
+                  zIndex: 1000,
+                },
+              }}
+              run={guideAnswered && searchEmpty}
+              spotlightClicks
+              disableOverlayClose
+            />
+
             <LegalModal />
             {/* Not being used at the moment */}
             {/* <HeaderContainer>
               <Header toggleDrawer={toggleDrawer} />
             </HeaderContainer> */}
-
             <SidebarContainer>
               <Sidebar
                 drawerOpen={drawerOpen}
@@ -269,10 +304,10 @@ export class App extends React.Component<{}, AppState> {
                 onClickPin={(place: any) => {
                   this.setState({ currentPlace: place });
                 }}
+                didSearch={this.setState({ searchEmpty: false })}
                 geocoderContainerRef={geocoderContainerRef}
               />
             </MapContainer>
-
             {currentPlace !== null && (
               <LocationModal
                 location={currentPlace}

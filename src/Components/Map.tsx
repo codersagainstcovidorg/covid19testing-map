@@ -79,6 +79,10 @@ const Map = (props: MapProps) => {
           containerRef={geocoderContainerRef}
           countries="US"
           mapRef={mapRef}
+          onLoading={() => {
+
+          }}
+          className="search-container"
           mapboxApiAccessToken={MAPBOX_TOKEN}
         />
         <Zoom>

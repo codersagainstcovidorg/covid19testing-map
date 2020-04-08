@@ -38,7 +38,10 @@ const AppBar = (props: AppBarProps) => {
   return (
     <MuiAppBar position="relative" color="default">
       <Toolbar>
-        <SearchContainer ref={geocoderContainerRef} />
+        <SearchContainer
+          className="search-container"
+          ref={geocoderContainerRef}
+        />
 
         <ActionButtonContainer>
           <Fab onClick={toggleDrawer} color="primary">
