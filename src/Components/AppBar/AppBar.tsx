@@ -11,7 +11,7 @@ import { TextField } from '@material-ui/core';
 import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import MoreButton from './MoreButton';
 import { ADD_LOCATION_FORM } from '../../constants';
-import GoogleMapSearch from '../../GoogleMapSearch';
+import MapSearch from '../Map/MapSearch';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -42,7 +42,7 @@ const AppBar = (props: AppBarProps) => {
   return (
     <MuiAppBar position="relative" color="default">
       <Toolbar>
-        <GoogleMapSearch map={map} />
+        <MapSearch map={map} />
 
         <ActionButtonContainer>
           <Fab onClick={toggleDrawer} color="primary">

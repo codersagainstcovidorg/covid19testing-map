@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ReactGA from 'react-ga';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../GoogleApp';
+import { labelMap } from '../App';
 
 const useStyles = makeStyles(() =>
   createStyles({
