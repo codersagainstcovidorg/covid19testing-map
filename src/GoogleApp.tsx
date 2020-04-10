@@ -214,6 +214,7 @@ const GoogleApp = () => {
           <GuideModal
             modalShouldOpen={guideModalOpen}
             handleResponse={() => {
+              setGuideModalOpen(false);
               setGatewayAnswered(true);
             }}
           />
@@ -243,13 +244,7 @@ const GoogleApp = () => {
           {/*  /> */}
           {/* </SidebarContainer> */}
 
-          <MapContainer
-            onClick={() => {
-              if (guideModalOpen) {
-                setGuideModalOpen(false);
-              }
-            }}
-          >
+          <MapContainer>
             <MapWithGoogle
               onClickPin={(place: any) => {
                 setCurrentPlace(place);

@@ -86,7 +86,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               color="primary"
               className={classes.responseButton}
               onClick={() => {
-                onResponseClick(true);
+                onResponseClick();
               }}
             >
               Yes
@@ -97,7 +97,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               color="primary"
               className={classes.responseButton}
               onClick={() => {
-                onResponseClick(false);
+                onResponseClick();
               }}
             >
               No

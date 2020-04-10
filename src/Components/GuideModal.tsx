@@ -39,10 +39,7 @@ interface GatewayModalProps {
   handleResponse: Function;
 }
 
-const GuideModal = ({
-  modalShouldOpen,
-  handleResponse,
-}: GatewayModalProps) => {
+const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -70,7 +67,7 @@ const GuideModal = ({
       onClose={() => {
         handleResponse();
       }}
-      disableEnforceFocus
+      disableBackdropClick
     >
       <Card className={classes.card}>
         <DoctorCard onResponseClick={closeModal} />

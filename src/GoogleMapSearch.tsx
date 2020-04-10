@@ -12,7 +12,9 @@ const GoogleMapSearch = () => {
   };
 
   const onPlacesChanged = () => {
-    map.fitBounds(searchBox.getPlaces()[0].geometry.viewport);
+    if (searchBox.getPlaces()[0] !== undefined) {
+      map.fitBounds(searchBox.getPlaces()[0].geometry.viewport);
+    }
   };
 
   return (

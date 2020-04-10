@@ -17,7 +17,6 @@ const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   }, []);
 
   function pinClicked(e: any, place: any) {
-    console.log(e);
     map.panTo(e.latLng);
     onClickPin(place);
   }
