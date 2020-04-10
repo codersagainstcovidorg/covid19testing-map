@@ -216,8 +216,12 @@ const App = () => {
         <LayoutContainer style={{ height: viewportHeight }}>
           <GuideModal
             modalShouldOpen={guideModalOpen}
-            handleResponse={() => {
+            handleYesResponse={() => {
+              setGuideModalOpen(false);
               setGatewayAnswered(true);
+            }}
+            handleNoResponse={() => {
+              setGuideModalOpen(false);
             }}
           />
           <Joyride

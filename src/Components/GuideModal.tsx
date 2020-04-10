@@ -36,10 +36,15 @@ const useStyles = makeStyles(() =>
 
 interface GatewayModalProps {
   modalShouldOpen: boolean;
-  handleResponse: Function;
+  handleYesResponse: Function;
+  handleNoResponse: Function;
 }
 
-const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
+const GuideModal = ({
+  modalShouldOpen,
+  handleYesResponse,
+  handleNoResponse,
+}: GatewayModalProps) => {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -47,8 +52,12 @@ const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
     setModalOpen(modalShouldOpen);
   }, [modalShouldOpen]);
 
-  function closeModal() {
-    handleResponse();
+  function closeModal(response: boolean) {
+    if (response) {
+      handleYesResponse();
+    } else {
+      handleNoResponse();
+    }
     setModalOpen(false);
   }
   const details: any = [];
@@ -61,14 +70,7 @@ const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
     });
   });
   return (
-    <Modal
-      className={classes.modal}
-      open={modalOpen}
-      onClose={() => {
-        handleResponse();
-      }}
-      disableBackdropClick
-    >
+    <Modal className={classes.modal} open={modalOpen} disableBackdropClick>
       <Card className={classes.card}>
         <DoctorCard onResponseClick={closeModal} />
       </Card>

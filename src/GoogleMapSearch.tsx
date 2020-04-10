@@ -34,8 +34,8 @@ const GoogleMapSearch = () => {
           outline: `none`,
           textOverflow: `ellipses`,
           position: 'absolute',
-          top: '10px',
-          right: '10px',
+          bottom: '10px',
+          left: '10px',
         }}
       />
     </StandaloneSearchBox>

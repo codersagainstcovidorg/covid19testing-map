@@ -1,4 +1,4 @@
-import { Marker, useGoogleMap } from '@react-google-maps/api';
+import { Marker, MarkerClusterer, useGoogleMap } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import fetchPins from './utils/fetchPins';
 import { trackLinkClicked } from './utils/tracking';
@@ -23,21 +23,22 @@ const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
 
   return (
     <div>
-      {pinData.map((place: any, index: number) => {
-        /* eslint-disable react/no-array-index-key */
-        return (
-          <Marker
-            key={`marker-${index}`}
-            position={{
-              lng: place.location_longitude,
-              lat: place.location_latitude,
-            }}
-            onClick={(e) => {
-              pinClicked(e, place);
-            }}
-          />
-        );
-      })}
+      <MarkerClusterer>
+        {(clusterer) =>
+          pinData.map((place: any) => (
+            <Marker
+              key={`marker-${place.location_latitude}-${place.location_longitude}`}
+              position={{
+                lng: place.location_longitude,
+                lat: place.location_latitude,
+              }}
+              clusterer={clusterer}
+              onClick={(e) => {
+                pinClicked(e, place);
+              }}
+            />
+          ))}
+      </MarkerClusterer>
     </div>
   );
 };
