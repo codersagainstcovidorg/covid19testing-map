@@ -51,15 +51,6 @@ interface DoctorStepProps {
 
 const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
   const classes = useStyles();
-
-  const handleLinkClicked = (locationId: string, action: string): void => {
-    ReactGA.event({
-      category: 'Location',
-      action,
-      label: locationId,
-    });
-  };
-
   const details: any = [];
   Object.keys(labelMap).forEach((key: string) => {
     details.push({

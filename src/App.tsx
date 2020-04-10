@@ -83,7 +83,7 @@ export interface SearchFilters {
 // Initial state
 const defaultFilters: SearchFilters = {
   is_ordering_tests_only_for_those_who_meeting_criteria: false,
-  is_collecting_samples: true,
+  is_collecting_samples: false,
 };
 
 interface GeolocationCoordinates {
@@ -115,6 +115,7 @@ const App = () => {
     bearing: 0,
     pitch: 0,
   });
+  const [filters, setFilters] = useState(defaultFilters);
 
   function geoIPFallback() {
     trackLocationPrompt('Attempt');
@@ -200,7 +201,6 @@ const App = () => {
     };
   });
 
-  const filters = defaultFilters;
   const steps: Step[] = [
     {
       target: '.search-container',
@@ -270,6 +270,11 @@ const App = () => {
               location={currentPlace}
               onClose={() => {
                 setCurrentPlace(null);
+              }}
+              toggleFilter={(filterKey: keyof SearchFilters) => {
+                setFilters((prevState) => {
+                  return { ...prevState, [filterKey]: !filters[filterKey] };
+                });
               }}
             />
           )}

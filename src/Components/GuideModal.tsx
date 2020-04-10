@@ -39,7 +39,10 @@ interface GatewayModalProps {
   handleResponse: Function;
 }
 
-const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
+const GuideModal = ({
+  modalShouldOpen,
+  handleResponse,
+}: GatewayModalProps) => {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
 

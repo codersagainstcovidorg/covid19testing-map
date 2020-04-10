@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   createStyles,
+  DialogContentText,
   Divider,
   IconButton,
   Modal,
@@ -20,6 +21,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
+import InfoAlert from './InfoAlert';
+import ShortQuestionAlert from './ShortQuestionAlert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,14 +84,32 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LocationModalProps {
   location: any;
   onClose: Function;
+  toggleFilter: Function;
 }
 
-const LocationModal = ({ location, onClose }: LocationModalProps) => {
+const LocationModal = ({
+  location,
+  onClose,
+  toggleFilter,
+}: LocationModalProps) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [showNavigateAwayAlert, setShowNavigateAwayAlert] = React.useState(
+    false
+  );
+  const [
+    showSelfAssessmentCompletedAlert,
+    setShowSelfAssessmentCompletedAlert,
+  ] = React.useState(false);
+  const [showNeedHelp, setShowNeedHelp] = React.useState(false);
+  const [showMapUpdatedAlert, setShowMapUpdatedAlert] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  useEffect(() => {
+    setShowSelfAssessmentCompletedAlert(false);
+  }, []);
 
   const classes = useStyles();
 
@@ -101,7 +122,11 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
   }
 
   function handleCheckSymptomsClicked() {
+    setShowNavigateAwayAlert(true);
+  }
 
+  function navigateAwayAgreed() {
+    setShowNavigateAwayAlert(false);
     window.open(
       location.location_contact_url_covid_screening_tool === '' ||
         location.location_contact_url_covid_screening_tool === null ||
@@ -110,6 +135,30 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
         : location.location_contact_url_covid_screening_tool,
       '_blank'
     );
+    setShowSelfAssessmentCompletedAlert(true);
+  }
+
+  function mapUpdateAgreed() {
+    setShowMapUpdatedAlert(false);
+  }
+
+  function completedAssessment() {
+    setShowSelfAssessmentCompletedAlert(false);
+    setShowNeedHelp(true);
+  }
+
+  function didNotCompleteAssessment() {
+    setShowSelfAssessmentCompletedAlert(false);
+  }
+
+  function needHelp() {
+    setShowNeedHelp(false);
+    setShowMapUpdatedAlert(true);
+    toggleFilter('is_collecting_samples');
+  }
+
+  function doesNotNeedHelp() {
+    setShowNeedHelp(false);
   }
 
   const details: any = [];
@@ -183,6 +232,30 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
           location={location}
           expanded={expanded}
           details={details}
+        />
+        <InfoAlert
+          showAlert={showNavigateAwayAlert}
+          okClicked={navigateAwayAgreed}
+          title="Navigating to the Symptom Checker"
+          body="I’m about to open another window that will load the symptom checker used by this testing location. Once you complete the assessment, come back here to continue. Click OK to continue."
+        />
+        <ShortQuestionAlert
+          showAlert={showSelfAssessmentCompletedAlert}
+          yesSelected={completedAssessment}
+          noSelected={didNotCompleteAssessment}
+          questionText="Were you able to complete the self-assessment?"
+        />
+        <ShortQuestionAlert
+          showAlert={showNeedHelp}
+          yesSelected={needHelp}
+          noSelected={doesNotNeedHelp}
+          questionText="Based on the results of the self-assessment: do you need help finding a testing location near you?"
+        />
+        <InfoAlert
+          showAlert={showMapUpdatedAlert}
+          okClicked={mapUpdateAgreed}
+          title="Map Updated"
+          body="I’ve updated the map, the remaining pins represent locations that are capable of perform the actual test. Carefully review the instructions for each location and select the one that seems to be a good fit. I will highlight any locations with additional requirements or special features, such as appointments or telemedicine visits."
         />
       </Card>
     </Modal>
