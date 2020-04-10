@@ -1,6 +1,6 @@
 import { StandaloneSearchBox, useGoogleMap } from '@react-google-maps/api';
 import React, { useState } from 'react';
-import { isNullOrUndefined } from 'util';
+import { TextField } from '@material-ui/core';
 
 const GoogleMapSearch = () => {
   const map = useGoogleMap();
@@ -19,22 +19,20 @@ const GoogleMapSearch = () => {
 
   return (
     <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
-      <input
-        type="text"
-        placeholder="Search for a testing site"
+      <TextField
+        placeholder="Search for a testing center"
         style={{
-          boxSizing: `border-box`,
-          border: `1px solid transparent`,
           width: `240px`,
           height: `32px`,
           padding: `0 12px`,
           borderRadius: `3px`,
           boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
           fontSize: `14px`,
+          backgroundColor: 'white',
           outline: `none`,
           textOverflow: `ellipses`,
           position: 'absolute',
-          bottom: '10px',
+          top: '100px',
           left: '10px',
         }}
       />

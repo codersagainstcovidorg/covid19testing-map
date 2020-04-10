@@ -1,7 +1,6 @@
 import { Marker, MarkerClusterer, useGoogleMap } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import fetchPins from './utils/fetchPins';
-import { trackLinkClicked } from './utils/tracking';
 
 interface GoogleMapPinsProps {
   onClickPin: Function;
@@ -27,7 +26,7 @@ const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
         {(clusterer) =>
           pinData.map((place: any) => (
             <Marker
-              key={`marker-${place.location_latitude}-${place.location_longitude}`}
+              key={`marker-${place.location_id}`}
               position={{
                 lng: place.location_longitude,
                 lat: place.location_latitude,

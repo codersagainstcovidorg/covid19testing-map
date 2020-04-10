@@ -6,9 +6,8 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Joyride, { Step } from 'react-joyride';
+import Joyride, { EVENTS, STATUS, Step } from 'react-joyride';
 import AppBar from './Components/AppBar/AppBar';
-import Map from './Components/Map/Map';
 import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
@@ -207,6 +206,20 @@ const GoogleApp = () => {
     },
   ];
 
+  function handleJoyrideCallback(data: any) {
+    const { action, index, status, type } = data;
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      setGatewayAnswered(false);
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); // eslint-disable-line no-console
+    console.groupEnd();
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <SearchContext.Provider value={filters}>
@@ -222,6 +235,7 @@ const GoogleApp = () => {
             }}
           />
           <Joyride
+            callback={handleJoyrideCallback}
             steps={steps}
             styles={{
               options: {
