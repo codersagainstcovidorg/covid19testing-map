@@ -152,9 +152,9 @@ const LocationModal = ({
   }
 
   function needHelp() {
+    toggleFilter('is_collecting_samples');
     setShowNeedHelp(false);
     setShowMapUpdatedAlert(true);
-    toggleFilter('is_collecting_samples');
   }
 
   function doesNotNeedHelp() {

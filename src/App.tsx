@@ -199,7 +199,7 @@ const App = () => {
     return function cleanup() {
       window.removeEventListener('resize', windowListener);
     };
-  });
+  }, []);
 
   const steps: Step[] = [
     {
@@ -273,8 +273,10 @@ const App = () => {
               }}
               toggleFilter={(filterKey: keyof SearchFilters) => {
                 setFilters((prevState) => {
+                  console.log(`Previous ${prevState.is_collecting_samples}`);
                   return { ...prevState, [filterKey]: !filters[filterKey] };
                 });
+                // console.log(`Filters: ${filters}`);
               }}
             />
           )}
