@@ -8,7 +8,7 @@ import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import styled from 'styled-components';
 import MoreButton from './MoreButton';
-import { ADD_LOCATION_FORM } from '../constants';
+import { ADD_LOCATION_FORM } from '../../constants';
 
 const SearchContainer = styled.div`
   position: relative;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withTheme } from '@material-ui/core/styles';
 
-const LocationIcon = ({ theme, ...props }: any) => {
+const LocationPin = ({ theme, ...props }: any) => {
   return (
     <svg viewBox="0 0 18 24" {...props}>
       <defs>
@@ -25,4 +25,4 @@ const LocationIcon = ({ theme, ...props }: any) => {
   );
 };
 
-export default withTheme(LocationIcon);
+export default withTheme(LocationPin);

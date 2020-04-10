@@ -49,7 +49,7 @@ interface DoctorStepProps {
   onResponseClick: Function;
 }
 
-const DoctorStep = ({ onResponseClick }: DoctorStepProps) => {
+const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
   const classes = useStyles();
 
   const handleLinkClicked = (locationId: string, action: string): void => {
@@ -118,4 +118,4 @@ const DoctorStep = ({ onResponseClick }: DoctorStepProps) => {
   );
 };
 
-export default DoctorStep;
+export default DoctorCard;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   createStyles,
   Theme,
@@ -68,118 +68,107 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-interface iProps {}
-interface iState {
-  open: boolean;
-  hideLegal: boolean;
-}
+const LegalModal = () => {
+  const [open, setOpen] = useState(
+    localStorage.getItem('hideLegal') !== 'true'
+  );
+  const [hideLegal, setHideLegal] = useState(
+    localStorage.getItem('hideLegal') === 'true'
+  );
 
-class LegalModal extends React.Component<iProps, iState> {
-  constructor(props: any) {
-    super(props);
-
-    this.state = {
-      open: localStorage.getItem('hideLegal') !== 'true',
-      hideLegal: localStorage.getItem('hideLegal') === 'true',
-    };
+  function handleClose() {
+    localStorage.setItem('hideLegal', String(hideLegal));
+    setHideLegal(false);
+    setOpen(false);
   }
 
-  handleClose = () => {
-    const { hideLegal } = this.state;
-    localStorage.setItem('hideLegal', String(hideLegal));
-    this.setState({ open: false });
-  };
-
-  handleChange = (event: any) => {
+  function handleChange(event: any) {
     const input = event.target;
     const value = input.checked;
-    this.setState({ hideLegal: value });
-  };
+    setHideLegal(value);
+  }
 
-  render() {
-    const { open, hideLegal } = this.state;
-    return (
-      <div>
-        <Dialog
-          onClose={this.handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-        >
-          <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
-            Before you get started
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography
-              style={{
-                padding: '5%',
-                fontWeight: 'bold',
-                fontSize: '1.3rem',
-                color: '#E43E2F',
-                textAlign: 'center',
-              }}
-            >
-              If this is a medical emergency, stop and dial 911.
-            </Typography>
+  return (
+    <div>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Before you get started
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography
+            style={{
+              padding: '5%',
+              fontWeight: 'bold',
+              fontSize: '1.3rem',
+              color: '#E43E2F',
+              textAlign: 'center',
+            }}
+          >
+            If this is a medical emergency, stop and dial 911.
+          </Typography>
 
-            {/* <Divider style={{ margin: '35%' }} /> */}
+          {/* <Divider style={{ margin: '35%' }} /> */}
 
-            <Typography
-              style={{
-                fontWeight: 'normal',
-                fontSize: '0.8rem',
-                textAlign: 'center',
-              }}
-            >
-              For informational purposes only. Consult your local medical
-              authority for advice.
-            </Typography>
+          <Typography
+            style={{
+              fontWeight: 'normal',
+              fontSize: '0.8rem',
+              textAlign: 'center',
+            }}
+          >
+            For informational purposes only. Consult your local medical
+            authority for advice.
+          </Typography>
 
-            <Divider style={{ margin: '5%' }} />
+          <Divider style={{ margin: '5%' }} />
 
-            <Typography
-              gutterBottom
-              style={{
-                textAlign: 'left',
-              }}
-            >
-              By using this service, you agree to release from liability and
-              waive any right to file legal motions against Coders Against
-              COVID, their officers, volunteers and agents from any and all
-              claims, including but not limited to claims of negligence,
-              resulting in physical injury, illness (including death) or
-              economic loss which may result from using this service, or any
-              events incidental to the use of this service.
-            </Typography>
+          <Typography
+            gutterBottom
+            style={{
+              textAlign: 'left',
+            }}
+          >
+            By using this service, you agree to release from liability and waive
+            any right to file legal motions against Coders Against COVID, their
+            officers, volunteers and agents from any and all claims, including
+            but not limited to claims of negligence, resulting in physical
+            injury, illness (including death) or economic loss which may result
+            from using this service, or any events incidental to the use of this
+            service.
+          </Typography>
 
-            {/* <Typography gutterBottom>
+          {/* <Typography gutterBottom>
             Sources: Publicly-accessible websites published by operators of testing locations, 
             public health agencies, major news outlets, and/or crowdsourcing. Crowdsourced 
             entries are verified using publicly-available data sources and/or by calling the 
             owner/operator of the testing location. 
           </Typography> */}
-          </DialogContent>
-          <DialogActions>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={hideLegal}
-                  onChange={this.handleChange}
-                  name="checkedB"
-                  color="primary"
-                />
-              }
-              label="Don't show me this again"
-            />
-            <div style={{ flex: '1 0 0' }} />
-            <Button onClick={this.handleClose} color="primary">
-              Agree
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {!open && <DataUpdateSnackbar />}
-      </div>
-    );
-  }
-}
+        </DialogContent>
+        <DialogActions>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={hideLegal}
+                onChange={handleChange}
+                name="checkedB"
+                color="primary"
+              />
+            }
+            label="Don't show me this again"
+          />
+          <div style={{ flex: '1 0 0' }} />
+          <Button onClick={handleClose} color="primary">
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {!open && <DataUpdateSnackbar />}
+    </div>
+  );
+};
 
 export default LegalModal;

@@ -3,9 +3,9 @@ import { Marker } from 'react-map-gl';
 import Supercluster from 'supercluster';
 import styled from 'styled-components';
 
-import LocationIcon from './LocationIcon';
+import LocationIcon from './LocationPin';
 import Cluster from './Cluster';
-import { trackLinkClicked } from '../utils/tracking';
+import { trackLinkClicked } from '../../utils/tracking';
 
 export interface PinsProps {
   data: any;

@@ -7,7 +7,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import CodeIcon from '@material-ui/icons/Code';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { API_URL, GITHUB_URL } from '../constants';
+import { API_URL, GITHUB_URL } from '../../constants';
 
 const actions = [
   /* { Icon: ShareIcon, title: 'Share', href: '' }, */

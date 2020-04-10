@@ -5,9 +5,9 @@ import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import Pins from './Pins';
-import fetchPins from '../utils/fetchPins';
-import { trackUserLocation } from '../utils/tracking';
-import { MAPBOX_TOKEN } from '../constants';
+import fetchPins from '../../utils/fetchPins';
+import { trackUserLocation } from '../../utils/tracking';
+import { MAPBOX_TOKEN } from '../../constants';
 
 type MapProps = {
   onClickPin: Function;
@@ -79,9 +79,7 @@ const Map = (props: MapProps) => {
           containerRef={geocoderContainerRef}
           countries="US"
           mapRef={mapRef}
-          onLoading={() => {
-
-          }}
+          onLoading={() => {}}
           className="search-container"
           mapboxApiAccessToken={MAPBOX_TOKEN}
         />

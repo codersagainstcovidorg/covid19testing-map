@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReactGA from 'react-ga';
 import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../App';
+import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
 
@@ -92,15 +92,28 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
 
   const classes = useStyles();
 
-  const handleLinkClicked = (locationId: string, action: string): void => {
+  function handleLinkClicked(locationId: string, action: string): void {
     ReactGA.event({
       category: 'Location',
       action,
       label: locationId,
     });
-  };
+  }
+
+  function handleCheckSymptomsClicked() {
+
+    window.open(
+      location.location_contact_url_covid_screening_tool === '' ||
+        location.location_contact_url_covid_screening_tool === null ||
+        location.location_contact_url_covid_screening_tool.length < 4
+        ? 'https://www.apple.com/covid19/'
+        : location.location_contact_url_covid_screening_tool,
+      '_blank'
+    );
+  }
 
   const details: any = [];
+
   Object.keys(labelMap).forEach((key: string) => {
     details.push({
       type: 'boolean',
@@ -109,6 +122,7 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
       icon: labelMap[key].icon,
     });
   });
+
   const address = `${location.location_address_street}, ${location.location_address_locality}, ${location.location_address_region} ${location.location_address_postal_code}`;
 
   return (
@@ -140,18 +154,10 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
             size="large"
             color="primary"
             className={classes.callToAction}
-            href={
-              location.location_contact_url_covid_screening_tool === '' ||
-              location.location_contact_url_covid_screening_tool === null ||
-              location.location_contact_url_covid_screening_tool.length < 4
-                ? 'https://www.apple.com/covid19/'
-                : location.location_contact_url_covid_screening_tool
-            }
             onClick={() => {
+              handleCheckSymptomsClicked();
               handleLinkClicked(location.location_id, 'Website Click');
             }}
-            target="_blank"
-            rel="noopener"
           >
             Check your Symptoms
           </Button>

@@ -42,16 +42,8 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const SearchStep = () => {
+const SearchCard = () => {
   const classes = useStyles();
-
-  const handleLinkClicked = (locationId: string, action: string): void => {
-    ReactGA.event({
-      category: 'Location',
-      action,
-      label: locationId,
-    });
-  };
 
   const details: any = [];
   Object.keys(labelMap).forEach((key: string) => {
@@ -68,7 +60,12 @@ const SearchStep = () => {
 
       <CardContent>
         <Typography color="textPrimary" className={classes.cardMargin}>
-          Great! Click the search bar in the bottom left to continue.
+          Great! Enter the name of their practice or the address of their clinic
+          to get started.
+        </Typography>
+        <Typography color="textPrimary" className={classes.cardMargin}>
+          If you can’t find them in our database, it’s unlikely that they are
+          offering COVID-19 testing to their patients at this time.
         </Typography>
 
         <CardActions />
@@ -77,4 +74,4 @@ const SearchStep = () => {
   );
 };
 
-export default SearchStep;
+export default SearchCard;

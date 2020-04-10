@@ -1,21 +1,8 @@
-import React from 'react';
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  createStyles,
-  Grid,
-  LinearProgress,
-  Modal,
-  Typography,
-} from '@material-ui/core';
-import ReactGA from 'react-ga';
+import React, { useEffect } from 'react';
+import { Card, createStyles, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../App';
-import DoctorStep from './DoctorStep';
-import SearchStep from './SearchStep';
+import DoctorCard from './DoctorCard';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -47,44 +34,23 @@ const useStyles = makeStyles(() =>
   })
 );
 
-interface GuideModalProps {
-  onClose: Function;
+interface GatewayModalProps {
+  modalShouldOpen: boolean;
+  handleResponse: Function;
 }
 
-const GuideModal = ({ onClose }: GuideModalProps) => {
+const GuideModal = ({ modalShouldOpen, handleResponse }: GatewayModalProps) => {
   const classes = useStyles();
-  const [currentStep, setCurrentStep] = React.useState(0);
-  const [modalOpen, setModalOpen] = React.useState(true);
+  const [modalOpen, setModalOpen] = React.useState(false);
 
-  function shouldShowSearch(value: boolean) {
-    if (value) {
-      setCurrentStep(1);
-      onClose();
-    } else {
-      setCurrentStep(2);
-    }
+  useEffect(() => {
+    setModalOpen(modalShouldOpen);
+  }, [modalShouldOpen]);
+
+  function closeModal() {
+    handleResponse();
+    setModalOpen(false);
   }
-
-  function getStepContent(step: number) {
-    console.log(step);
-    switch (step) {
-      case 0:
-        return <DoctorStep onResponseClick={shouldShowSearch} />;
-      case 1:
-        return <SearchStep />;
-      default:
-        return 'Unknown step';
-    }
-  }
-
-  const handleLinkClicked = (locationId: string, action: string): void => {
-    ReactGA.event({
-      category: 'Location',
-      action,
-      label: locationId,
-    });
-  };
-
   const details: any = [];
   Object.keys(labelMap).forEach((key: string) => {
     details.push({
@@ -97,18 +63,15 @@ const GuideModal = ({ onClose }: GuideModalProps) => {
   return (
     <Modal
       className={classes.modal}
-      onClose={() => {
-        setModalOpen(false);
-        setCurrentStep(2);
-      }}
       open={modalOpen}
-      disableBackdropClick={currentStep !== 1}
-      BackdropProps={{
-        invisible: currentStep === 1,
+      onClose={() => {
+        handleResponse();
       }}
       disableEnforceFocus
     >
-      <Card className={classes.card}>{getStepContent(currentStep)}</Card>
+      <Card className={classes.card}>
+        <DoctorCard onResponseClick={closeModal} />
+      </Card>
     </Modal>
   );
 };

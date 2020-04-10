@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   faTasks,
@@ -6,11 +6,10 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Joyride from 'react-joyride';
-import AppBar from './Components/AppBar';
-import Sidebar from './Components/Sidebar';
-import Map from './Components/Map';
-import LocationModal from './Components/LocationModal';
+import Joyride, { Step } from 'react-joyride';
+import AppBar from './Components/AppBar/AppBar';
+import Map from './Components/Map/Map';
+import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
@@ -21,7 +20,7 @@ import {
   trackUserLocation,
 } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
-import SearchStep from './Components/SearchStep';
+import SearchCard from './Components/SearchCard';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -87,17 +86,6 @@ const defaultFilters: SearchFilters = {
   is_collecting_samples: true,
 };
 
-interface AppState {
-  filters: SearchFilters;
-  drawerOpen: boolean;
-  currentPlace: any;
-  guideAnswered: boolean;
-  searchEmpty: boolean;
-  viewState: any;
-  steps: any;
-  viewportHeight: number;
-}
-
 interface GeolocationCoordinates {
   coords: {
     latitude: number;
@@ -115,93 +103,20 @@ let windowListener: any; // store event handler for resize events
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
-export class App extends React.Component<{}, AppState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      viewportHeight: 0,
-      filters: defaultFilters,
-      currentPlace: null,
-      guideAnswered: false,
-      searchEmpty: true,
-      drawerOpen: false,
-      viewState: {
-        longitude: -122.1419,
-        latitude: 37.4419,
-        zoom: 2.5,
-        bearing: 0,
-        pitch: 0,
-      },
-      steps: [
-        {
-          target: '.search-container',
-          content: <SearchStep />,
-          placement: 'right-end',
-          disableBeacon: true,
-        },
-      ],
-    };
-  }
+const App = () => {
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const [currentPlace, setCurrentPlace] = useState(null);
+  const [gatewayAnswered, setGatewayAnswered] = useState(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
+  const [viewState, setViewState] = useState({
+    longitude: -122.1419,
+    latitude: 37.4419,
+    zoom: 2.5,
+    bearing: 0,
+    pitch: 0,
+  });
 
-  componentDidMount(): void {
-    try {
-      this.locateUser();
-    } catch (e) {
-      console.error('failed to locate user', e);
-    }
-
-    geocoderContainerRef.current.focus();
-    // detect resize events and set viewport height
-    windowListener = window.addEventListener('resize', () => this.setHeight());
-    this.setHeight();
-  }
-
-  componentWillUnmount(): void {
-    window.removeEventListener('resize', windowListener);
-  }
-
-  // set height using js, as 100vh doesn't work as expected in mobile safari
-  setHeight(): void {
-    const viewportHeight = getViewportHeight();
-    this.setState({ viewportHeight });
-  }
-
-  locateUser() {
-    navigator.geolocation.getCurrentPosition(
-      (res: GeolocationCoordinates) => {
-        const { latitude, longitude } = res.coords;
-        trackUserLocation(latitude, longitude);
-
-        dataLayer.push({
-          event: 'pageview',
-          location: {
-            latitude,
-            longitude,
-          },
-        });
-
-        this.setState({
-          viewState: {
-            latitude,
-            longitude,
-            zoom: 8,
-            bearing: 0,
-            pitch: 0,
-          },
-        });
-      },
-      (e: any) => {
-        console.error('failed to get location from browser', e);
-        this.geoIPFallback();
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 2000,
-      }
-    );
-  }
-
-  geoIPFallback() {
+  function geoIPFallback() {
     trackLocationPrompt('Attempt');
 
     fetch(
@@ -222,112 +137,153 @@ export class App extends React.Component<{}, AppState> {
             },
           });
 
-          this.setState({
-            viewState: {
-              latitude: lat,
-              longitude: lon,
-              zoom: 8,
-              bearing: 0,
-              pitch: 0,
-            },
+          setViewState({
+            latitude: lat,
+            longitude: lon,
+            zoom: 8,
+            bearing: 0,
+            pitch: 0,
           });
         }
       });
   }
 
-  render() {
-    const {
-      currentPlace,
-      filters,
-      drawerOpen,
-      viewState,
-      viewportHeight,
-      guideAnswered,
-      searchEmpty,
-      steps,
-    } = this.state;
-    const toggleDrawer = () => {
-      this.setState({ drawerOpen: !drawerOpen });
-      trackDrawerStatus(drawerOpen);
-    };
+  function locateUser() {
+    navigator.geolocation.getCurrentPosition(
+      (res: GeolocationCoordinates) => {
+        const { latitude, longitude } = res.coords;
+        trackUserLocation(latitude, longitude);
 
-    return (
-      <ThemeProvider theme={theme}>
-        <SearchContext.Provider value={filters}>
-          <LayoutContainer style={{ height: viewportHeight }}>
-            <GuideModal
-              onClose={() => {
-                this.setState({ guideAnswered: true });
-              }}
-            />
-            <Joyride
-              steps={steps}
-              styles={{
-                options: {
-                  zIndex: 1000,
-                },
-              }}
-              run={guideAnswered && searchEmpty}
-              spotlightClicks
-              disableOverlayClose
-            />
+        dataLayer.push({
+          event: 'pageview',
+          location: {
+            latitude,
+            longitude,
+          },
+        });
 
-            <LegalModal />
-            {/* Not being used at the moment */}
-            {/* <HeaderContainer>
-              <Header toggleDrawer={toggleDrawer} />
-            </HeaderContainer> */}
-            <SidebarContainer>
-              <Sidebar
-                drawerOpen={drawerOpen}
-                toggleFilter={(filterKey: keyof SearchFilters) => {
-                  this.setState({
-                    filters: { ...filters, [filterKey]: !filters[filterKey] },
-                  });
-                }}
-              />
-            </SidebarContainer>
-
-            <MapContainer
-              onClick={() => {
-                if (drawerOpen) {
-                  this.setState({ drawerOpen: false });
-                }
-              }}
-            >
-              <Map
-                lockMap={false}
-                viewState={viewState}
-                setViewState={(newState: any) => {
-                  this.setState({ viewState: newState.viewState });
-                }}
-                onClickPin={(place: any) => {
-                  this.setState({ currentPlace: place });
-                }}
-                didSearch={this.setState({ searchEmpty: false })}
-                geocoderContainerRef={geocoderContainerRef}
-              />
-            </MapContainer>
-            {currentPlace !== null && (
-              <LocationModal
-                location={currentPlace}
-                onClose={() => {
-                  this.setState({ currentPlace: null });
-                }}
-              />
-            )}
-
-            <AppBarContainer>
-              <AppBar
-                geocoderContainerRef={geocoderContainerRef}
-                toggleDrawer={toggleDrawer}
-              />
-            </AppBarContainer>
-          </LayoutContainer>
-        </SearchContext.Provider>
-      </ThemeProvider>
+        setViewState({
+          latitude,
+          longitude,
+          zoom: 8,
+          bearing: 0,
+          pitch: 0,
+        });
+      },
+      (e: any) => {
+        console.error('failed to get location from browser', e);
+        geoIPFallback();
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 2000,
+      }
     );
   }
-}
+  function toggleDrawer() {
+    setGuideModalOpen((prevState) => !prevState);
+    trackDrawerStatus(guideModalOpen);
+  }
+
+  useEffect(() => {
+    try {
+      locateUser();
+    } catch (e) {
+      console.error('failed to locate user', e);
+    }
+    windowListener = window.addEventListener('resize', () =>
+      setViewportHeight(getViewportHeight())
+    );
+    setViewportHeight(getViewportHeight());
+    return function cleanup() {
+      window.removeEventListener('resize', windowListener);
+    };
+  });
+
+  const filters = defaultFilters;
+  const steps: Step[] = [
+    {
+      target: '.search-container',
+      content: <SearchCard />,
+      placement: 'right-end',
+      disableBeacon: true,
+    },
+  ];
+
+  return (
+    <ThemeProvider theme={theme}>
+      <SearchContext.Provider value={filters}>
+        <LayoutContainer style={{ height: viewportHeight }}>
+          <GuideModal
+            modalShouldOpen={guideModalOpen}
+            handleResponse={() => {
+              setGatewayAnswered(true);
+            }}
+          />
+          <Joyride
+            steps={steps}
+            styles={{
+              options: {
+                zIndex: 1000,
+              },
+            }}
+            run={gatewayAnswered}
+          />
+
+          <LegalModal />
+          {/* Not being used at the moment */}
+          {/* <HeaderContainer>
+              <Header toggleDrawer={toggleDrawer} />
+            </HeaderContainer> */}
+          {/* <SidebarContainer> */}
+          {/*  <SideBar */}
+          {/*    guideModalOpen={guideModalOpen} */}
+          {/*    toggleFilter={(filterKey: keyof SearchFilters) => { */}
+          {/*      this.setState({ */}
+          {/*        filters: { ...filters, [filterKey]: !filters[filterKey] }, */}
+          {/*      }); */}
+          {/*    }} */}
+          {/*  /> */}
+          {/* </SidebarContainer> */}
+
+          <MapContainer
+            onClick={() => {
+              if (guideModalOpen) {
+                setGuideModalOpen(false);
+              }
+            }}
+          >
+            <Map
+              lockMap={false}
+              viewState={viewState}
+              setViewState={(newState: any) => {
+                setViewState(newState.viewState);
+              }}
+              onClickPin={(place: any) => {
+                setCurrentPlace(place);
+              }}
+              geocoderContainerRef={geocoderContainerRef}
+            />
+          </MapContainer>
+          {currentPlace !== null && (
+            <LocationModal
+              location={currentPlace}
+              onClose={() => {
+                setCurrentPlace(null);
+              }}
+            />
+          )}
+
+          <AppBarContainer>
+            <AppBar
+              geocoderContainerRef={geocoderContainerRef}
+              toggleDrawer={toggleDrawer}
+            />
+          </AppBarContainer>
+        </LayoutContainer>
+      </SearchContext.Provider>
+    </ThemeProvider>
+  );
+};
 
 export default App;

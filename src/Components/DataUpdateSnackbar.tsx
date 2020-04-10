@@ -53,7 +53,7 @@ const DataUpdateSnackbar = () => {
           severity="warning"
           variant="filled"
           icon={<InfoIcon />}
-        > 
+        >
           Last update:
           {` ${lastUpdated}`}
         </MuiAlert>
