@@ -1,17 +1,7 @@
 import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import React, { useState } from 'react';
-import {
-  createStyles,
-  Divider,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  Paper,
-  Theme,
-} from '@material-ui/core';
+import { createStyles, Input, InputAdornment, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import SearchIcon from '@material-ui/icons/Search';
 
 const libraries = ['places'];
