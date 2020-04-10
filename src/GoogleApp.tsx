@@ -106,16 +106,9 @@ const dataLayer = (window as any).dataLayer || [];
 
 const GoogleApp = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
-  const [currentPlace, setCurrentPlace] = useState(null);
+  const [selectedPlace, setCurrentPlace] = useState(null);
   const [gatewayAnswered, setGatewayAnswered] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
-  const [viewState, setViewState] = useState({
-    longitude: -122.1419,
-    latitude: 37.4419,
-    zoom: 2.5,
-    bearing: 0,
-    pitch: 0,
-  });
   const [filters, setFilters] = useState(defaultFilters);
 
   function geoIPFallback() {
@@ -138,14 +131,15 @@ const GoogleApp = () => {
               longitude: lon,
             },
           });
-
-          setViewState({
-            latitude: lat,
-            longitude: lon,
-            zoom: 8,
-            bearing: 0,
-            pitch: 0,
-          });
+          // TODO: Update this setViewState to set the view of the Google Map
+          //
+          // setViewState({
+          //   latitude: lat,
+          //   longitude: lon,
+          //   zoom: 8,
+          //   bearing: 0,
+          //   pitch: 0,
+          // });
         }
       });
   }
@@ -164,13 +158,15 @@ const GoogleApp = () => {
           },
         });
 
-        setViewState({
-          latitude,
-          longitude,
-          zoom: 8,
-          bearing: 0,
-          pitch: 0,
-        });
+        // TODO: Update this setViewState to set the view of the Google Map
+        //
+        // setViewState({
+        //   latitude: lat,
+        //   longitude: lon,
+        //   zoom: 8,
+        //   bearing: 0,
+        //   pitch: 0,
+        // });
       },
       (e: any) => {
         console.error('failed to get location from browser', e);
@@ -254,11 +250,15 @@ const GoogleApp = () => {
               }
             }}
           >
-            <MapWithGoogle />
+            <MapWithGoogle
+              onClickPin={(place: any) => {
+                setCurrentPlace(place);
+              }}
+            />
           </MapContainer>
-          {currentPlace !== null && (
+          {selectedPlace !== null && (
             <LocationModal
-              location={currentPlace}
+              location={selectedPlace}
               onClose={() => {
                 setCurrentPlace(null);
               }}

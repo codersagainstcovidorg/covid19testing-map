@@ -1,14 +1,26 @@
-import { Marker } from '@react-google-maps/api';
+import { Marker, useGoogleMap } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import fetchPins from './utils/fetchPins';
-import LocationPin from './Components/Map/LocationPin';
+import { trackLinkClicked } from './utils/tracking';
 
-const GoogleMapPins = () => {
+interface GoogleMapPinsProps {
+  onClickPin: Function;
+}
+
+const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
+  const map = useGoogleMap();
+
   const [pinData, setPinData] = useState([]);
 
   useEffect(() => {
     fetchPins().then(setPinData);
   }, []);
+
+  function pinClicked(e: any, place: any) {
+    console.log(e);
+    map.panTo(e.latLng);
+    onClickPin(place);
+  }
 
   return (
     <div>
@@ -20,6 +32,9 @@ const GoogleMapPins = () => {
             position={{
               lng: place.location_longitude,
               lat: place.location_latitude,
+            }}
+            onClick={(e) => {
+              pinClicked(e, place);
             }}
           />
         );

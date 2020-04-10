@@ -1,12 +1,14 @@
 import { StandaloneSearchBox, useGoogleMap } from '@react-google-maps/api';
-import React from 'react';
+import React, { useState } from 'react';
+import { isNullOrUndefined } from 'util';
 
 const GoogleMapSearch = () => {
   const map = useGoogleMap();
+  const [searchBox, setSearchBox] = useState<any>();
 
-  let searchBox: any;
   const onLoad = (ref: any) => {
-    searchBox = ref;
+    console.log(`MOUNT${ref}`);
+    setSearchBox(ref);
   };
 
   const onPlacesChanged = () => {
