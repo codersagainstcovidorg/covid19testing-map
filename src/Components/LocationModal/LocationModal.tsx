@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   createStyles,
-  DialogContentText,
   Divider,
   IconButton,
   Modal,
