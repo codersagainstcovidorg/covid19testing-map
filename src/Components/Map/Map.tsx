@@ -20,6 +20,7 @@ const Map = React.memo(
     const onLoad = React.useCallback(function onLoad(mapInstance) {
       console.log('Map loaded');
       setMap(mapInstance);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const renderMap = () => {
       return (
