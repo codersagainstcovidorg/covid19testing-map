@@ -1,123 +1,62 @@
-import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
-import ReactMapGL, { GeolocateControl, NavigationControl } from 'react-map-gl';
-import Geocoder from 'react-map-gl-geocoder';
-import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+import React, { useEffect } from 'react';
+import MapSearch from './MapSearch';
+import MapPins from './MapPins';
 
-import Pins from './Pins';
-import fetchPins from '../../utils/fetchPins';
-import { trackUserLocation } from '../../utils/tracking';
-import { MAPBOX_TOKEN } from '../../constants';
+const { REACT_APP_GCP_MAPS_API_KEY } = process.env;
 
-type MapProps = {
+interface MapWithGoogleProps {
   onClickPin: Function;
-  lockMap: boolean;
-  viewState: any;
-  setViewState: (viewState: any) => any;
-  geocoderContainerRef: any;
-};
+  setMap: Function;
+}
+const libraries = ['places'];
 
-const Geolocation = styled.div``;
-
-const Zoom = styled.div`
-  margin-bottom: 10px;
-`;
-
-const Navigation = styled.div`
-  bottom: 40px;
-  right: 10px;
-  position: absolute;
-  z-index: 1;
-`;
-
-const mapRef = React.createRef<ReactMapGL>();
-
-const Map = (props: MapProps) => {
-  const { viewState, setViewState, onClickPin, geocoderContainerRef } = props;
-
-  const [pinData, setPinData] = useState([]);
-  useEffect(() => {
-    fetchPins().then(setPinData);
-  }, []);
-
-  function onClickCluster(latitude: number, longitude: number, zoom: number) {
-    setViewState({
-      viewState: {
-        ...viewState,
-        latitude,
-        longitude,
-        zoom,
-      },
+const Map = React.memo(
+  ({ onClickPin, setMap }: MapWithGoogleProps) => {
+    const { isLoaded, loadError } = useLoadScript({
+      googleMapsApiKey: REACT_APP_GCP_MAPS_API_KEY,
+      libraries,
     });
-  }
 
-  return (
-    <ReactMapGL
-      width="100%"
-      height="100%"
-      viewState={viewState}
-      getCursor={() => 'cursor'}
-      onViewStateChange={setViewState}
-      ref={mapRef}
-      style={{ zIndex: 50, position: 'relative' }}
-      mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
-      mapboxApiAccessToken={MAPBOX_TOKEN}
-    >
-      <Navigation>
-        <Geocoder
-          onViewportChange={(data: any) => {
-            const { longitude, latitude, zoom } = data;
-            setViewState({
-              viewState: {
-                ...viewState,
-                longitude,
-                latitude,
-                zoom,
-              },
-            });
+    const onLoad = React.useCallback(function onLoad(mapInstance) {
+      console.log('Map loaded');
+      setMap(mapInstance);
+    }, []);
+    const renderMap = () => {
+      return (
+        <GoogleMap
+          id="covid-map"
+          zoom={2}
+          onLoad={onLoad}
+          mapContainerStyle={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
           }}
-          containerRef={geocoderContainerRef}
-          countries="US"
-          mapRef={mapRef}
-          onLoading={() => {}}
-          className="search-container"
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-        />
-        <Zoom>
-          <NavigationControl
-            showCompass={false}
-            captureClick
-            captureDoubleClick
-            onViewportChange={(data: any) => {
-              const { zoom } = data;
-              setViewState({
-                viewState: { ...viewState, zoom },
-              });
-            }}
-          />
-        </Zoom>
-        <Geolocation>
-          <GeolocateControl
-            label="Use my location"
-            positionOptions={{ enableHighAccuracy: true }}
-            onGeolocate={(data: any) => {
-              const { latitude, longitude } = data.coords;
-              trackUserLocation(latitude, longitude);
-              setViewState({
-                viewState: { ...viewState, latitude, longitude },
-              });
-            }}
-          />
-        </Geolocation>
-      </Navigation>
-      <Pins
-        data={pinData}
-        onClickPin={onClickPin}
-        onClickCluster={onClickCluster}
-        mapRef={mapRef}
-      />
-    </ReactMapGL>
-  );
-};
+          center={{
+            lat: -3.745,
+            lng: -38.523,
+          }}
+          clickableIcons={false}
+        >
+          <MapPins onClickPin={onClickPin} />
+        </GoogleMap>
+      );
+    };
+
+    if (loadError) {
+      return <div>Map cannot be loaded right now, sorry.</div>;
+    }
+
+    return isLoaded ? renderMap() : <div />;
+  },
+  (prevProps, nextProps) => {
+    console.log('Previous', prevProps);
+    console.log('New', nextProps);
+    return prevProps.setMap === nextProps.setMap;
+  }
+);
 
 export default Map;

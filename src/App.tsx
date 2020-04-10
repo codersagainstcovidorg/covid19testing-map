@@ -20,7 +20,7 @@ import {
 } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import SearchCard from './Components/SearchCard';
-import MapWithGoogle from './MapWithGoogle';
+import Map from './Components/Map/Map';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -103,7 +103,7 @@ let windowListener: any; // store event handler for resize events
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
-const GoogleApp = () => {
+const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setCurrentPlace] = useState(null);
   const [gatewayAnswered, setGatewayAnswered] = useState(false);
@@ -263,7 +263,7 @@ const GoogleApp = () => {
           {/* </SidebarContainer> */}
 
           <MapContainer>
-            <MapWithGoogle
+            <Map
               onClickPin={(place: any) => {
                 setCurrentPlace(place);
               }}
@@ -299,4 +299,4 @@ const GoogleApp = () => {
   );
 };
 
-export default GoogleApp;
+export default App;

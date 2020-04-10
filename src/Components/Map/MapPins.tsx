@@ -1,12 +1,12 @@
 import { Marker, MarkerClusterer, useGoogleMap } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
-import fetchPins from './utils/fetchPins';
+import fetchPins from '../../utils/fetchPins';
 
 interface GoogleMapPinsProps {
   onClickPin: Function;
 }
 
-const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
+const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   const map = useGoogleMap();
 
   const [pinData, setPinData] = useState([]);
@@ -42,4 +42,4 @@ const GoogleMapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   );
 };
 
-export default GoogleMapPins;
+export default MapPins;

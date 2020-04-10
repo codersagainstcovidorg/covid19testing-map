@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card, createStyles, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../GoogleApp';
+import { labelMap } from '../App';
 import DoctorCard from './DoctorCard';
 
 const useStyles = makeStyles(() =>

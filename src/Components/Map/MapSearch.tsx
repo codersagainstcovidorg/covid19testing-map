@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const GoogleMapSearch = ({ map }: SearchProps) => {
+const MapSearch = ({ map }: SearchProps) => {
   const classes = useStyles();
 
   const [searchBox, setSearchBox] = useState<any>();
@@ -79,4 +79,4 @@ const GoogleMapSearch = ({ map }: SearchProps) => {
   return isLoaded ? renderSearchBox() : <div />;
 };
 
-export default GoogleMapSearch;
+export default MapSearch;
