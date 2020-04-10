@@ -26,9 +26,9 @@ code {
   color: dimgray;
 }
 
-.mapboxgl-ctrl-geocoder .suggestions {
+.pac-container {
   top: auto !important;
-  bottom: 90px;
+  bottom: 50px;
 }
 
 .mapboxgl-ctrl-geocoder--button {

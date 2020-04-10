@@ -1,9 +1,38 @@
-import { StandaloneSearchBox, useGoogleMap } from '@react-google-maps/api';
+import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core';
+import {
+  createStyles,
+  Divider,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+  Paper,
+  Theme,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import SearchIcon from '@material-ui/icons/Search';
 
-const GoogleMapSearch = () => {
-  const map = useGoogleMap();
+const libraries = ['places'];
+const { REACT_APP_GCP_MAPS_API_KEY } = process.env;
+
+interface SearchProps {
+  map: any;
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    input: {
+      width: '30vw',
+      marginLeft: theme.spacing(1),
+    },
+  })
+);
+
+const GoogleMapSearch = ({ map }: SearchProps) => {
+  const classes = useStyles();
+
   const [searchBox, setSearchBox] = useState<any>();
 
   const onLoad = (ref: any) => {
@@ -17,27 +46,37 @@ const GoogleMapSearch = () => {
     }
   };
 
-  return (
-    <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
-      <TextField
-        placeholder="Search for a testing center"
-        style={{
-          width: `240px`,
-          height: `32px`,
-          padding: `0 12px`,
-          borderRadius: `3px`,
-          boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-          fontSize: `14px`,
-          backgroundColor: 'white',
-          outline: `none`,
-          textOverflow: `ellipses`,
-          position: 'absolute',
-          top: '100px',
-          left: '10px',
-        }}
-      />
-    </StandaloneSearchBox>
-  );
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: REACT_APP_GCP_MAPS_API_KEY,
+    libraries,
+  });
+
+  const renderSearchBox = () => {
+    return (
+      <div id="search-input">
+        <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
+          <Input
+            placeholder="Search Google Maps"
+            className={classes.input}
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onSubmit={() => {
+              console.log('TEST');
+            }}
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            }
+          />
+        </StandaloneSearchBox>
+      </div>
+    );
+  };
+  if (loadError) {
+    return <div>Search bar cannot be loaded right now, sorry.</div>;
+  }
+
+  return isLoaded ? renderSearchBox() : <div />;
 };
 
 export default GoogleMapSearch;

@@ -108,6 +108,7 @@ const GoogleApp = () => {
   const [selectedPlace, setCurrentPlace] = useState(null);
   const [gatewayAnswered, setGatewayAnswered] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
+  const [globalMap, setGlobalMap] = useState(null);
   const [filters, setFilters] = useState(defaultFilters);
 
   function geoIPFallback() {
@@ -199,7 +200,7 @@ const GoogleApp = () => {
 
   const steps: Step[] = [
     {
-      target: '.search-container',
+      target: '#search-input',
       content: <SearchCard />,
       placement: 'right-end',
       disableBeacon: true,
@@ -266,6 +267,7 @@ const GoogleApp = () => {
               onClickPin={(place: any) => {
                 setCurrentPlace(place);
               }}
+              setMap={setGlobalMap}
             />
           </MapContainer>
           {selectedPlace !== null && (
@@ -288,6 +290,7 @@ const GoogleApp = () => {
             <AppBar
               geocoderContainerRef={geocoderContainerRef}
               toggleDrawer={toggleDrawer}
+              map={globalMap}
             />
           </AppBarContainer>
         </LayoutContainer>
