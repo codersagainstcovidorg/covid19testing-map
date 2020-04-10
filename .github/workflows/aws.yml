@@ -23,6 +23,7 @@ jobs:
       run: npm run build
       env:
         REACT_APP_API_ENDPOINT: 'https://api.findcovidtesting.com'
+        REACT_APP_GCP_MAPS_API_KEY: ${{ secrets.GCP_MAPS_API_KEY }}
 
       # Upload to S3
     - name: sync s3
