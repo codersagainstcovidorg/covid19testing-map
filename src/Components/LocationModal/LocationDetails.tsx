@@ -66,25 +66,27 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
   }
 
   function renderLocationTestingDetails(locationToRender: any): any {
-    if (
-      locationToRender.location_specific_testing_criteria !== null &&
-      locationToRender.location_specific_testing_criteria.substring(0, 4) !==
-        'http' &&
-      locationToRender.location_specific_testing_criteria.length > 3
-    ) {
-      return (
-        <Grid key={1} item md={5} xs={12}>
-          <Typography style={{ paddingTop: '20px' }}>
-            {locationToRender.location_specific_testing_criteria}
-          </Typography>
-        </Grid>
-      );
+    if (locationToRender.location_specific_testing_criteria !== null) {
+      if (
+        locationToRender.location_specific_testing_criteria.substring(0, 4) !==
+          'http' &&
+        locationToRender.location_specific_testing_criteria.length > 3
+      ) {
+        return (
+          <Grid key={1} item md={5} xs={12}>
+            <Typography style={{ paddingTop: '20px' }}>
+              {locationToRender.location_specific_testing_criteria}
+            </Typography>
+          </Grid>
+        );
+      }
     }
 
     let urlToRender = '';
 
     if (
       locationToRender.location_contact_url_main !== null &&
+      locationToRender.location_specific_testing_criteria !== null &&
       locationToRender.location_specific_testing_criteria.substring(0, 4) ===
         'http'
     ) {

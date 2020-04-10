@@ -18,7 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReactGA from 'react-ga';
 import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../../App';
+import { labelMap } from '../../GoogleApp';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
 import InfoAlert from './InfoAlert';

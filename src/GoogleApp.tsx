@@ -6,9 +6,8 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Joyride, { Step } from 'react-joyride';
+import Joyride, { EVENTS, STATUS, Step } from 'react-joyride';
 import AppBar from './Components/AppBar/AppBar';
-import Map from './Components/Map/Map';
 import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
@@ -21,6 +20,7 @@ import {
 } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import SearchCard from './Components/SearchCard';
+import MapWithGoogle from './MapWithGoogle';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -103,18 +103,12 @@ let windowListener: any; // store event handler for resize events
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
-const App = () => {
+const GoogleApp = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
-  const [currentPlace, setCurrentPlace] = useState(null);
+  const [selectedPlace, setCurrentPlace] = useState(null);
   const [gatewayAnswered, setGatewayAnswered] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
-  const [viewState, setViewState] = useState({
-    longitude: -122.1419,
-    latitude: 37.4419,
-    zoom: 2.5,
-    bearing: 0,
-    pitch: 0,
-  });
+  const [globalMap, setGlobalMap] = useState(null);
   const [filters, setFilters] = useState(defaultFilters);
 
   function geoIPFallback() {
@@ -137,14 +131,15 @@ const App = () => {
               longitude: lon,
             },
           });
-
-          setViewState({
-            latitude: lat,
-            longitude: lon,
-            zoom: 8,
-            bearing: 0,
-            pitch: 0,
-          });
+          // TODO: Update this setViewState to set the view of the Google Map
+          //
+          // setViewState({
+          //   latitude: lat,
+          //   longitude: lon,
+          //   zoom: 8,
+          //   bearing: 0,
+          //   pitch: 0,
+          // });
         }
       });
   }
@@ -163,13 +158,15 @@ const App = () => {
           },
         });
 
-        setViewState({
-          latitude,
-          longitude,
-          zoom: 8,
-          bearing: 0,
-          pitch: 0,
-        });
+        // TODO: Update this setViewState to set the view of the Google Map
+        //
+        // setViewState({
+        //   latitude: lat,
+        //   longitude: lon,
+        //   zoom: 8,
+        //   bearing: 0,
+        //   pitch: 0,
+        // });
       },
       (e: any) => {
         console.error('failed to get location from browser', e);
@@ -203,12 +200,26 @@ const App = () => {
 
   const steps: Step[] = [
     {
-      target: '.search-container',
+      target: '#search-input',
       content: <SearchCard />,
       placement: 'right-end',
       disableBeacon: true,
     },
   ];
+
+  function handleJoyrideCallback(data: any) {
+    const { action, index, status, type } = data;
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      setGatewayAnswered(false);
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); // eslint-disable-line no-console
+    console.groupEnd();
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -216,11 +227,16 @@ const App = () => {
         <LayoutContainer style={{ height: viewportHeight }}>
           <GuideModal
             modalShouldOpen={guideModalOpen}
-            handleResponse={() => {
+            handleYesResponse={() => {
+              setGuideModalOpen(false);
               setGatewayAnswered(true);
+            }}
+            handleNoResponse={() => {
+              setGuideModalOpen(false);
             }}
           />
           <Joyride
+            callback={handleJoyrideCallback}
             steps={steps}
             styles={{
               options: {
@@ -246,28 +262,17 @@ const App = () => {
           {/*  /> */}
           {/* </SidebarContainer> */}
 
-          <MapContainer
-            onClick={() => {
-              if (guideModalOpen) {
-                setGuideModalOpen(false);
-              }
-            }}
-          >
-            <Map
-              lockMap={false}
-              viewState={viewState}
-              setViewState={(newState: any) => {
-                setViewState(newState.viewState);
-              }}
+          <MapContainer>
+            <MapWithGoogle
               onClickPin={(place: any) => {
                 setCurrentPlace(place);
               }}
-              geocoderContainerRef={geocoderContainerRef}
+              setMap={setGlobalMap}
             />
           </MapContainer>
-          {currentPlace !== null && (
+          {selectedPlace !== null && (
             <LocationModal
-              location={currentPlace}
+              location={selectedPlace}
               onClose={() => {
                 setCurrentPlace(null);
               }}
@@ -285,6 +290,7 @@ const App = () => {
             <AppBar
               geocoderContainerRef={geocoderContainerRef}
               toggleDrawer={toggleDrawer}
+              map={globalMap}
             />
           </AppBarContainer>
         </LayoutContainer>
@@ -293,4 +299,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default GoogleApp;

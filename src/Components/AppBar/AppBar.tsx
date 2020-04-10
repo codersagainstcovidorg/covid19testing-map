@@ -7,8 +7,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import styled from 'styled-components';
+import { TextField } from '@material-ui/core';
+import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import MoreButton from './MoreButton';
 import { ADD_LOCATION_FORM } from '../../constants';
+import GoogleMapSearch from '../../GoogleMapSearch';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -30,18 +33,16 @@ const Spacer = styled.div`
 type AppBarProps = {
   geocoderContainerRef: any;
   toggleDrawer: () => void;
+  map: any;
 };
 
 const AppBar = (props: AppBarProps) => {
-  const { geocoderContainerRef, toggleDrawer } = props;
+  const { toggleDrawer, map } = props;
 
   return (
     <MuiAppBar position="relative" color="default">
       <Toolbar>
-        <SearchContainer
-          className="search-container"
-          ref={geocoderContainerRef}
-        />
+        <GoogleMapSearch map={map} />
 
         <ActionButtonContainer>
           <Fab onClick={toggleDrawer} color="primary">

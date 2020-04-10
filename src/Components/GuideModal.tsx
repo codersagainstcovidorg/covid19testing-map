@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card, createStyles, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../App';
+import { labelMap } from '../GoogleApp';
 import DoctorCard from './DoctorCard';
 
 const useStyles = makeStyles(() =>
@@ -36,12 +36,14 @@ const useStyles = makeStyles(() =>
 
 interface GatewayModalProps {
   modalShouldOpen: boolean;
-  handleResponse: Function;
+  handleYesResponse: Function;
+  handleNoResponse: Function;
 }
 
 const GuideModal = ({
   modalShouldOpen,
-  handleResponse,
+  handleYesResponse,
+  handleNoResponse,
 }: GatewayModalProps) => {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -50,8 +52,12 @@ const GuideModal = ({
     setModalOpen(modalShouldOpen);
   }, [modalShouldOpen]);
 
-  function closeModal() {
-    handleResponse();
+  function closeModal(response: boolean) {
+    if (response) {
+      handleYesResponse();
+    } else {
+      handleNoResponse();
+    }
     setModalOpen(false);
   }
   const details: any = [];
@@ -64,14 +70,7 @@ const GuideModal = ({
     });
   });
   return (
-    <Modal
-      className={classes.modal}
-      open={modalOpen}
-      onClose={() => {
-        handleResponse();
-      }}
-      disableEnforceFocus
-    >
+    <Modal className={classes.modal} open={modalOpen} disableBackdropClick>
       <Card className={classes.card}>
         <DoctorCard onResponseClick={closeModal} />
       </Card>
