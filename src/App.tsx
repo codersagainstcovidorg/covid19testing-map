@@ -203,9 +203,7 @@ const App = () => {
       // Need to set our running state to false, so we can restart if we click start again.
       setGatewayAnswered(false);
     }
-
     console.groupCollapsed(type);
-    console.log(data); // eslint-disable-line no-console
     console.groupEnd();
   }
 
