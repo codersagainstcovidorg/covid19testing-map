@@ -14,7 +14,7 @@ import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
 import {
-  trackDrawerStatus,
+  trackGuideStatus,
   trackLocationPrompt,
   trackUserLocation,
 } from './utils/tracking';
@@ -27,18 +27,6 @@ const LayoutContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
-`;
-
-/*
-const HeaderContainer = styled.div`
-  z-index: 100;
-  position: relative;
-`;
-*/
-
-const SidebarContainer = styled.div`
-  z-index: 110;
-  position: relative;
 `;
 
 const MapContainer = styled.div`
@@ -178,9 +166,9 @@ const App = () => {
       }
     );
   }
-  function toggleDrawer() {
+  function toggleGuide() {
     setGuideModalOpen((prevState) => !prevState);
-    trackDrawerStatus(guideModalOpen);
+    trackGuideStatus(guideModalOpen);
   }
 
   useEffect(() => {
@@ -208,16 +196,14 @@ const App = () => {
   ];
 
   function handleJoyrideCallback(data: any) {
-    const { action, index, status, type } = data;
+    const { status, type } = data;
 
     if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
     } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       // Need to set our running state to false, so we can restart if we click start again.
       setGatewayAnswered(false);
     }
-
     console.groupCollapsed(type);
-    console.log(data); // eslint-disable-line no-console
     console.groupEnd();
   }
 
@@ -247,20 +233,6 @@ const App = () => {
           />
 
           <LegalModal />
-          {/* Not being used at the moment */}
-          {/* <HeaderContainer>
-              <Header toggleDrawer={toggleDrawer} />
-            </HeaderContainer> */}
-          {/* <SidebarContainer> */}
-          {/*  <SideBar */}
-          {/*    guideModalOpen={guideModalOpen} */}
-          {/*    toggleFilter={(filterKey: keyof SearchFilters) => { */}
-          {/*      this.setState({ */}
-          {/*        filters: { ...filters, [filterKey]: !filters[filterKey] }, */}
-          {/*      }); */}
-          {/*    }} */}
-          {/*  /> */}
-          {/* </SidebarContainer> */}
 
           <MapContainer>
             <Map
@@ -289,7 +261,7 @@ const App = () => {
           <AppBarContainer>
             <AppBar
               geocoderContainerRef={geocoderContainerRef}
-              toggleDrawer={toggleDrawer}
+              toggleDrawer={toggleGuide}
               map={globalMap}
             />
           </AppBarContainer>

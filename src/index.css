@@ -11,30 +11,7 @@ code {
     monospace;
 }
 
-.mapboxgl-ctrl-bottom-left,
-.mapboxgl-ctrl-bottom-right,
-.mapboxgl-ctrl-top-left,
-.mapboxgl-ctrl-top-right {
-  width: 96%;
-}
-
-.mapboxgl-ctrl-geocoder {
-  box-shadow: none !important;
-  background-color: lightgray !important;
-}
-::placeholder {
-  color: dimgray;
-}
-
 .pac-container {
   top: auto !important;
   bottom: 50px;
-}
-
-.mapboxgl-ctrl-geocoder--button {
-  background-color: transparent !important;
-}
-
-.mapboxgl-ctrl-geocoder--icon {
-  fill: rgba(0, 0, 0, 0.87) !important;
 }

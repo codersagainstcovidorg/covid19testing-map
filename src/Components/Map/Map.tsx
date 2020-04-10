@@ -1,6 +1,5 @@
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import React, { useEffect } from 'react';
-import MapSearch from './MapSearch';
+import React from 'react';
 import MapPins from './MapPins';
 
 const { REACT_APP_GCP_MAPS_API_KEY } = process.env;

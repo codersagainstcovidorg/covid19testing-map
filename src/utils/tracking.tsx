@@ -1,6 +1,6 @@
 import ReactGA from 'react-ga';
 
-export const trackLinkClicked = (locationId: string): void =>
+export const trackPinClicked = (locationId: string): void =>
   ReactGA.event({
     category: 'Location',
     action: 'View',
@@ -15,9 +15,9 @@ export const trackLocationPrompt = (label: string): void => {
   });
 };
 
-export const trackDrawerStatus = (action: boolean): void => {
+export const trackGuideStatus = (action: boolean): void => {
   ReactGA.event({
-    category: 'Drawer',
+    category: 'Guide',
     action: action ? 'Close' : 'Open',
   });
 };
