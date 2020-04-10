@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import './index.css';
-import GoogleApp from './GoogleApp';
 import * as serviceWorker from './serviceWorker';
+import GoogleApp from './GoogleApp';
 
 const trackingId = 'UA-161202078-1';
 
