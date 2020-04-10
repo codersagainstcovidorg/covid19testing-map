@@ -7,15 +7,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import styled from 'styled-components';
-import { TextField } from '@material-ui/core';
-import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import MoreButton from './MoreButton';
 import { ADD_LOCATION_FORM } from '../../constants';
 import MapSearch from '../Map/MapSearch';
-
-const SearchContainer = styled.div`
-  position: relative;
-`;
 
 const ActionButtonContainer = styled.div`
   position: absolute;
