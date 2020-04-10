@@ -30,6 +30,7 @@
     "react-async-component": "^2.0.0",
     "react-dom": "^16.12.0",
     "react-ga": "^2.7.0",
+    "react-joyride": "^2.2.1",
     "react-map-gl": "5.2.3",
     "react-map-gl-geocoder": "^2.0.11",
     "react-mapbox-gl-cluster": "^1.5.0",
@@ -62,7 +63,7 @@
     ]
   },
   "devDependencies": {
-    "@danmarshall/deckgl-typings": "^3.4.7",
+    "@danmarshall/deckgl-typings": "^3.4.8",
     "@svgr/cli": "^5.2.0",
     "@types/react-map-gl": "^5.2.0",
     "@types/styled-components": "^4.4.3",

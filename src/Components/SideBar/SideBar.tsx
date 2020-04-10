@@ -35,7 +35,7 @@ type SidebarProps = {
   toggleFilter: Function;
 };
 
-const Sidebar = ({ drawerOpen }: SidebarProps) => (
+const SideBar = ({ drawerOpen }: SidebarProps) => (
   <Drawer variant="persistent" anchor="left" open={drawerOpen}>
     <DrawerContent>
       <Heading>Before you get started</Heading>
@@ -48,4 +48,4 @@ const Sidebar = ({ drawerOpen }: SidebarProps) => (
   </Drawer>
 );
 
-export default Sidebar;
+export default SideBar;

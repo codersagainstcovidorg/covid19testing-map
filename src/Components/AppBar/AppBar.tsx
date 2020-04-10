@@ -8,7 +8,7 @@ import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import styled from 'styled-components';
 import MoreButton from './MoreButton';
-import { ADD_LOCATION_FORM } from '../constants';
+import { ADD_LOCATION_FORM } from '../../constants';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -38,7 +38,10 @@ const AppBar = (props: AppBarProps) => {
   return (
     <MuiAppBar position="relative" color="default">
       <Toolbar>
-        <SearchContainer ref={geocoderContainerRef} />
+        <SearchContainer
+          className="search-container"
+          ref={geocoderContainerRef}
+        />
 
         <ActionButtonContainer>
           <Fab onClick={toggleDrawer} color="primary">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   createStyles,
+  DialogContentText,
   Divider,
   IconButton,
   Modal,
@@ -17,9 +18,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReactGA from 'react-ga';
 import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import { labelMap } from '../App';
+import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
+import InfoAlert from './InfoAlert';
+import ShortQuestionAlert from './ShortQuestionAlert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,26 +84,85 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LocationModalProps {
   location: any;
   onClose: Function;
+  toggleFilter: Function;
 }
 
-const LocationModal = ({ location, onClose }: LocationModalProps) => {
+const LocationModal = ({
+  location,
+  onClose,
+  toggleFilter,
+}: LocationModalProps) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [showNavigateAwayAlert, setShowNavigateAwayAlert] = React.useState(
+    false
+  );
+  const [
+    showSelfAssessmentCompletedAlert,
+    setShowSelfAssessmentCompletedAlert,
+  ] = React.useState(false);
+  const [showNeedHelp, setShowNeedHelp] = React.useState(false);
+  const [showMapUpdatedAlert, setShowMapUpdatedAlert] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    setShowSelfAssessmentCompletedAlert(false);
+  }, []);
+
   const classes = useStyles();
 
-  const handleLinkClicked = (locationId: string, action: string): void => {
+  function handleLinkClicked(locationId: string, action: string): void {
     ReactGA.event({
       category: 'Location',
       action,
       label: locationId,
     });
-  };
+  }
+
+  function handleCheckSymptomsClicked() {
+    setShowNavigateAwayAlert(true);
+  }
+
+  function navigateAwayAgreed() {
+    setShowNavigateAwayAlert(false);
+    window.open(
+      location.location_contact_url_covid_screening_tool === '' ||
+        location.location_contact_url_covid_screening_tool === null ||
+        location.location_contact_url_covid_screening_tool.length < 4
+        ? 'https://www.apple.com/covid19/'
+        : location.location_contact_url_covid_screening_tool,
+      '_blank'
+    );
+    setShowSelfAssessmentCompletedAlert(true);
+  }
+
+  function mapUpdateAgreed() {
+    setShowMapUpdatedAlert(false);
+  }
+
+  function completedAssessment() {
+    setShowSelfAssessmentCompletedAlert(false);
+    setShowNeedHelp(true);
+  }
+
+  function didNotCompleteAssessment() {
+    setShowSelfAssessmentCompletedAlert(false);
+  }
+
+  function needHelp() {
+    toggleFilter('is_collecting_samples');
+    setShowNeedHelp(false);
+    setShowMapUpdatedAlert(true);
+  }
+
+  function doesNotNeedHelp() {
+    setShowNeedHelp(false);
+  }
 
   const details: any = [];
+
   Object.keys(labelMap).forEach((key: string) => {
     details.push({
       type: 'boolean',
@@ -109,6 +171,7 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
       icon: labelMap[key].icon,
     });
   });
+
   const address = `${location.location_address_street}, ${location.location_address_locality}, ${location.location_address_region} ${location.location_address_postal_code}`;
 
   return (
@@ -140,18 +203,10 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
             size="large"
             color="primary"
             className={classes.callToAction}
-            href={
-              location.location_contact_url_covid_screening_tool === '' ||
-              location.location_contact_url_covid_screening_tool === null ||
-              location.location_contact_url_covid_screening_tool.length < 4
-                ? 'https://www.apple.com/covid19/'
-                : location.location_contact_url_covid_screening_tool
-            }
             onClick={() => {
+              handleCheckSymptomsClicked();
               handleLinkClicked(location.location_id, 'Website Click');
             }}
-            target="_blank"
-            rel="noopener"
           >
             Check your Symptoms
           </Button>
@@ -177,6 +232,30 @@ const LocationModal = ({ location, onClose }: LocationModalProps) => {
           location={location}
           expanded={expanded}
           details={details}
+        />
+        <InfoAlert
+          showAlert={showNavigateAwayAlert}
+          okClicked={navigateAwayAgreed}
+          title="Navigating to the Symptom Checker"
+          body="I’m about to open another window that will load the symptom checker used by this testing location. Once you complete the assessment, come back here to continue. Click OK to continue."
+        />
+        <ShortQuestionAlert
+          showAlert={showSelfAssessmentCompletedAlert}
+          yesSelected={completedAssessment}
+          noSelected={didNotCompleteAssessment}
+          questionText="Were you able to complete the self-assessment?"
+        />
+        <ShortQuestionAlert
+          showAlert={showNeedHelp}
+          yesSelected={needHelp}
+          noSelected={doesNotNeedHelp}
+          questionText="Based on the results of the self-assessment: do you need help finding a testing location near you?"
+        />
+        <InfoAlert
+          showAlert={showMapUpdatedAlert}
+          okClicked={mapUpdateAgreed}
+          title="Map Updated"
+          body="I’ve updated the map, the remaining pins represent locations that are capable of perform the actual test. Carefully review the instructions for each location and select the one that seems to be a good fit. I will highlight any locations with additional requirements or special features, such as appointments or telemedicine visits."
         />
       </Card>
     </Modal>
