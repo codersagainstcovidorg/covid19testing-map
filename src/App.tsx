@@ -184,6 +184,7 @@ const App = () => {
     return function cleanup() {
       window.removeEventListener('resize', windowListener);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const steps: Step[] = [
