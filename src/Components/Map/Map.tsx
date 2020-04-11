@@ -53,8 +53,6 @@ const Map = React.memo(
     return isLoaded ? renderMap() : <div />;
   },
   (prevProps, nextProps) => {
-    console.log('Previous', prevProps);
-    console.log('New', nextProps);
     return prevProps.setMap === nextProps.setMap;
   }
 );
