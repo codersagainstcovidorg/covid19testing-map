@@ -16,7 +16,6 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   const [pinData, setPinData] = useState([]);
 
   useEffect(() => {
-    console.log('fetching pins', searchFilters);
     fetchPins(searchFilters).then(setPinData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilters]);

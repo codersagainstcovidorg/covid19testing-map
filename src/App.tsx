@@ -13,11 +13,7 @@ import LocationModal from './Components/LocationModal/LocationModal';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
-import {
-  trackGuideStatus,
-  trackLocationPrompt,
-  trackUserLocation,
-} from './utils/tracking';
+import { trackGuideStatus } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import SearchCard from './Components/SearchCard';
 import Map from './Components/Map/Map';
@@ -89,97 +85,22 @@ const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
 
-const dataLayer = (window as any).dataLayer || [];
-(window as any).dataLayer = (window as any).dataLayer || [];
-
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [gatewayAnswered, setGatewayAnswered] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
-  const [globalMap, setGlobalMap] = useState(null);
+  const [globalMap, setGlobalMap] = useState<any>([]);
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
 
-  function geoIPFallback() {
-    trackLocationPrompt('Attempt');
-
-    fetch(
-      'https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0'
-    )
-      .then((r: Response) => r.json())
-      .then((data) => {
-        if (data.status === 'success') {
-          const { lat, lon } = data;
-          trackLocationPrompt('Success');
-
-          trackUserLocation(lat, lon);
-          dataLayer.push({
-            event: 'pageview',
-            location: {
-              latitude: lat,
-              longitude: lon,
-            },
-          });
-          // TODO: Update this setViewState to set the view of the Google Map
-          //
-          // setViewState({
-          //   latitude: lat,
-          //   longitude: lon,
-          //   zoom: 8,
-          //   bearing: 0,
-          //   pitch: 0,
-          // });
-        }
-      });
-  }
-
-  function locateUser() {
-    navigator.geolocation.getCurrentPosition(
-      (res: GeolocationCoordinates) => {
-        const { latitude, longitude } = res.coords;
-        trackUserLocation(latitude, longitude);
-
-        dataLayer.push({
-          event: 'pageview',
-          location: {
-            latitude,
-            longitude,
-          },
-        });
-
-        // TODO: Update this setViewState to set the view of the Google Map
-        //
-        // setViewState({
-        //   latitude: lat,
-        //   longitude: lon,
-        //   zoom: 8,
-        //   bearing: 0,
-        //   pitch: 0,
-        // });
-      },
-      (e: any) => {
-        console.error('failed to get location from browser', e);
-        geoIPFallback();
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 2000,
-      }
-    );
-  }
   function toggleGuide() {
     setGuideModalOpen((prevState) => !prevState);
     trackGuideStatus(guideModalOpen);
   }
 
   useEffect(() => {
-    try {
-      locateUser();
-    } catch (e) {
-      console.error('failed to locate user', e);
-    }
     windowListener = window.addEventListener('resize', () =>
       setViewportHeight(getViewportHeight())
     );
