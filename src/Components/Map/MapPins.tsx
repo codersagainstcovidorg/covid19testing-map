@@ -1,7 +1,8 @@
 import { Marker, MarkerClusterer, useGoogleMap } from '@react-google-maps/api';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import fetchPins from '../../utils/fetchPins';
 import { trackPinClicked } from '../../utils/tracking';
+import { SearchContext } from '../../App';
 
 interface GoogleMapPinsProps {
   onClickPin: Function;
@@ -10,11 +11,14 @@ interface GoogleMapPinsProps {
 const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   const map = useGoogleMap();
 
+  const searchFilters = useContext(SearchContext);
+
   const [pinData, setPinData] = useState([]);
 
   useEffect(() => {
-    fetchPins().then(setPinData);
-  }, []);
+    fetchPins(searchFilters).then(setPinData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchFilters]);
 
   function pinClicked(e: any, place: any) {
     trackPinClicked(place.location_id);

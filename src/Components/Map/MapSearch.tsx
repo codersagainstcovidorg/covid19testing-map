@@ -26,7 +26,6 @@ const MapSearch = ({ map }: SearchProps) => {
   const [searchBox, setSearchBox] = useState<any>();
 
   const onLoad = (ref: any) => {
-    console.log(`MOUNT${ref}`);
     setSearchBox(ref);
   };
 
@@ -49,9 +48,6 @@ const MapSearch = ({ map }: SearchProps) => {
             placeholder="Search Google Maps"
             className={classes.input}
             inputProps={{ 'aria-label': 'search google maps' }}
-            onSubmit={() => {
-              console.log('TEST');
-            }}
             startAdornment={
               <InputAdornment position="start">
                 <SearchIcon />
