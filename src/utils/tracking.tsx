@@ -34,4 +34,12 @@ export const trackUserLocation = (lat: number, lon: number): void => {
   }
 };
 
+export const trackUiClick = (label: string, value?: string): void => {
+  ReactGA.event({
+    category: 'UI Element',
+    action: 'Click',
+    label: `${label}${value ? `::${value}` : ''}`,
+  });
+};
+
 export const trackEvent = (eventData: any): void => ReactGA.event(eventData);

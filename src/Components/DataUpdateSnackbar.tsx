@@ -4,6 +4,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import fetchLastUpdated from '../utils/fetchLastUpdated';
+import { trackUiClick } from '../utils/tracking';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +31,10 @@ const DataUpdateSnackbar = () => {
     }
 
     setOpen(false);
+
+    if (!reason) {
+      trackUiClick('Snackbar', 'Close');
+    }
   };
 
   React.useEffect(() => {

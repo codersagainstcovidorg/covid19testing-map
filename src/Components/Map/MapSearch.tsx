@@ -1,8 +1,9 @@
-import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import React, { useState } from 'react';
+import SearchIcon from '@material-ui/icons/Search';
+import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 import { createStyles, Input, InputAdornment, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
+import { trackUiClick } from '../../utils/tracking';
 
 const libraries = ['places'];
 const { REACT_APP_GCP_MAPS_API_KEY } = process.env;
@@ -40,6 +41,10 @@ const MapSearch = ({ map }: SearchProps) => {
     libraries,
   });
 
+  const handleSearchClick = React.useCallback(() => {
+    trackUiClick('Search');
+  }, []);
+
   const renderSearchBox = () => {
     return (
       <div id="search-input">
@@ -48,6 +53,7 @@ const MapSearch = ({ map }: SearchProps) => {
             placeholder="Search Google Maps"
             className={classes.input}
             inputProps={{ 'aria-label': 'search google maps' }}
+            onClick={handleSearchClick}
             startAdornment={
               <InputAdornment position="start">
                 <SearchIcon />

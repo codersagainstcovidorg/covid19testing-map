@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import DataUpdateSnackbar from './DataUpdateSnackbar';
+import { trackUiClick } from '../utils/tracking';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -80,6 +81,7 @@ const LegalModal = () => {
     localStorage.setItem('hideLegal', String(hideLegal));
     setHideLegal(false);
     setOpen(false);
+    trackUiClick('Legal Modal', 'Close'); // This could be more specific about which click triggered event
   }
 
   function handleChange(event: any) {

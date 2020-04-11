@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../App';
+import { trackUiClick } from '../utils/tracking';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -56,6 +57,12 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
       icon: labelMap[key].icon,
     });
   });
+
+  const handleResponseClick = (value: boolean) => {
+    trackUiClick('DoctorCard', value ? 'yes' : 'no');
+    onResponseClick(value);
+  };
+
   return (
     <div>
       <CardHeader
@@ -82,7 +89,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               color="primary"
               className={classes.responseButton}
               onClick={() => {
-                onResponseClick(true);
+                handleResponseClick(true);
               }}
             >
               Yes
@@ -93,7 +100,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               color="primary"
               className={classes.responseButton}
               onClick={() => {
-                onResponseClick(false);
+                handleResponseClick(false);
               }}
             >
               No
