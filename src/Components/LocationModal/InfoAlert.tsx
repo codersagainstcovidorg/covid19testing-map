@@ -13,6 +13,7 @@ import { trackUiClick } from '../../utils/tracking';
 interface NavigateAwayProps {
   showAlert: boolean;
   okClicked: Function;
+  modalClose: Function;
   title: string;
   body: string;
 }
@@ -22,16 +23,20 @@ const InfoAlert = ({
   okClicked,
   title,
   body,
+  modalClose,
 }: NavigateAwayProps) => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setOpen(showAlert);
   }, [showAlert]);
 
-  const handleClose = () => {
+  const handleOk = () => {
     okClicked();
     setOpen(false);
     trackUiClick(title, 'Ok');
+  };
+  const handleClose = () => {
+    modalClose();
   };
 
   return (
@@ -48,7 +53,7 @@ const InfoAlert = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleOk} color="primary">
           Ok
         </Button>
       </DialogActions>

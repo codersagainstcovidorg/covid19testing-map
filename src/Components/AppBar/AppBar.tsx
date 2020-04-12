@@ -44,9 +44,11 @@ const AppBar = (props: AppBarProps) => {
         <MapSearch map={map} />
 
         <ActionButtonContainer>
-          <Fab onClick={toggleGuide} color="primary">
-            <AssistantIcon />
-          </Fab>
+          <Tooltip title="Personalize" placement="top">
+            <Fab onClick={toggleGuide} color="primary">
+              <AssistantIcon />
+            </Fab>
+          </Tooltip>
         </ActionButtonContainer>
 
         <Spacer />
