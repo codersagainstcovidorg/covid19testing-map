@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,11 +6,13 @@ import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
+import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
 import MoreButton from './MoreButton';
 import MapSearch from '../Map/MapSearch';
 import { ADD_LOCATION_FORM } from '../../constants';
 import { trackUiClick } from '../../utils/tracking';
+import ShortQuestionAlert from '../LocationModal/ShortQuestionAlert';
 
 const ActionButtonContainer = styled.div`
   position: absolute;
@@ -29,11 +31,13 @@ type AppBarProps = {
   geocoderContainerRef: any;
   toggleGuide: () => void;
   map: any;
+  filterApplied: boolean;
+  clearFilters: Function;
 };
 
 const AppBar = (props: AppBarProps) => {
-  const { toggleGuide, map } = props;
-
+  const { toggleGuide, map, filterApplied, clearFilters } = props;
+  const [showClearFilterDialog, setShowClearFilterDialog] = useState(false);
   const handleAddLocationClick = React.useCallback(() => {
     trackUiClick('Add Location');
   }, []);
@@ -44,11 +48,24 @@ const AppBar = (props: AppBarProps) => {
         <MapSearch map={map} />
 
         <ActionButtonContainer>
-          <Tooltip title="Personalize" placement="top">
-            <Fab onClick={toggleGuide} color="primary">
-              <AssistantIcon />
-            </Fab>
-          </Tooltip>
+          {filterApplied ? (
+            <Tooltip title="Clear Filters" placement="top">
+              <Fab
+                onClick={() => {
+                  setShowClearFilterDialog(true);
+                }}
+                style={{ backgroundColor: 'red', color: 'white' }}
+              >
+                <CloseIcon />
+              </Fab>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Personalize" placement="top">
+              <Fab onClick={toggleGuide} color="primary">
+                <AssistantIcon />
+              </Fab>
+            </Tooltip>
+          )}
         </ActionButtonContainer>
 
         <Spacer />
@@ -67,6 +84,17 @@ const AppBar = (props: AppBarProps) => {
 
         <MoreButton />
       </Toolbar>
+      <ShortQuestionAlert
+        showAlert={showClearFilterDialog}
+        yesSelected={() => {
+          setShowClearFilterDialog(false);
+          clearFilters();
+        }}
+        noSelected={() => {
+          setShowClearFilterDialog(false);
+        }}
+        questionText="Are you sure you want to clear all the filters? This will reset the map to it's default state."
+      />
     </MuiAppBar>
   );
 };

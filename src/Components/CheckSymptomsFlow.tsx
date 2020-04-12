@@ -4,14 +4,14 @@ import ShortQuestionAlert from './LocationModal/ShortQuestionAlert';
 
 interface SymptomsFlowProps {
   location: any;
-  toggleFilter: Function;
+  setFilter: Function;
   setFlowFinished: Function;
   fromAssistant: boolean;
 }
 
 function CheckSymptomsFlow({
   location,
-  toggleFilter,
+  setFilter,
   setFlowFinished,
   fromAssistant,
 }: SymptomsFlowProps) {
@@ -53,7 +53,7 @@ function CheckSymptomsFlow({
   }
 
   function needHelp() {
-    toggleFilter('is_collecting_samples', true);
+    setFilter('is_collecting_samples', true);
     setShowNeedHelp(false);
     setShowMapUpdatedAlert(true);
   }

@@ -91,6 +91,7 @@ const App = () => {
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
+  const [filterApplied, setFilterApplied] = useState(false);
   const [fromAssistant, setFromAssistant] = useState(false);
 
   function toggleGuide() {
@@ -156,12 +157,24 @@ const App = () => {
             <CheckSymptomsFlow
               fromAssistant={fromAssistant}
               location={selectedPlace}
-              toggleFilter={(
+              setFilter={(
                 filterKey: keyof SearchFilters,
                 filterValue: boolean
               ) => {
                 setFilters((prevState) => {
-                  return { ...prevState, [filterKey]: filterValue };
+                  const newState: SearchFilters = {
+                    ...prevState,
+                    [filterKey]: filterValue,
+                  };
+                  if (
+                    newState.is_collecting_samples ||
+                    newState.is_ordering_tests_only_for_those_who_meeting_criteria
+                  ) {
+                    setFilterApplied(true);
+                  } else {
+                    setFilterApplied(false);
+                  }
+                  return newState;
                 });
               }}
               setFlowFinished={() => {
@@ -173,8 +186,13 @@ const App = () => {
           )}
           <AppBarContainer>
             <AppBar
+              filterApplied={filterApplied}
               geocoderContainerRef={geocoderContainerRef}
               toggleGuide={toggleGuide}
+              clearFilters={() => {
+                setFilters(defaultFilters);
+                setFilterApplied(false);
+              }}
               map={globalMap}
             />
           </AppBarContainer>
