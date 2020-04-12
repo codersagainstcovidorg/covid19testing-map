@@ -8,8 +8,9 @@ import Fab from '@material-ui/core/Fab';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import styled from 'styled-components';
 import MoreButton from './MoreButton';
-import { ADD_LOCATION_FORM } from '../../constants';
 import MapSearch from '../Map/MapSearch';
+import { ADD_LOCATION_FORM } from '../../constants';
+import { trackUiClick } from '../../utils/tracking';
 
 const ActionButtonContainer = styled.div`
   position: absolute;
@@ -26,12 +27,16 @@ const Spacer = styled.div`
 
 type AppBarProps = {
   geocoderContainerRef: any;
-  toggleDrawer: () => void;
+  toggleGuide: () => void;
   map: any;
 };
 
 const AppBar = (props: AppBarProps) => {
-  const { toggleDrawer, map } = props;
+  const { toggleGuide, map } = props;
+
+  const handleAddLocationClick = React.useCallback(() => {
+    trackUiClick('Add Location');
+  }, []);
 
   return (
     <MuiAppBar position="relative" color="default">
@@ -39,7 +44,7 @@ const AppBar = (props: AppBarProps) => {
         <MapSearch map={map} />
 
         <ActionButtonContainer>
-          <Fab onClick={toggleDrawer} color="primary">
+          <Fab onClick={toggleGuide} color="primary">
             <AssistantIcon />
           </Fab>
         </ActionButtonContainer>
@@ -50,6 +55,7 @@ const AppBar = (props: AppBarProps) => {
           <IconButton
             color="inherit"
             href={ADD_LOCATION_FORM}
+            onClick={handleAddLocationClick}
             target="_blank"
             rel="noopener"
           >

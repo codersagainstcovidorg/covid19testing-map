@@ -7,12 +7,13 @@ import {
 } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
+import { trackUiClick } from '../../utils/tracking';
 
 interface SelfAssessmentCompletedProps {
   showAlert: boolean;
   yesSelected: Function;
   noSelected: Function;
-  questionText: String;
+  questionText: string;
 }
 
 const ShortQuestionAlert = ({
@@ -29,10 +30,12 @@ const ShortQuestionAlert = ({
   const handleYes = () => {
     yesSelected();
     setOpen(false);
+    trackUiClick(questionText, 'Yes');
   };
   const handleNo = () => {
     noSelected();
     setOpen(false);
+    trackUiClick(questionText, 'No');
   };
 
   return (

@@ -6,14 +6,20 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Joyride, { EVENTS, STATUS, Step } from 'react-joyride';
+import Joyride, {
+  ACTIONS,
+  EVENTS,
+  LIFECYCLE,
+  STATUS,
+  Step,
+} from 'react-joyride';
 import AppBar from './Components/AppBar/AppBar';
 import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
-import { trackGuideStatus } from './utils/tracking';
+import { trackGuideStatus, trackUiClick } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import SearchCard from './Components/SearchCard';
 import Map from './Components/Map/Map';
@@ -121,9 +127,13 @@ const App = () => {
   ];
 
   function handleJoyrideCallback(data: any) {
-    const { status, type } = data;
+    const { action, lifecycle, status, type } = data;
+    if (lifecycle === LIFECYCLE.COMPLETE && action === ACTIONS.CLOSE) {
+      trackUiClick('Guide', 'Close');
+    }
 
     if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      //
     } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       // Need to set our running state to false, so we can restart if we click start again.
       setGatewayAnswered(false);
@@ -202,7 +212,7 @@ const App = () => {
           <AppBarContainer>
             <AppBar
               geocoderContainerRef={geocoderContainerRef}
-              toggleDrawer={toggleGuide}
+              toggleGuide={toggleGuide}
               map={globalMap}
             />
           </AppBarContainer>

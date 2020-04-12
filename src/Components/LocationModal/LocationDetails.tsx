@@ -34,6 +34,7 @@ import Link from '@material-ui/core/Link';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { trackUiClick } from '../../utils/tracking';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,6 +83,10 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
       }
     }
 
+    const trackLocationWebsiteClick = () => {
+      trackUiClick('Location Website', locationToRender.location_id);
+    };
+
     let urlToRender = '';
 
     if (
@@ -109,7 +114,12 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
       <Grid key={1} item md={5} xs={12}>
         <Typography style={{ paddingTop: '20px' }}>
           {'Visit '}
-          <Link href={urlToRender} target="_blank" rel="noopener">
+          <Link
+            onClick={trackLocationWebsiteClick}
+            href={urlToRender}
+            target="_blank"
+            rel="noopener"
+          >
             this website
           </Link>
           {

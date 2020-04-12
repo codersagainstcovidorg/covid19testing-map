@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
+import { trackUiClick } from '../../utils/tracking';
 
 interface NavigateAwayProps {
   showAlert: boolean;
@@ -30,6 +31,7 @@ const InfoAlert = ({
   const handleClose = () => {
     okClicked();
     setOpen(false);
+    trackUiClick(title, 'Ok');
   };
 
   return (

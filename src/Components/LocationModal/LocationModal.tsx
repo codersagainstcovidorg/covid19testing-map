@@ -20,6 +20,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
+import { trackUiClick } from '../../utils/tracking';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -92,6 +93,7 @@ const LocationModal = ({
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
+    trackUiClick('Location Details', expanded ? 'collapse' : 'expand');
     setExpanded(!expanded);
   };
 
