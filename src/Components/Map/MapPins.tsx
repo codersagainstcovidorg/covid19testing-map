@@ -37,6 +37,7 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
                 lng: place.location_longitude,
                 lat: place.location_latitude,
               }}
+              cursor="pointer"
               clusterer={clusterer}
               onClick={(e) => {
                 pinClicked(e, place);
