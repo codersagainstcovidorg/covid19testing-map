@@ -5,10 +5,23 @@ import {
   CardContent,
   CardHeader,
   createStyles,
+  Divider,
   Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import AssistantIcon from '@material-ui/icons/Assistant';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCircle,
+  faHeadSideMask,
+  faTasks,
+  faVial,
+} from '@fortawesome/free-solid-svg-icons';
 import { labelMap } from '../App';
 import { trackUiClick } from '../utils/tracking';
 
@@ -39,6 +52,9 @@ const useStyles = makeStyles(() =>
     cardActions: {
       cursor: 'pointer',
     },
+    title: {
+      fontWeight: 'bold',
+    },
   })
 );
 
@@ -66,47 +82,80 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
   return (
     <div>
       <CardHeader
-        title="Welcome to Find Covid Testing"
-        subheader="First things first: it sounds like you need to be screened for symptoms of COVID-19"
+        avatar={<AssistantIcon color="primary" />}
+        title="Personalize"
+        classes={{ title: classes.title }}
+        titleTypographyProps={{ variant: 'h5' }}
       />
+      <Divider />
 
       <CardContent>
-        <Typography color="textPrimary" className={classes.cardMargin}>
-          If you have a regular doctor, I can find out if they are offering
-          COVID-19 screenings for their patients. Do you have a regular doctor?
+        <Typography
+          color="textPrimary"
+          variant="h6"
+          style={{ fontWeight: 'bold' }}
+          className={classes.cardMargin}
+        >
+          Step-by-step guide
         </Typography>
-
-        <CardActions>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
+        <Typography style={{ fontStyle: 'italic', color: 'gray' }}>
+          Which of the following best describes you?
+        </Typography>
+        <List component="nav">
+          <ListItem
+            button
+            onClick={() => {
+              handleResponseClick(false);
+            }}
           >
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              className={classes.responseButton}
-              onClick={() => {
-                handleResponseClick(true);
-              }}
-            >
-              Yes
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              color="primary"
-              className={classes.responseButton}
-              onClick={() => {
-                handleResponseClick(false);
-              }}
-            >
-              No
-            </Button>
-          </Grid>
-        </CardActions>
+            <ListItemIcon>
+              <span className="fa-layers fa-fw fa-2x" style={{ width: '100%' }}>
+                <FontAwesomeIcon icon={faCircle} color="lightgray" />
+                <FontAwesomeIcon
+                  icon={faTasks}
+                  transform="shrink-7"
+                  color="white"
+                />
+              </span>
+            </ListItemIcon>
+            <ListItemText
+              primary="I may have symptoms, but I'm unsure"
+              secondary="Check your symptoms using the CDC's online self-assessment tool"
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <span className="fa-layers fa-fw fa-2x" style={{ width: '100%' }}>
+                <FontAwesomeIcon icon={faCircle} color="lightgray" />
+                <FontAwesomeIcon
+                  icon={faHeadSideMask}
+                  transform="shrink-7"
+                  color="white"
+                />
+              </span>
+            </ListItemIcon>
+            <ListItemText
+              primary="I meet CDC criteria for high-risk individuals"
+              secondary="Find testing locations serving healthcare providers, first responders and essential workers"
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <span className="fa-layers fa-fw fa-2x" style={{ width: '100%' }}>
+                <FontAwesomeIcon icon={faCircle} color="lightgray" />
+                <FontAwesomeIcon
+                  icon={faVial}
+                  transform="shrink-7"
+                  color="white"
+                />
+              </span>
+            </ListItemIcon>
+            <ListItemText
+              primary="I meet CDC criteria for community testing"
+              secondary="Find locations serving all members of your community"
+            />
+          </ListItem>
+        </List>
       </CardContent>
     </div>
   );

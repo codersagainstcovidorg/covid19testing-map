@@ -6,22 +6,14 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Joyride, {
-  ACTIONS,
-  EVENTS,
-  LIFECYCLE,
-  STATUS,
-  Step,
-} from 'react-joyride';
 import AppBar from './Components/AppBar/AppBar';
 import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
 import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
-import { trackGuideStatus, trackUiClick } from './utils/tracking';
+import { trackGuideStatus } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
-import SearchCard from './Components/SearchCard';
 import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 
@@ -94,12 +86,13 @@ let windowListener: any; // store event handler for resize events
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [gatewayAnswered, setGatewayAnswered] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [globalMap, setGlobalMap] = useState<any>([]);
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
+  const [filterApplied, setFilterApplied] = useState(false);
+  const [fromAssistant, setFromAssistant] = useState(false);
 
   function toggleGuide() {
     setGuideModalOpen((prevState) => !prevState);
@@ -117,31 +110,6 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const steps: Step[] = [
-    {
-      target: '#search-input',
-      content: <SearchCard />,
-      placement: 'right-end',
-      disableBeacon: true,
-    },
-  ];
-
-  function handleJoyrideCallback(data: any) {
-    const { action, lifecycle, status, type } = data;
-    if (lifecycle === LIFECYCLE.COMPLETE && action === ACTIONS.CLOSE) {
-      trackUiClick('Guide', 'Close');
-    }
-
-    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      //
-    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      // Need to set our running state to false, so we can restart if we click start again.
-      setGatewayAnswered(false);
-    }
-    console.groupCollapsed(type);
-    console.groupEnd();
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <SearchContext.Provider value={filters}>
@@ -150,21 +118,15 @@ const App = () => {
             modalShouldOpen={guideModalOpen}
             handleYesResponse={() => {
               setGuideModalOpen(false);
-              setGatewayAnswered(true);
             }}
             handleNoResponse={() => {
+              setFromAssistant(true);
+              setShowCheckSymptomsFlow(true);
               setGuideModalOpen(false);
             }}
-          />
-          <Joyride
-            callback={handleJoyrideCallback}
-            steps={steps}
-            styles={{
-              options: {
-                zIndex: 1000,
-              },
+            handleClose={() => {
+              setGuideModalOpen(false);
             }}
-            run={gatewayAnswered}
           />
 
           <LegalModal />
@@ -193,13 +155,26 @@ const App = () => {
           )}
           {showCheckSymptomsFlow && (
             <CheckSymptomsFlow
+              fromAssistant={fromAssistant}
               location={selectedPlace}
-              toggleFilter={(
+              setFilter={(
                 filterKey: keyof SearchFilters,
                 filterValue: boolean
               ) => {
                 setFilters((prevState) => {
-                  return { ...prevState, [filterKey]: filterValue };
+                  const newState: SearchFilters = {
+                    ...prevState,
+                    [filterKey]: filterValue,
+                  };
+                  if (
+                    newState.is_collecting_samples ||
+                    newState.is_ordering_tests_only_for_those_who_meeting_criteria
+                  ) {
+                    setFilterApplied(true);
+                  } else {
+                    setFilterApplied(false);
+                  }
+                  return newState;
                 });
               }}
               setFlowFinished={() => {
@@ -211,8 +186,13 @@ const App = () => {
           )}
           <AppBarContainer>
             <AppBar
+              filterApplied={filterApplied}
               geocoderContainerRef={geocoderContainerRef}
               toggleGuide={toggleGuide}
+              clearFilters={() => {
+                setFilters(defaultFilters);
+                setFilterApplied(false);
+              }}
               map={globalMap}
             />
           </AppBarContainer>
