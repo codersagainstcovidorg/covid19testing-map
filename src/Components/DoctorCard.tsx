@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  Button,
-  CardActions,
+  
   CardContent,
   CardHeader,
   createStyles,
   Divider,
-  Grid,
+  
   List,
   ListItem,
   ListItemIcon,
