@@ -42,7 +42,7 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
       {/* </IconButton> */}
       <IconButton
         area-label="report"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSfYpEDiV8MwkBSVa7rKI_OzrmtGvclzgFzvcjxocLJncJOXDQ/viewform?usp=sf_link"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSd2xzEXfJdNJIGh5MDhxg217-p_MXvSREOuQT_P_vwrqSjEMQ/viewform?usp=sf_link"
         target="_blank"
         rel="noopener"
         onClick={() => {
