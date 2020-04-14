@@ -21,7 +21,7 @@ import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
 import { trackUiClick } from '../../utils/tracking';
-import ActionType from '../ActionType';
+import ActionKind from '../Types/ActionKind';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -118,7 +118,7 @@ const LocationModal = ({
   function loadNextStepButton(locationToRender: any): any {
     let ctaText = '';
     let ctaLink = '';
-    let actionType: ActionType;
+    let actionKind: ActionKind;
 
     if (
       locationToRender.location_contact_url_covid_virtual_visit !== null &&
@@ -129,7 +129,7 @@ const LocationModal = ({
     ) {
       ctaText = 'Start Virtual Visit';
       ctaLink = locationToRender.location_contact_url_covid_virtual_visit;
-      actionType = ActionType.Visit;
+      actionKind = ActionKind.Visit;
     } else if (
       locationToRender.is_collecting_samples_by_appointment_only === true &&
       locationToRender.location_contact_url_covid_appointments !== null &&
@@ -140,25 +140,25 @@ const LocationModal = ({
     ) {
       ctaText = 'Book Appointment';
       ctaLink = locationToRender.location_contact_url_covid_appointments;
-      actionType = ActionType.WebAppointment;
+      actionKind = ActionKind.WebAppointment;
     } else if (
       locationToRender.is_collecting_samples_by_appointment_only === true &&
       locationToRender.location_contact_phone_covid !== null
     ) {
       ctaText = 'Call for Appointment';
       ctaLink = `tel://${locationToRender.location_contact_phone_covid}`;
-      actionType = ActionType.CallAppointment;
+      actionKind = ActionKind.CallAppointment;
     } else if (
       locationToRender.is_collecting_samples_by_appointment_only === true &&
       locationToRender.location_contact_phone_appointment !== null
     ) {
       ctaText = 'Call for Appointment';
       ctaLink = `tel://${locationToRender.location_contact_phone_appointment}`;
-      actionType = ActionType.CallAppointment;
+      actionKind = ActionKind.CallAppointment;
     } else {
       ctaText = 'Call Ahead';
       ctaLink = `tel://${locationToRender.location_contact_phone_main}`;
-      actionType = ActionType.CallAhead;
+      actionKind = ActionKind.CallAhead;
     }
 
     return (
@@ -169,7 +169,7 @@ const LocationModal = ({
         className={classes.callToAction}
         onClick={() => {
           handleLinkClicked(locationToRender.location_id, 'Website Click');
-          runAppointmentFlow(actionType, ctaLink);
+          runAppointmentFlow(actionKind, ctaLink);
         }}
       >
         {ctaText}

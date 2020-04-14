@@ -1,8 +1,8 @@
-enum ActionType {
+enum ActionKind {
   Visit,
   WebAppointment,
   CallAppointment,
   CallAhead,
 };
 
-export default ActionType;
+export default ActionKind;

@@ -16,7 +16,7 @@ import GuideModal from './Components/GuideModal';
 import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
-import ActionType from './Components/Types/ActionType';
+import ActionKind from './Components/Types/ActionKind';
 import LabelMapType from './Components/Types/LabelMapType';
 import SearchFilterType from './Components/Types/SearchFilterType';
 
@@ -72,7 +72,7 @@ const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
 let appointmentFlowUrl = '';
-let actionType: ActionType;
+let actionKind: ActionKind;
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -90,10 +90,10 @@ const App = () => {
     trackGuideStatus(guideModalOpen);
   }
 
-  function runAppointmentFlow(typeFromButton: ActionType, ctaLink: string) {
+  function runAppointmentFlow(typeFromButton: ActionKind, ctaLink: string) {
     setShowLocationModal(false);
     appointmentFlowUrl = ctaLink;
-    actionType = typeFromButton;
+    actionKind = typeFromButton;
     setShowAppointmentFlow(true);
   }
 
@@ -187,7 +187,7 @@ const App = () => {
           {showAppointmentFlow && (
             <AppointmentFlow
               urlToRender={appointmentFlowUrl}
-              actionType={actionType}
+              actionKind={actionKind}
               setFlowFinished={() => {
                 setShowLocationModal(true);
                 setSelectedPlace(null);

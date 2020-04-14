@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import InfoAlert from './LocationModal/InfoAlert';
 import ShortQuestionAlert from './LocationModal/ShortQuestionAlert';
-import ActionType from './ActionType';
+import ActionKind from './Types/ActionKind';
 
 interface AppointmentFlowProps {
   urlToRender: string;
   setFlowFinished: Function;
-  actionType: ActionType;
+  actionKind: ActionKind;
 }
 
 function AppointmentFlow({
   urlToRender,
-  actionType,
+  actionKind,
   setFlowFinished,
 }: AppointmentFlowProps) {
   const isWebsite =
-    actionType === ActionType.Visit || actionType === ActionType.WebAppointment;
+    actionKind === ActionKind.Visit || actionKind === ActionKind.WebAppointment;
   const [showWebAlert, setShowWebAlert] = useState(isWebsite);
   const [showPhoneAlert, setShowPhoneAlert] = useState(!isWebsite);
   const [showPhoneFeedback, setShowPhoneFeedback] = useState(false);
@@ -35,7 +35,7 @@ function AppointmentFlow({
           okClicked={() => {
             setShowWebAlert(false);
             window.open(urlToRender, '_blank');
-            if (actionType === ActionType.Visit) {
+            if (actionKind === ActionKind.Visit) {
               setShowTelmedFeedback(true);
             } else {
               setShowAppointmentFeedback(true);
@@ -54,7 +54,7 @@ function AppointmentFlow({
           yesSelected={() => {
             setShowPhoneAlert(false);
             window.open(urlToRender, '_blank');
-            if (actionType === ActionType.CallAppointment) {
+            if (actionKind === ActionKind.CallAppointment) {
               setShowAppointmentFeedback(true);
             } else {
               setShowPhoneFeedback(true);
