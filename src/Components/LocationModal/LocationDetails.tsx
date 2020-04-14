@@ -113,17 +113,17 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     return (
       <Grid key={1} item md={5} xs={12}>
         <Typography style={{ paddingTop: '20px' }}>
-          {'Visit '}
+          {'Testing at this location is only offered to individuals that '}
           <Link
             onClick={trackLocationWebsiteClick}
             href={urlToRender}
             target="_blank"
             rel="noopener"
           >
-            this website
+            meet specific criteria
           </Link>
           {
-            ' for information about COVID-19 screening and testing services at this location.'
+            '. All others will be turned away.'
           }
         </Typography>
       </Grid>
