@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
   faTasks,
   faVial,
-  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
 import AppBar from './Components/AppBar/AppBar';
@@ -18,6 +17,8 @@ import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
 import ActionType from './Components/Types/ActionType';
+import LabelMapType from './Components/Types/LabelMapType';
+import SearchFilterType from './Components/Types/SearchFilterType';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -37,16 +38,8 @@ const AppBarContainer = styled.div`
   position: relative;
 `;
 
-export interface LabelMap {
-  [key: string]: {
-    sidebar: string;
-    card: string;
-    icon: IconDefinition;
-  };
-}
-
 // Map for toggles and modal line items
-export const labelMap: LabelMap = {
+export const labelMap: LabelMapType = {
   is_ordering_tests_only_for_those_who_meeting_criteria: {
     sidebar: 'Tests only those meeting criteria',
     card: 'Testing criteria',
@@ -59,14 +52,8 @@ export const labelMap: LabelMap = {
   },
 };
 
-// Controls toggles
-export interface SearchFilters {
-  is_ordering_tests_only_for_those_who_meeting_criteria: boolean;
-  is_collecting_samples: boolean;
-}
-
 // Initial state
-const defaultFilters: SearchFilters = {
+const defaultFilters: SearchFilterType = {
   is_ordering_tests_only_for_those_who_meeting_criteria: false,
   is_collecting_samples: false,
 };
@@ -80,7 +67,7 @@ interface GeolocationCoordinates {
   timestamp: number;
 }
 
-export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
+export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
@@ -171,11 +158,11 @@ const App = () => {
               fromAssistant={fromAssistant}
               location={selectedPlace}
               setFilter={(
-                filterKey: keyof SearchFilters,
+                filterKey: keyof SearchFilterType,
                 filterValue: boolean
               ) => {
                 setFilters((prevState) => {
-                  const newState: SearchFilters = {
+                  const newState: SearchFilterType = {
                     ...prevState,
                     [filterKey]: filterValue,
                   };

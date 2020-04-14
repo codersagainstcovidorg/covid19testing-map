@@ -13,7 +13,14 @@ import MapSearch from '../Map/MapSearch';
 import { ADD_LOCATION_FORM_URL } from '../../constants';
 import { trackUiClick } from '../../utils/tracking';
 import ShortQuestionAlert from '../LocationModal/ShortQuestionAlert';
-import AppBarPropType from '../Types/AppBarType';
+
+type AppBarPropType = {
+  geocoderContainerRef: any;
+  toggleGuide: () => void;
+  map: any;
+  filterApplied: boolean;
+  clearFilters: Function;
+};
 
 const ActionButtonContainer = styled.div`
   position: absolute;
