@@ -16,6 +16,8 @@ import { trackGuideStatus } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
+import AppointmentFlow from './Components/AppointmentFlow';
+import ActionType from './Components/ActionType';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -82,13 +84,15 @@ export const SearchContext = React.createContext<SearchFilters>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
-
+let appointmentFlowUrl = '';
+let actionType: ActionType;
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [globalMap, setGlobalMap] = useState<any>([]);
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
+  const [showAppointmentFlow, setShowAppointmentFlow] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
   const [filterApplied, setFilterApplied] = useState(false);
@@ -97,6 +101,13 @@ const App = () => {
   function toggleGuide() {
     setGuideModalOpen((prevState) => !prevState);
     trackGuideStatus(guideModalOpen);
+  }
+
+  function runAppointmentFlow(typeFromButton: ActionType, ctaLink: string) {
+    setShowLocationModal(false);
+    appointmentFlowUrl = ctaLink;
+    actionType = typeFromButton;
+    setShowAppointmentFlow(true);
   }
 
   useEffect(() => {
@@ -145,12 +156,14 @@ const App = () => {
               onClose={() => {
                 setSelectedPlace(null);
               }}
-              showCheckSymptomsFlow={(val: boolean) => {
-                if (val) {
+              showCheckSymptomsFlow={(shouldShowCheckSymptomsFlow: boolean) => {
+                if (shouldShowCheckSymptomsFlow) {
                   setShowLocationModal(false);
-                  setShowCheckSymptomsFlow(val);
+                  setShowCheckSymptomsFlow(shouldShowCheckSymptomsFlow);
                 }
               }}
+              runAppointmentFlow={runAppointmentFlow}
+              filterApplied={filterApplied}
             />
           )}
           {showCheckSymptomsFlow && (
@@ -181,6 +194,17 @@ const App = () => {
                 setShowLocationModal(true);
                 setSelectedPlace(null);
                 setShowCheckSymptomsFlow(false);
+              }}
+            />
+          )}
+          {showAppointmentFlow && (
+            <AppointmentFlow
+              urlToRender={appointmentFlowUrl}
+              actionType={actionType}
+              setFlowFinished={() => {
+                setShowLocationModal(true);
+                setSelectedPlace(null);
+                setShowAppointmentFlow(false);
               }}
             />
           )}

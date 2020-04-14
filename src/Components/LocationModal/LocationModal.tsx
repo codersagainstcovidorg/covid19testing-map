@@ -21,6 +21,7 @@ import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
 import { trackUiClick } from '../../utils/tracking';
+import ActionType from '../ActionType';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,12 +84,16 @@ interface LocationModalProps {
   location: any;
   onClose: Function;
   showCheckSymptomsFlow: Function;
+  runAppointmentFlow: Function;
+  filterApplied: boolean;
 }
 
 const LocationModal = ({
   location,
   onClose,
   showCheckSymptomsFlow,
+  filterApplied,
+  runAppointmentFlow,
 }: LocationModalProps) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -110,7 +115,67 @@ const LocationModal = ({
   function handleCheckSymptomsClicked() {
     showCheckSymptomsFlow(true);
   }
+  function loadNextStepButton(locationToRender: any): any {
+    let ctaText = '';
+    let ctaLink = '';
+    let actionType: ActionType;
 
+    if (
+      locationToRender.location_contact_url_covid_virtual_visit !== null &&
+      locationToRender.location_contact_url_covid_virtual_visit.substring(
+        0,
+        4
+      ) === 'http'
+    ) {
+      ctaText = 'Start Virtual Visit';
+      ctaLink = locationToRender.location_contact_url_covid_virtual_visit;
+      actionType = ActionType.Visit;
+    } else if (
+      locationToRender.is_collecting_samples_by_appointment_only === true &&
+      locationToRender.location_contact_url_covid_appointments !== null &&
+      locationToRender.location_contact_url_covid_appointments.substring(
+        0,
+        4
+      ) === 'http'
+    ) {
+      ctaText = 'Book Appointment';
+      ctaLink = locationToRender.location_contact_url_covid_appointments;
+      actionType = ActionType.WebAppointment;
+    } else if (
+      locationToRender.is_collecting_samples_by_appointment_only === true &&
+      locationToRender.location_contact_phone_covid !== null
+    ) {
+      ctaText = 'Call for Appointment';
+      ctaLink = `tel://${locationToRender.location_contact_phone_covid}`;
+      actionType = ActionType.CallAppointment;
+    } else if (
+      locationToRender.is_collecting_samples_by_appointment_only === true &&
+      locationToRender.location_contact_phone_appointment !== null
+    ) {
+      ctaText = 'Call for Appointment';
+      ctaLink = `tel://${locationToRender.location_contact_phone_appointment}`;
+      actionType = ActionType.CallAppointment;
+    } else {
+      ctaText = 'Call Ahead';
+      ctaLink = `tel://${locationToRender.location_contact_phone_main}`;
+      actionType = ActionType.CallAhead;
+    }
+
+    return (
+      <Button
+        variant="contained"
+        size="large"
+        color="primary"
+        className={classes.callToAction}
+        onClick={() => {
+          handleLinkClicked(locationToRender.location_id, 'Website Click');
+          runAppointmentFlow(actionType, ctaLink);
+        }}
+      >
+        {ctaText}
+      </Button>
+    );
+  }
   const details: any = [];
 
   Object.keys(labelMap).forEach((key: string) => {
@@ -148,18 +213,22 @@ const LocationModal = ({
           <Typography color="textPrimary" className={classes.cardMargin}>
             {location.additional_information_for_patients}
           </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            className={classes.callToAction}
-            onClick={() => {
-              handleCheckSymptomsClicked();
-              handleLinkClicked(location.location_id, 'Website Click');
-            }}
-          >
-            Check your Symptoms
-          </Button>
+          {filterApplied ? (
+            loadNextStepButton(location)
+          ) : (
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              className={classes.callToAction}
+              onClick={() => {
+                handleCheckSymptomsClicked();
+                handleLinkClicked(location.location_id, 'Website Click');
+              }}
+            >
+              Check your Symptoms
+            </Button>
+          )}
         </CardContent>
         <Divider />
         <CardActions

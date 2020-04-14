@@ -116,49 +116,66 @@ function CheckSymptomsFlow({
         okClicked={navigateAwayDismissed}
         modalClose={modalClose}
         title="Navigating to the Symptom Checker"
-        body="I’m about to open another window that will load the symptom checker used by this testing location. Once you complete the assessment, come back here to continue. Click OK to continue."
-      />
+      >
+        I’m about to open another window that will load the symptom checker used
+        by this testing location. Once you complete the assessment, come back
+        here to continue. Click OK to continue.
+      </InfoAlert>
       <ShortQuestionAlert
         showAlert={showSelfAssessmentCompletedAlert}
         yesSelected={completedAssessment}
         noSelected={didNotCompleteAssessment}
-        questionText="Were you able to complete the self-assessment?"
-      />
+      >
+        Were you able to complete the self-assessment?
+      </ShortQuestionAlert>
       <ShortQuestionAlert
         showAlert={showNeedHelp}
         yesSelected={needHelp}
         noSelected={doesNotNeedHelp}
-        questionText="Based on the results of the self-assessment: do you need help finding a testing location near you?"
-      />
+      >
+        Based on the results of the self-assessment: do you need help finding a
+        testing location near you?
+      </ShortQuestionAlert>
       <ShortQuestionAlert
         showAlert={showAdditionalAssessmentCheck}
         yesSelected={navigateAdditionalAgreed}
         noSelected={navigateAdditionalRefused}
-        questionText={
-          "Sorry that didn't work out for you... Would you like to try a different assessment check?"
-        }
-      />
+      >
+        Sorry that didn`&apos;`t work out for you... Would you like to try a
+        different assessment check?
+      </ShortQuestionAlert>
       <InfoAlert
         showAlert={showMapUpdatedAlert}
         okClicked={mapUpdateAgreed}
         modalClose={modalClose}
         title="Map Updated"
-        body="I’ve updated the map, the remaining pins represent locations that are capable of perform the actual test. Carefully review the instructions for each location and select the one that seems to be a good fit. I will highlight any locations with additional requirements or special features, such as appointments or telemedicine visits."
-      />
+      >
+        I’ve updated the map, the remaining pins represent locations that are
+        capable of perform the actual test. Carefully review the instructions
+        for each location and select the one that seems to be a good fit. I will
+        highlight any locations with additional requirements or special
+        features, such as appointments or telemedicine visits.
+      </InfoAlert>
       <InfoAlert
         showAlert={showAdditionalRefusedInfo}
         okClicked={additionalRefusedDismissed}
         modalClose={modalClose}
         title="Self Assessment Recommended"
-        body="Without the results of a self-assessment, we won’t be able to personalize the results any further. Please review location details for additional information."
-      />
+      >
+        Without the results of a self-assessment, we won’t be able to
+        personalize the results any further. Please review location details for
+        additional information.
+      </InfoAlert>
       <InfoAlert
         showAlert={showFailedCriteria}
         okClicked={failedCriteriaDismissed}
         modalClose={modalClose}
         title="Criteria Not Met"
-        body="According to CDC guidelines, not everyone needs to be tested for COVID-19. There are limited options if you don’t meet the testing criteria."
-      />
+      >
+        According to CDC guidelines, not everyone needs to be tested for
+        COVID-19. There are limited options if you don’t meet the testing
+        criteria.
+      </InfoAlert>
     </div>
   );
 }
