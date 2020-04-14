@@ -79,7 +79,7 @@ function CheckSymptomsFlow({
         location.location_contact_url_covid_screening_tool === '' ||
         location.location_contact_url_covid_screening_tool === null ||
         location.location_contact_url_covid_screening_tool.length < 4
-          ? 'https://www.apple.com/covid19/'
+          ? 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#'
           : location.location_contact_url_covid_screening_tool;
       if (urlToRedirect === 'https://www.apple.com/covid19/') {
         setAppleVisited(true);
