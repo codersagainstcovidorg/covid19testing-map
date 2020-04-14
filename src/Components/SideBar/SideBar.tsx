@@ -3,6 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import SidebarPropType from '../Types/SidebarPropType';
 
 import VerticalLinearStepper from './StepperVertical';
 
@@ -30,12 +31,7 @@ const SectionDivider = styled(Divider)`
   margin: 10px 24px !important;
 `;
 
-type SidebarProps = {
-  drawerOpen: boolean;
-  toggleFilter: Function;
-};
-
-const SideBar = ({ drawerOpen }: SidebarProps) => (
+const SideBar = ({ drawerOpen }: SidebarPropType) => (
   <Drawer variant="persistent" anchor="left" open={drawerOpen}>
     <DrawerContent>
       <Heading>Before you get started</Heading>

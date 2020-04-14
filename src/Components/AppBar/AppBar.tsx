@@ -10,9 +10,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
 import MoreButton from './MoreButton';
 import MapSearch from '../Map/MapSearch';
-import { ADD_LOCATION_FORM } from '../../constants';
+import { ADD_LOCATION_FORM_URL } from '../../constants';
 import { trackUiClick } from '../../utils/tracking';
 import ShortQuestionAlert from '../LocationModal/ShortQuestionAlert';
+import AppBarPropType from '../Types/AppBarType';
 
 const ActionButtonContainer = styled.div`
   position: absolute;
@@ -27,15 +28,7 @@ const Spacer = styled.div`
   flex-basis: 100%;
 `;
 
-type AppBarProps = {
-  geocoderContainerRef: any;
-  toggleGuide: () => void;
-  map: any;
-  filterApplied: boolean;
-  clearFilters: Function;
-};
-
-const AppBar = (props: AppBarProps) => {
+const AppBar = (props: AppBarPropType) => {
   const { toggleGuide, map, filterApplied, clearFilters } = props;
   const [showClearFilterDialog, setShowClearFilterDialog] = useState(false);
   const handleAddLocationClick = React.useCallback(() => {
@@ -73,7 +66,7 @@ const AppBar = (props: AppBarProps) => {
         <Tooltip title="Add a new location" placement="top" arrow>
           <IconButton
             color="inherit"
-            href={ADD_LOCATION_FORM}
+            href={ADD_LOCATION_FORM_URL}
             onClick={handleAddLocationClick}
             target="_blank"
             rel="noopener"

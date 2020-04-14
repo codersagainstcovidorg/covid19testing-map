@@ -17,7 +17,7 @@ import GuideModal from './Components/GuideModal';
 import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
-import ActionType from './Components/ActionType';
+import ActionType from './Components/Types/ActionType';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
