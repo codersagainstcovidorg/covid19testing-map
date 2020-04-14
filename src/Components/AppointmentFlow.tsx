@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import InfoAlert from './LocationModal/InfoAlert';
 import ShortQuestionAlert from './LocationModal/ShortQuestionAlert';
 import ActionType from './ActionType';
