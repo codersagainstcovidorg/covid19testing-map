@@ -50,7 +50,7 @@ const MapSearch = ({ map }: SearchProps) => {
       <div id="search-input">
         <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
           <Input
-            placeholder="Search Google Maps"
+            placeholder='Search places like "Albany", "NYU", or "94025"'
             className={classes.input}
             inputProps={{ 'aria-label': 'search google maps' }}
             onClick={handleSearchClick}

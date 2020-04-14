@@ -13,15 +13,14 @@ interface SelfAssessmentCompletedProps {
   showAlert: boolean;
   yesSelected: Function;
   noSelected: Function;
-  questionText: string;
 }
 
 const ShortQuestionAlert = ({
   showAlert,
   yesSelected,
   noSelected,
-  questionText,
-}: SelfAssessmentCompletedProps) => {
+  children,
+}: React.PropsWithChildren<SelfAssessmentCompletedProps>) => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setOpen(showAlert);
@@ -30,12 +29,12 @@ const ShortQuestionAlert = ({
   const handleYes = () => {
     yesSelected();
     setOpen(false);
-    trackUiClick(questionText, 'Yes');
+    trackUiClick(children!.toString(), 'Yes');
   };
   const handleNo = () => {
     noSelected();
     setOpen(false);
-    trackUiClick(questionText, 'No');
+    trackUiClick(children!.toString(), 'No');
   };
 
   return (
@@ -44,7 +43,7 @@ const ShortQuestionAlert = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{questionText}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{children}</DialogTitle>
       <DialogContent />
       <DialogActions>
         <Button onClick={handleYes} color="primary">

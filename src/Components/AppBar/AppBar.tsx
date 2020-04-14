@@ -93,8 +93,10 @@ const AppBar = (props: AppBarProps) => {
         noSelected={() => {
           setShowClearFilterDialog(false);
         }}
-        questionText="Are you sure you want to clear all the filters? This will reset the map to it's default state."
-      />
+      >
+        Are you sure you want to clear all the filters? This will reset the map
+        to it's default state.
+      </ShortQuestionAlert>
     </MuiAppBar>
   );
 };

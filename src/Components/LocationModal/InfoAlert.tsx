@@ -15,16 +15,15 @@ interface NavigateAwayProps {
   okClicked: Function;
   modalClose: Function;
   title: string;
-  body: string;
 }
 
 const InfoAlert = ({
   showAlert,
   okClicked,
   title,
-  body,
   modalClose,
-}: NavigateAwayProps) => {
+  children,
+}: React.PropsWithChildren<NavigateAwayProps>) => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setOpen(showAlert);
@@ -49,7 +48,7 @@ const InfoAlert = ({
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {body}
+          {children}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

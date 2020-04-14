@@ -87,23 +87,53 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
       trackUiClick('Location Website', locationToRender.location_id);
     };
 
-    let urlToRender = '';
-
+    // If there are specific instructions involving testing, then display those, and move on.
     if (
-      locationToRender.location_contact_url_main !== null &&
       locationToRender.location_specific_testing_criteria !== null &&
-      locationToRender.location_specific_testing_criteria.substring(0, 4) ===
+      locationToRender.location_specific_testing_criteria.substring(0, 4) !==
         'http'
     ) {
-      urlToRender = locationToRender.location_contact_url_main;
+      return (
+      <Grid key={1} item md={5} xs={12}>
+        <Typography style={{ paddingTop: '20px' }}>
+          {locationToRender.location_specific_testing_criteria}
+        </Typography>
+      </Grid>
+      );
+    }
+    
+    // Otherwise, figure out which URL to display
+    let urlToRender = '';
+    
+    // If location does NOT require/apply testing criteria then we're done
+    if (
+      locationToRender.is_ordering_tests_only_for_those_who_meeting_criteria !== true &&
+      (locationToRender.reference_publisher_of_criteria === null ||
+      locationToRender.reference_publisher_of_criteria.length < 3)
+      ) {
+      return (
+        <Grid key={1} item md={5} xs={12}>
+          <Typography style={{ paddingTop: '20px' }}>
+            {'Published testing criteria that is specific to this location could not be found. '}
+            {'This is common when CDC guidelines are in effect, but we recommend calling ahead to confirm.'}
+          </Typography>
+        </Grid>
+      ); 
+    }
+    
+    if (
+      locationToRender.location_specific_testing_criteria !== null &&
+      locationToRender.location_specific_testing_criteria.substring(0, 4) === 'http'
+    ) {
+      urlToRender = locationToRender.location_specific_testing_criteria;
     } else if (
       locationToRender.location_contact_url_covid_info !== null &&
-      locationToRender.location_contact_url_covid_info.length > 3
+      locationToRender.location_contact_url_covid_info.substring(0, 4) === 'http'
     ) {
       urlToRender = locationToRender.location_contact_url_covid_info;
     } else if (
       locationToRender.location_contact_url_main !== null &&
-      locationToRender.location_contact_url_main.length > 3
+      locationToRender.location_contact_url_main.substring(0, 4) === 'http'
     ) {
       urlToRender = locationToRender.location_contact_url_main;
     } else {
@@ -113,17 +143,17 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     return (
       <Grid key={1} item md={5} xs={12}>
         <Typography style={{ paddingTop: '20px' }}>
-          {'Visit '}
+          {'Testing at this location is only offered to individuals that '}
           <Link
             onClick={trackLocationWebsiteClick}
             href={urlToRender}
             target="_blank"
             rel="noopener"
           >
-            this website
+            meet specific criteria
           </Link>
           {
-            ' for information about COVID-19 screening and testing services at this location.'
+            '. All others will be turned away.'
           }
         </Typography>
       </Grid>
