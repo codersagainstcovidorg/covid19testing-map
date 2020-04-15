@@ -2,6 +2,7 @@ import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 import React from 'react';
 import MapPins from './MapPins';
 import { trackLocationPrompt, trackUserLocation } from '../../utils/tracking';
+import GeolocationType from '../Types/GeolocationType'
 
 const { REACT_APP_GCP_MAPS_API_KEY } = process.env;
 
@@ -13,15 +14,6 @@ const libraries = ['places'];
 
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
-
-interface GeolocationCoordinates {
-  coords: {
-    latitude: number;
-    longitude: number;
-    accuracy: number;
-  };
-  timestamp: number;
-}
 
 const Map = React.memo(
   ({ onClickPin, setMap }: MapWithGoogleProps) => {
@@ -58,7 +50,7 @@ const Map = React.memo(
 
     function locateUser(mapInstance: any) {
       navigator.geolocation.getCurrentPosition(
-        (res: GeolocationCoordinates) => {
+        (res: GeolocationType) => {
           const { latitude, longitude } = res.coords;
           trackUserLocation(latitude, longitude);
 

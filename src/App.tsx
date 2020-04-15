@@ -58,15 +58,6 @@ const defaultFilters: SearchFilterType = {
   is_collecting_samples: false,
 };
 
-interface GeolocationCoordinates {
-  coords: {
-    latitude: number;
-    longitude: number;
-    accuracy: number;
-  };
-  timestamp: number;
-}
-
 export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
 
