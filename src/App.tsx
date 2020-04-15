@@ -18,6 +18,7 @@ import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
 import ActionKind from './Components/Types/ActionKind';
 import LabelMapType from './Components/Types/LabelMapType';
+import LocationType from './Components/Types/LocationType';
 import SearchFilterType from './Components/Types/SearchFilterType';
 
 // Layout Component styles
@@ -66,7 +67,7 @@ let appointmentFlowUrl = '';
 let actionKind: ActionKind;
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState<LocationType>(null);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [globalMap, setGlobalMap] = useState<any>([]);
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
@@ -122,7 +123,7 @@ const App = () => {
 
           <MapContainer>
             <Map
-              onClickPin={(place: any) => {
+              onClickPin={(place: LocationType) => {
                 setSelectedPlace(place);
               }}
               setMap={setGlobalMap}

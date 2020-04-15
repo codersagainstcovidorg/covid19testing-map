@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import ReactGA from 'react-ga';
 import InfoAlert from './LocationModal/InfoAlert';
 import ShortQuestionAlert from './LocationModal/ShortQuestionAlert';
+import { TESTING_CRITERIA_URL_CDC } from '../constants';
 
 interface SymptomsFlowProps {
   location: any;
@@ -115,11 +117,23 @@ function CheckSymptomsFlow({
         showAlert={showNavigateAwayAlert}
         okClicked={navigateAwayDismissed}
         modalClose={modalClose}
-        title="Navigating to the Symptom Checker"
+        title="Review testing criteria"
       >
-        I’m about to open another window that will load the symptom checker used
-        by this testing location. Once you complete the assessment, come back
-        here to continue. Click OK to continue.
+        Testing at this location is only offered to individuals that meet specific criteria.
+        The CDC publishes {' '}
+        <ReactGA.OutboundLink
+        eventLabel="Testing Criteria: CDC"
+        to={TESTING_CRITERIA_URL_CDC}
+        target="_blank">
+         guidance
+        </ReactGA.OutboundLink>
+        {' '}
+        for who should be tested, but decisions about testing are at the discretion 
+        of state and local health departments and/or individual clinicians.
+        
+        To learn whether you are a candidate for COVID-19 testing at this location, 
+        you will need to complete a self-assessment. Please return to this page 
+        once you are finished. 
       </InfoAlert>
       <ShortQuestionAlert
         showAlert={showSelfAssessmentCompletedAlert}

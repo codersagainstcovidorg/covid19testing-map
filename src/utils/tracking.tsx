@@ -1,11 +1,12 @@
 import ReactGA from 'react-ga';
 
-export const trackPinClicked = (locationId: string): void =>
+export const trackPinClicked = (locationId: string): void => {
   ReactGA.event({
     category: 'Location',
     action: 'View',
     label: locationId,
   });
+}
 
 export const trackLocationPrompt = (label: string): void => {
   ReactGA.event({

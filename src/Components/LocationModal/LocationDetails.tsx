@@ -35,6 +35,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { trackUiClick } from '../../utils/tracking';
+import { TESTING_CRITERIA_URL_CDC } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -137,8 +138,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     ) {
       urlToRender = locationToRender.location_contact_url_main;
     } else {
-      urlToRender =
-        'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#';
+      urlToRender = TESTING_CRITERIA_URL_CDC;
     }
     return (
       <Grid key={1} item md={5} xs={12}>
