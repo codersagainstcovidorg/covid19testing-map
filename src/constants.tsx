@@ -1,8 +1,11 @@
 // COVID19 Mapbox public key
 // eslint-disable-next-line import/prefer-default-export
-export const ADD_LOCATION_FORM: string =
+export const ADD_LOCATION_FORM_URL: string =
   'https://survey123.arcgis.com/share/ce7939ac077c4551b15bfbf3579a259c';
 
 export const GITHUB_URL: string = 'https://github.com/codersagainstcovidorg';
 export const API_URL: string =
   'https://github.com/codersagainstcovidorg/covid19testing-backend';
+
+export const TESTING_CRITERIA_URL_CDC: string = 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html';
+export const SYMPTOM_CHECKER_URL_CDC: string = 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#cdc-chat-bot-open';

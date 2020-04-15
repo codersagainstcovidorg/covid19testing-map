@@ -3,6 +3,6 @@ enum ActionType {
   WebAppointment,
   CallAppointment,
   CallAhead,
-}
+};
 
 export default ActionType;
