@@ -52,9 +52,9 @@ type LocationKeys =  { [K in StringKeys]?: string } &
   { [K in BooleanKeys]?: boolean } & 
   { [K in NumberKeys]?: number } & 
   { 'location_status'?: LocationStatusValueset } &
-  { 'external_location_id'?: Array<IdentifierType> }
+  { 'external_location_id'?: Array<IdentifierType> } | null
 ;
 
-type LocationType = LocationKeys | null;
+type LocationType = LocationKeys;
 
 export default LocationType;
