@@ -1,4 +1,4 @@
-enum LocationStatusValueset {
+enum LocationStatusKind {
   "Coming Soon",
   "Impacted",
   "Inactive",
@@ -9,4 +9,4 @@ enum LocationStatusValueset {
   "",
 }
 
-export default LocationStatusValueset;
+export default LocationStatusKind;

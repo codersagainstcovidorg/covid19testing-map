@@ -18,7 +18,7 @@ import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
 import ActionKind from './Components/Types/ActionKind';
 import LabelMapType from './Components/Types/LabelMapType';
-import LocationType from './Components/Types/LocationType';
+import { LocationType } from './Components/Types/LocationType';
 import SearchFilterType from './Components/Types/SearchFilterType';
 
 // Layout Component styles
@@ -67,7 +67,7 @@ let appointmentFlowUrl = '';
 let actionKind: ActionKind;
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
-  const [selectedPlace, setSelectedPlace] = useState<LocationType>(null);
+  const [selectedPlace, setSelectedPlace] = useState<LocationType>();
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [globalMap, setGlobalMap] = useState<any>([]);
   const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
@@ -129,11 +129,11 @@ const App = () => {
               setMap={setGlobalMap}
             />
           </MapContainer>
-          {selectedPlace !== null && showLocationModal && (
+          {selectedPlace !== null && selectedPlace !== undefined && showLocationModal && (
             <LocationModal
               location={selectedPlace}
               onClose={() => {
-                setSelectedPlace(null);
+                setSelectedPlace(undefined);
               }}
               showCheckSymptomsFlow={(shouldShowCheckSymptomsFlow: boolean) => {
                 if (shouldShowCheckSymptomsFlow) {
@@ -171,7 +171,7 @@ const App = () => {
               }}
               setFlowFinished={() => {
                 setShowLocationModal(true);
-                setSelectedPlace(null);
+                setSelectedPlace(undefined);
                 setShowCheckSymptomsFlow(false);
               }}
             />
@@ -182,7 +182,7 @@ const App = () => {
               actionKind={actionKind}
               setFlowFinished={() => {
                 setShowLocationModal(true);
-                setSelectedPlace(null);
+                setSelectedPlace(undefined);
                 setShowAppointmentFlow(false);
               }}
             />

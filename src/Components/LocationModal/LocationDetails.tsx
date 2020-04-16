@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactGA from 'react-ga';
 import {
   Avatar,
   CardContent,
@@ -14,28 +16,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faAmbulance,
-  faCampground,
-  faCarSide,
-  faCircle,
-  faClinicMedical,
-  faFirstAid,
-  faHospital,
-  faHospitalAlt,
-  faMedkit,
-  faShieldAlt,
-  faStethoscope,
-  faStore,
-  faUserMd,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { indigo, orange } from '@material-ui/core/colors';
-import Link from '@material-ui/core/Link';
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { trackUiClick } from '../../utils/tracking';
 import { TESTING_CRITERIA_URL_CDC } from '../../constants';
+import { LocationType, 
+  PlaceOfServiceType, } from '../Types/LocationType';
+import { isDescriptionLike } from '../../utils/helperMethods';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface DetailsProps {
-  location: any;
+  location: LocationType;
   expanded: boolean;
   details: any;
 }
@@ -57,61 +44,23 @@ interface DetailsProps {
 const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
   const classes = useStyles();
 
-  function getLocationName(param: String): String {
-    if (param === null || param === undefined || param.length < 4) {
-      return 'Other';
-    }
-    if (param === 'Public Health Department') {
-      return 'Public Health Dept.';
-    }
-    return param;
-  }
+  function renderLocationTestingDetails(locationToRender: LocationType): any {
+    // // if (isURLLike(locationToRender.keys.location_specific_testing_criteria)) {
+    // //   return (
+    // //     <Grid key={1} item md={5} xs={12}>
+    // //       <Typography style={{ paddingTop: '20px' }}>
+    // //         {locationToRender.keys.location_specific_testing_criteria}
+    // //       </Typography>
+    // //     </Grid>
+    // //   );
+    // // }
 
-  function renderLocationTestingDetails(locationToRender: any): any {
-    if (locationToRender.location_specific_testing_criteria !== null) {
-      if (
-        locationToRender.location_specific_testing_criteria.substring(0, 4) !==
-          'http' &&
-        locationToRender.location_specific_testing_criteria.length > 3
-      ) {
-        return (
-          <Grid key={1} item md={5} xs={12}>
-            <Typography style={{ paddingTop: '20px' }}>
-              {locationToRender.location_specific_testing_criteria}
-            </Typography>
-          </Grid>
-        );
-      }
-    }
+    // const trackLocationWebsiteClick = () => {
+    //   trackUiClick('Location Website', locationToRender.keys.location_id);
+    // };
 
-    const trackLocationWebsiteClick = () => {
-      trackUiClick('Location Website', locationToRender.location_id);
-    };
-
-    // If there are specific instructions involving testing, then display those, and move on.
-    if (
-      locationToRender.location_specific_testing_criteria !== null &&
-      locationToRender.location_specific_testing_criteria.substring(0, 4) !==
-        'http'
-    ) {
-      return (
-      <Grid key={1} item md={5} xs={12}>
-        <Typography style={{ paddingTop: '20px' }}>
-          {locationToRender.location_specific_testing_criteria}
-        </Typography>
-      </Grid>
-      );
-    }
-    
-    // Otherwise, figure out which URL to display
-    let urlToRender = '';
-    
     // If location does NOT require/apply testing criteria then we're done
-    if (
-      locationToRender.is_ordering_tests_only_for_those_who_meeting_criteria !== true &&
-      (locationToRender.reference_publisher_of_criteria === null ||
-      locationToRender.reference_publisher_of_criteria.length < 3)
-      ) {
+    if (locationToRender.doesApplyTestingCriteria() == false) {
       return (
         <Grid key={1} item md={5} xs={12}>
           <Typography style={{ paddingTop: '20px' }}>
@@ -120,77 +69,45 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
           </Typography>
         </Grid>
       ); 
-    }
-    
-    if (
-      locationToRender.location_specific_testing_criteria !== null &&
-      locationToRender.location_specific_testing_criteria.substring(0, 4) === 'http'
-    ) {
-      urlToRender = locationToRender.location_specific_testing_criteria;
-    } else if (
-      locationToRender.location_contact_url_covid_info !== null &&
-      locationToRender.location_contact_url_covid_info.substring(0, 4) === 'http'
-    ) {
-      urlToRender = locationToRender.location_contact_url_covid_info;
-    } else if (
-      locationToRender.location_contact_url_main !== null &&
-      locationToRender.location_contact_url_main.substring(0, 4) === 'http'
-    ) {
-      urlToRender = locationToRender.location_contact_url_main;
     } else {
-      urlToRender = TESTING_CRITERIA_URL_CDC;
-    }
-    return (
-      <Grid key={1} item md={5} xs={12}>
-        <Typography style={{ paddingTop: '20px' }}>
-          {'Testing at this location is only offered to individuals that '}
-          <Link
-            onClick={trackLocationWebsiteClick}
-            href={urlToRender}
-            target="_blank"
-            rel="noopener"
-          >
-            meet specific criteria
-          </Link>
-          {
-            '. All others will be turned away.'
-          }
-        </Typography>
-      </Grid>
-    );
-  }
-
-  function renderLocationIcon(param: any): IconProp {
-    switch (param) {
-      case 'Urgent Care':
-        return faStethoscope;
-      case 'Medical Center':
-        return faHospital;
-      case 'Health Center':
-        return faFirstAid;
-      case 'Clinic':
-        return faClinicMedical;
-      case 'Primary Care':
-        return faUserMd;
-      case 'Temporary':
-        return faCampground;
-      case 'Immediate Care':
-        return faMedkit;
-      case 'Public Health Department':
-        return faShieldAlt;
-      case 'Drive-thru':
-        return faCarSide;
-      case 'Emergency Room':
-        return faAmbulance;
-      case 'FQHC':
-        return faHospitalAlt;
-      case 'Retail':
-        return faStore;
-      default:
-        return faHospital;
+      // Otherwise, figure out what to display
+      let testingCriteriaValue = locationToRender.getTestingCriteria();
+      
+      // If there are specific instructions involving testing, then display those, and move on.
+      if (isDescriptionLike(testingCriteriaValue)) {
+        return (
+        <Grid key={1} item md={5} xs={12}>
+          <Typography style={{ paddingTop: '20px' }}>
+            {testingCriteriaValue}
+          </Typography>
+        </Grid>
+        );
+      } else {
+        // Otherwise, render a message sending users to the CDC.
+        return (
+          <Grid key={1} item md={5} xs={12}>
+            <Typography style={{ paddingTop: '20px' }}>
+              {'Testing at this location is only offered to individuals that meet specific criteria, but there does not \
+                appear to be a document with details available. You can try reviewing '}
+              <ReactGA.OutboundLink
+                eventLabel="Location Details: CDC Testing Criteria"
+                to={TESTING_CRITERIA_URL_CDC}
+                target="_blank"
+                >
+                CDC guidelines
+              </ReactGA.OutboundLink>
+              { ', but remember that final decisions about testing are at the discretion of state and local health \
+                  departments and/or individual clinicians.'
+              }
+            </Typography>
+          </Grid>
+        );
+      }
     }
   }
-
+  
+  const locationPlaceOfService: PlaceOfServiceType = location.getPlaceOfService()
+  
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <Divider />
@@ -205,9 +122,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
               <span className="fa-layers fa-fw fa-4x" style={{ width: '100%' }}>
                 <FontAwesomeIcon icon={faCircle} color={indigo[800]} />
                 <FontAwesomeIcon
-                  icon={renderLocationIcon(
-                    location.location_place_of_service_type
-                  )}
+                  icon={ locationPlaceOfService.icon }
                   transform="shrink-6"
                   color="white"
                 />
@@ -215,9 +130,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
               <div style={{ width: '100%', textAlign: 'center' }}>
                 <Chip
                   size="medium"
-                  label={getLocationName(
-                    location.location_place_of_service_typeZ
-                  )}
+                  label={locationPlaceOfService.kind.valueOf }
                   className={classes.typeChip}
                 />
               </div>

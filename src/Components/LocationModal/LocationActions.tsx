@@ -4,23 +4,28 @@ import PhoneDisabledIcon from '@material-ui/icons/PhoneDisabled';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import React from 'react';
+import { ContactKind,
+  ContactPurpose,
+  LocationType, } from '../Types/LocationType';
+import { isValueSafe } from '../../utils/helperMethods';
 
 interface LocationActionsProps {
-  location: any;
+  location: LocationType;
   onLinkClick: Function;
 }
 
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
+  const mainPhone: string | null = location.getContact(ContactKind.Phone, ContactPurpose.SeekGeneralInfo);
   return (
     <div>
-      {location.location_contact_phone_main !== null &&
-      location.location_contact_phone_main.length > 4 ? (
+      
+      { isValueSafe(mainPhone) ? (
         <Tooltip title="Dial main phone number" placement="top" arrow>
           <IconButton
             area-label="call"
-            href={`tel://${location.location_contact_phone_main}`}
+            href={`tel://${mainPhone}`}
             onClick={() => {
-              onLinkClick(location.location_id, 'Call');
+              onLinkClick(location.keys.location_id, 'Call');
             }}
           >
             <PhoneIcon />
@@ -38,7 +43,7 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
       <Tooltip title="Get directions" placement="top" arrow>
         <IconButton
           area-label="directions"
-          href={`https://www.google.com/maps/dir/?api=1&destination=${location.location_latitude},${location.location_longitude}`}
+          href={`https://www.google.com/maps/dir/?api=1&destination=${location.keys.location_latitude},${location.keys.location_longitude}`}
           target="_blank"
           rel="noopener"
         >
@@ -55,7 +60,7 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
           target="_blank"
           rel="noopener"
           onClick={() => {
-            onLinkClick(location.location_id, 'Report Error');
+            onLinkClick(location.keys.location_id, 'Report Error');
           }}
         >
           <ReportProblemIcon />

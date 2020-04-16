@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ReactGA from 'react-ga';
+import { TESTING_CRITERIA_URL_CDC } from '../constants';
 import InfoAlert from './LocationModal/InfoAlert';
 import ShortQuestionAlert from './LocationModal/ShortQuestionAlert';
-import { TESTING_CRITERIA_URL_CDC } from '../constants';
 
 interface SymptomsFlowProps {
   location: any;
@@ -122,7 +122,7 @@ function CheckSymptomsFlow({
         Testing at this location is only offered to individuals that meet specific criteria.
         The CDC publishes {' '}
         <ReactGA.OutboundLink
-        eventLabel="Testing Criteria: CDC"
+        eventLabel="Check Symptoms: CDC Testing Criteria"
         to={TESTING_CRITERIA_URL_CDC}
         target="_blank">
          guidance
