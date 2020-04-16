@@ -5,15 +5,17 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 // import ShareIcon from '@material-ui/icons/Share';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import CodeIcon from '@material-ui/icons/Code';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { API_URL, GITHUB_URL } from '../../constants';
+import { API_URL, GITHUB_URL, URISA_GISCORPS_URL } from '../../constants';
 import { trackUiClick } from '../../utils/tracking';
 
 const actions = [
   /* { Icon: ShareIcon, title: 'Share', href: '' }, */
   { Icon: GitHubIcon, title: 'Code', href: GITHUB_URL },
   { Icon: CodeIcon, title: 'API', href: API_URL },
+  { Icon: FavoriteIcon, title: 'Data Heroes', href: URISA_GISCORPS_URL },
 ];
 
 const MenuText = styled.span`

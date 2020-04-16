@@ -6,6 +6,8 @@ export const ADD_LOCATION_FORM_URL: string =
 export const GITHUB_URL: string = 'https://github.com/codersagainstcovidorg';
 export const API_URL: string =
   'https://github.com/codersagainstcovidorg/covid19testing-backend';
+export const URISA_GISCORPS_URL: string = 'https://www.giscorps.org/covid19-esri-282/'
+  
 
 export const TESTING_CRITERIA_URL_CDC: string = 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html';
 export const SYMPTOM_CHECKER_URL_CDC: string = 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#cdc-chat-bot-open';
