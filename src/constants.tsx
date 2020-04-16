@@ -3,6 +3,7 @@
 export const ADD_LOCATION_FORM_URL: string =
   'https://survey123.arcgis.com/share/ce7939ac077c4551b15bfbf3579a259c';
 
+export const CAC_ORG_URL: string = 'https://codersagainstcovid.org'
 export const GITHUB_URL: string = 'https://github.com/codersagainstcovidorg';
 export const API_URL: string =
   'https://github.com/codersagainstcovidorg/covid19testing-backend';
