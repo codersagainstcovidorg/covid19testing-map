@@ -115,11 +115,12 @@ function CheckSymptomsFlow({
         showAlert={showNavigateAwayAlert}
         okClicked={navigateAwayDismissed}
         modalClose={modalClose}
-        title="Navigating to the Symptom Checker"
+        title="Launching self-assessment"
       >
-        I’m about to open another window that will load the symptom checker used
-        by this testing location. Once you complete the assessment, come back
-        here to continue. Click OK to continue.
+        Most locations require that individuals meet specific criteria in order to qualify for 
+        testing. A self-assessment (commonly known as a "symptom checker") will launch in a separate 
+        window. The assessment will help you determine whether you meet testing criteria. 
+        Once you complete the assessment, please return to this page to continue.
       </InfoAlert>
       <ShortQuestionAlert
         showAlert={showSelfAssessmentCompletedAlert}
@@ -141,7 +142,7 @@ function CheckSymptomsFlow({
         yesSelected={navigateAdditionalAgreed}
         noSelected={navigateAdditionalRefused}
       >
-        Sorry that didn`&apos;`t work out for you... Would you like to try a
+        We regret that you were unable to complete the self-assessment. Would you like to try a
         different assessment check?
       </ShortQuestionAlert>
       <InfoAlert
@@ -150,11 +151,9 @@ function CheckSymptomsFlow({
         modalClose={modalClose}
         title="Map Updated"
       >
-        I’ve updated the map, the remaining pins represent locations that are
-        capable of perform the actual test. Carefully review the instructions
-        for each location and select the one that seems to be a good fit. I will
-        highlight any locations with additional requirements or special
-        features, such as appointments or telemedicine visits.
+        The map has been updated to include only those locations that are able to 
+        perform the actual test. Carefully review the instructions
+        for each location, and select the option that seems to be a good fit.
       </InfoAlert>
       <InfoAlert
         showAlert={showAdditionalRefusedInfo}
@@ -162,9 +161,9 @@ function CheckSymptomsFlow({
         modalClose={modalClose}
         title="Self Assessment Recommended"
       >
-        Without the results of a self-assessment, we won’t be able to
-        personalize the results any further. Please review location details for
-        additional information.
+        The personalization features require the results of a self-assessment. 
+        You may continue using the website, and restart this process later, if 
+        you change your mind.
       </InfoAlert>
       <InfoAlert
         showAlert={showFailedCriteria}
@@ -173,8 +172,9 @@ function CheckSymptomsFlow({
         title="Criteria Not Met"
       >
         According to CDC guidelines, not everyone needs to be tested for
-        COVID-19. There are limited options if you don’t meet the testing
-        criteria.
+        COVID-19. There are, however, a few locations that are willing to test individuals 
+        that do not meet CDC criteria. We will be adding some of these locations in 
+        the coming days and weeks. 
       </InfoAlert>
     </div>
   );
