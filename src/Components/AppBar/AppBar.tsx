@@ -94,8 +94,8 @@ const AppBar = (props: AppBarPropType) => {
           setShowClearFilterDialog(false);
         }}
       >
-        Are you sure you want to clear all the filters? This will reset the map
-        to it's default state.
+        Clearing the personalization filters will reset the map. 
+        Would you like to continue?
       </ShortQuestionAlert>
     </MuiAppBar>
   );
