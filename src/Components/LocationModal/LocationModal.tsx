@@ -21,7 +21,7 @@ import { labelMap } from '../../App';
 import LocationDetails from './LocationDetails';
 import LocationActions from './LocationActions';
 import { trackUiClick } from '../../utils/tracking';
-import ActionType from '../ActionType';
+import ActionType from '../Types/ActionType';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
