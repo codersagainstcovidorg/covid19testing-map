@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-  
   CardContent,
   CardHeader,
   createStyles,
   Divider,
-  
   List,
   ListItem,
   ListItemIcon,
@@ -17,9 +15,7 @@ import AssistantIcon from '@material-ui/icons/Assistant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircle,
-  faHeadSideMask,
   faTasks,
-  faVial,
 } from '@fortawesome/free-solid-svg-icons';
 import { labelMap } from '../App';
 import { trackUiClick } from '../utils/tracking';
@@ -98,7 +94,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
           Step-by-step guide
         </Typography>
         <Typography style={{ fontStyle: 'italic', color: 'gray' }}>
-          Which of the following best describes you?
+          Select the option to begin:
         </Typography>
         <List component="nav">
           <ListItem
@@ -122,7 +118,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               secondary="Check your symptoms using the CDC's online self-assessment tool"
             />
           </ListItem>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon>
               <span className="fa-layers fa-fw fa-2x" style={{ width: '100%' }}>
                 <FontAwesomeIcon icon={faCircle} color="lightgray" />
@@ -153,7 +149,7 @@ const DoctorCard = ({ onResponseClick }: DoctorStepProps) => {
               primary="I meet CDC criteria for community testing"
               secondary="Find locations serving all members of your community"
             />
-          </ListItem>
+          </ListItem> */}
         </List>
       </CardContent>
     </div>
