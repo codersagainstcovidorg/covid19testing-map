@@ -1,5 +1,14 @@
-import ContactKind from './ContactKind';
-import ContactPurposeKind from './ContactPurposeKind';
+export enum ContactKind {
+  Phone,
+  Url,
+};
+
+export enum ContactPurposeKind {
+  BookAppointment,
+  TakeAssessment,
+  SeekGeneralInfo,
+  SeekCOVIDInfo,
+};
 
 export type ContactType = {
   kind: ContactKind;

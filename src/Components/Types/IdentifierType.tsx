@@ -1,4 +1,8 @@
-import IdentifierKind from './IdentifierKind';
+export enum IdentifierKind {
+  String,
+  Url,
+  Uuid,
+};
 
 type IdentifierType = {
   system: IdentifierKind;

@@ -13,7 +13,24 @@ import {
   faUserMd,
 } from '@fortawesome/free-solid-svg-icons';
 import { IconProp as PlaceOfServiceIcon } from '@fortawesome/fontawesome-svg-core';
-import { LocationPlaceOfServiceKind as PlaceOfServiceKind } from "./LocationPlaceOfServiceKind";
+
+export enum PlaceOfServiceKind {
+  Clinic = "Clinic",
+  DriveThru = "Drive-thru",
+  EmergencyRoom = "Hospital",
+  Fqhc = "Health Center",
+  HealthCenter = "Health Center",
+  Hospital = "Hospital",
+  ImmediateCare = "Urgent Care",
+  MedicalCenter = "Medical Center",
+  Other = "Other",
+  PrimaryCare = "Primary Care",
+  PrivateLab = "Commercial Lab",
+  PublicHealthDepartment = "Public Health Site",
+  Retail = "Retail/Store",
+  Temporary = "Temporary/Popup",
+  UrgentCare = "Urgent Care",
+};
 
 export interface LocationPlaceOfServiceType {
   kind: PlaceOfServiceKind;
@@ -56,5 +73,4 @@ export function toPlaceOfService(aValue: string): LocationPlaceOfServiceType {
 };
 
 export default LocationPlaceOfServiceType;
-export { PlaceOfServiceKind as PlaceOfServiceKind };
 export type { PlaceOfServiceIcon as PlaceOfServiceIcon };
