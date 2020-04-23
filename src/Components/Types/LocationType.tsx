@@ -1,6 +1,4 @@
 import IdentifierType from './IdentifierType';
-import { ContactPurposeKind as ContactPurpose } from './ContactPurposeKind';
-import ContactKind from './ContactKind';
 import LocationStatusKind from './LocationStatusKind';
 import { LocationPlaceOfServiceType as PlaceOfServiceType } from './LocationPlaceOfServiceType';
 import { isDescriptionLike, isURLLike, toCleanString } from "../../utils/helperMethods";
@@ -157,8 +155,6 @@ export class LocationType {
   }
 }
 
-export { ContactKind }from './ContactKind';
-export { ContactPurposeKind as ContactPurpose } from './ContactPurposeKind';
 export { LocationPlaceOfServiceKind as PlaceOfServiceKind } from './LocationPlaceOfServiceKind';
 export type { LocationPlaceOfServiceType as PlaceOfServiceType } from './LocationPlaceOfServiceType';
 export default LocationType;

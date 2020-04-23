@@ -5,7 +5,14 @@ import {
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { IconProp as LocationAttributeIcon } from '@fortawesome/fontawesome-svg-core';
 import { LocationType, LocationKeys } from './LocationType';
-import { LocationAttributeKind } from './LocationAttributeKind';
+
+export enum LocationAttributeKind {
+  CAC,
+  Computed,
+  GISCorps,
+  GoogleAnalytics,
+  UserCrowdsourcing,
+}
 
 type CACKeys = 'TelemedicineOnlineScreeningOffered' |
   'SelfGuidedOnlineScreeningOffered' |

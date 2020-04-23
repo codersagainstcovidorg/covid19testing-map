@@ -25,3 +25,5 @@ export interface UrlContactType extends ContactType {
   kind: ContactKind.Url;
   value: string | URL;
 };
+
+export default ContactType;

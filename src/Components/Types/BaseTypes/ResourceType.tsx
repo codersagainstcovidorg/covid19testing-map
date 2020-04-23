@@ -4,6 +4,7 @@ import { MetaType } from "./MetaType";
 export type ResourceTypeKind = 'Entity' | 
   'Person' |
   'Place' |
+  'Location' |
   'Organization' |
   'Group' |
   'Activity' |

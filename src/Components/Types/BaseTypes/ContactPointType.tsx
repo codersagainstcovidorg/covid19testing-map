@@ -11,30 +11,8 @@ export type ContactPointType = {
   use : string | null, // The purpose of this contact point
   kind : ContactPointKind | null , // A coded type for the contact point that can be used to determine which contact point to use for a specific purpose.
   system : ContactPointSystem | null, // Establishes the namespace for the value
-  value : string, // The actual contact point details
+  value : string | null, // The actual contact point details
   rank? : number | null, // Specify preferred order of use (1 = highest)
-}
-
-/** Details for all kinds of technology-mediated contact points for a person
- * including telephone, email, etc.
- */
-export interface PersonContactPoint extends ContactPointType {
-  use : PersonContactPointUse; // The purpose of this contact point
-  kind : ContactPointKind; // A coded type for the contact point that can be used to determine which contact point to use for a specific purpose.
-  system : ContactPointSystem; // Establishes the namespace for the value
-  value : string; // The actual contact point details
-  rank? : number; // Specify preferred order of use (1 = highest)
-}
-
-/** Details for all kinds of technology-mediated contact points for an organization
- * including telephone, email, etc.
- */
-export interface OrganizationContactPoint extends ContactPointType {
-  use : OrganizationContactPointUse; // The purpose of this contact point
-  kind : ContactPointKind; // A coded type for the contact point that can be used to determine which contact point to use for a specific purpose.
-  system : ContactPointSystem; // Establishes the namespace for the value
-  value : string; // The actual contact point details
-  rank? : number; // Specify preferred order of use (1 = highest)
 }
 
 /** Details for all kinds of technology-mediated contact points for a place
@@ -42,10 +20,18 @@ export interface OrganizationContactPoint extends ContactPointType {
  */
 export interface PlaceContactPoint extends ContactPointType {
   use : PlaceContactPointUse; // The purpose of this contact point
-  kind : ContactPointKind; // A coded type for the contact point that can be used to determine which contact point to use for a specific purpose.
-  system : ContactPointSystem; // Establishes the namespace for the value
-  value : string; // The actual contact point details
-  rank? : number; // Specify preferred order of use (1 = highest)
 }
 
-export default PlaceContactPoint;
+/** Details for all kinds of technology-mediated contact points for a person
+ * including telephone, email, etc.
+ */
+export interface PersonContactPoint extends ContactPointType {
+  use : PersonContactPointUse; // The purpose of this contact point
+}
+
+/** Details for all kinds of technology-mediated contact points for an organization
+ * including telephone, email, etc.
+ */
+export interface OrganizationContactPoint extends ContactPointType {
+  use : OrganizationContactPointUse; // The purpose of this contact point
+}
