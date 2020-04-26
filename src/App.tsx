@@ -19,6 +19,7 @@ import AppointmentFlow from './Components/AppointmentFlow';
 import ActionType from './Components/Types/ActionType';
 import LabelMapType from './Components/Types/LabelMapType';
 import SearchFilterType from './Components/Types/SearchFilterType';
+import fetchLocation from './utils/fetchLocation';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -58,19 +59,22 @@ const defaultFilters: SearchFilterType = {
   is_collecting_samples: false,
 };
 
-interface GeolocationCoordinates {
-  coords: {
-    latitude: number;
-    longitude: number;
-    accuracy: number;
-  };
-  timestamp: number;
+class LatLng {
+  lat: number;
+  lng: number;
+
+  constructor(lat: number, lng: number) {
+    this.lat = lat;
+    this.lng = lng;
+  }
 }
+const uriRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
+let popListener: any;
 let appointmentFlowUrl = '';
 let actionType: ActionType;
 const App = () => {
@@ -84,6 +88,7 @@ const App = () => {
   const [filters, setFilters] = useState(defaultFilters);
   const [filterApplied, setFilterApplied] = useState(false);
   const [fromAssistant, setFromAssistant] = useState(false);
+  const [isFirstLoad, setFirstLoad] = useState(true);
 
   function toggleGuide() {
     setGuideModalOpen((prevState) => !prevState);
@@ -96,6 +101,46 @@ const App = () => {
     actionType = typeFromButton;
     setShowAppointmentFlow(true);
   }
+
+  useEffect(() => {
+    function triggerRouter() {
+      let currentPath = document.location.pathname.substr(1);
+      let uriPlace = (selectedPlace as any);
+      if (uriRegex.test(currentPath)
+        && (!selectedPlace || (selectedPlace as any).location_id !== currentPath)) {
+  
+        fetchLocation(currentPath).then(newPlace => {
+          if (isFirstLoad ||
+            (uriPlace && uriPlace.location_id === newPlace.location_id)) {
+            setSelectedPlace(newPlace);
+            globalMap.panTo(new LatLng(newPlace.location_latitude, newPlace.location_longitude));
+          }
+        });
+      }
+    }
+
+    if (isFirstLoad && typeof globalMap.panTo === 'function') {
+      popListener = window.addEventListener('popstate', e => {
+        triggerRouter();
+      });
+
+      triggerRouter();
+      setFirstLoad(false);
+
+      return function cleanup() {
+        window.removeEventListener('popState', popListener);
+      }
+    }
+  }, [globalMap, isFirstLoad, selectedPlace]);
+
+  useEffect(() => {
+    const place = (selectedPlace as any);
+    if (place) {
+      window.history.pushState({}, `FindCovidTesting - ${place.location_name}`, `/${place.location_id}`);
+    } else if (!isFirstLoad) {
+      window.history.pushState({}, 'FindCovidTesting', '/');
+    }
+  }, [selectedPlace, isFirstLoad]);
 
   useEffect(() => {
     windowListener = window.addEventListener('resize', () =>
