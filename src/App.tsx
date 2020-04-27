@@ -59,16 +59,7 @@ const defaultFilters: SearchFilterType = {
   is_collecting_samples: false,
 };
 
-class LatLng {
-  lat: number;
-  lng: number;
-
-  constructor(lat: number, lng: number) {
-    this.lat = lat;
-    this.lng = lng;
-  }
-}
-const uriRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
@@ -106,14 +97,14 @@ const App = () => {
     function triggerRouter() {
       let currentPath = document.location.pathname.substr(1);
       let uriPlace = (selectedPlace as any);
-      if (uriRegex.test(currentPath)
+      if (uuidRegex.test(currentPath)
         && (!selectedPlace || (selectedPlace as any).location_id !== currentPath)) {
   
         fetchLocation(currentPath).then(newPlace => {
           if (isFirstLoad ||
             (uriPlace && uriPlace.location_id === newPlace.location_id)) {
             setSelectedPlace(newPlace);
-            globalMap.panTo(new LatLng(newPlace.location_latitude, newPlace.location_longitude));
+            globalMap.panTo({lat: newPlace.location_latitude, lng: newPlace.location_longitude});
           }
         });
       }
