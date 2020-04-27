@@ -93,6 +93,7 @@ const LegalModal = () => {
   return (
     <div>
       <Dialog
+        style={{ zIndex: 2500 }}
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
