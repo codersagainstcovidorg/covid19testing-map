@@ -105,7 +105,7 @@ const Map = React.memo(
       return (
         <GoogleMap
           id="covid-map"
-          zoom={2}
+          zoom={3}
           onLoad={onLoad}
           mapContainerStyle={{
             position: 'absolute',
