@@ -28,7 +28,12 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
 
   return (
     <div>
-      <MarkerClusterer>
+      <MarkerClusterer
+        averageCenter
+        enableRetinaIcons
+        gridSize={60}
+        minimumClusterSize={5}
+      >
         {(clusterer) =>
           pinData.map((place: any) => (
             <Marker

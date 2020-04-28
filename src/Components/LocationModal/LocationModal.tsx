@@ -187,7 +187,11 @@ const LocationModal = ({
     });
   });
 
-  const address = `${location.location_address_street}, ${location.location_address_locality}, ${location.location_address_region} ${location.location_address_postal_code}`;
+  const address = `${
+    ((typeof location.location_address_street === 'string') && !(location.location_address_street.trim().empty)) ? (location.location_address_street.trim()) : ''}${
+    ((typeof location.location_address_locality === 'string') && !(location.location_address_locality.trim().length < 2)) ? (', ' + location.location_address_locality.trim()) : ''}${
+      ((typeof location.location_address_region === 'string') && !(location.location_address_region.trim().length < 2)) ? (', ' + location.location_address_region.trim()) : ''}${
+        ((typeof location.location_address_postal_code === 'string') && !(location.location_address_postal_code.trim().length < 2)) ? (', ' + location.location_address_postal_code.trim()) : ''}`;
 
   return (
     <Modal
