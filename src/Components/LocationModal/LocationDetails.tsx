@@ -1,51 +1,14 @@
 import {
-  Avatar,
   CardContent,
-  Chip,
   Collapse,
-  createStyles,
   Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Theme,
   Typography,
 } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faAmbulance,
-  faCampground,
-  faCarSide,
-  faCircle,
-  faClinicMedical,
-  faFirstAid,
-  faHospital,
-  faHospitalAlt,
-  faMedkit,
-  faShieldAlt,
-  faStethoscope,
-  faStore,
-  faUserMd,
-} from '@fortawesome/free-solid-svg-icons';
-import { indigo, orange } from '@material-ui/core/colors';
 import Link from '@material-ui/core/Link';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { trackUiClick } from '../../utils/tracking';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    typeChip: {
-      backgroundColor: orange[900],
-      color: theme.palette.getContrastText(indigo[800]),
-      height: '20px',
-      marginTop: '5px',
-    },
-  })
-);
+import ReactGA from 'react-ga';
 
 interface DetailsProps {
   location: any;
@@ -54,19 +17,7 @@ interface DetailsProps {
 }
 
 const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
-  const classes = useStyles();
-
-  function getLocationName(param: String): String {
-    if (param === null || param === undefined || param.length < 4) {
-      return 'Other';
-    }
-    if (param === 'Public Health Department') {
-      return 'Public Health Dept.';
-    }
-    return param;
-  }
-
-  function renderLocationTestingDetails(locationToRender: any): any {
+function renderLocationTestingDetails(locationToRender: any): any {
     if (locationToRender.location_specific_testing_criteria !== null) {
       if (
         locationToRender.location_specific_testing_criteria.substring(0, 4) !==
@@ -74,10 +25,12 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
         locationToRender.location_specific_testing_criteria.length > 3
       ) {
         return (
-          <Grid key={1} item md={5} xs={12}>
-            <Typography style={{ paddingTop: '20px' }}>
-              {locationToRender.location_specific_testing_criteria}
-            </Typography>
+          <Grid key={1} item md={12} xs={12}>
+            <div style={{ marginTop: '10px' }}>
+              {location.location_specific_testing_criteria.split('\\n').map((i: any, key: number) => {
+                return <Typography key={key} paragraph variant="body2" component="p">{i}</Typography>;
+              })}
+            </div>
           </Grid>
         );
       }
@@ -95,9 +48,11 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     ) {
       return (
       <Grid key={1} item md={5} xs={12}>
-        <Typography style={{ paddingTop: '20px' }}>
-          {locationToRender.location_specific_testing_criteria}
-        </Typography>
+        <div style={{ marginTop: '10px' }}>
+          {location.location_specific_testing_criteria.split('\\n').map((i: any, key: number) => {
+            return <Typography key={key} paragraph variant="body1" component="p">{i}</Typography>;
+          })}
+        </div>
       </Grid>
       );
     }
@@ -113,7 +68,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
       ) {
       return (
         <Grid key={1} item md={5} xs={12}>
-          <Typography style={{ paddingTop: '20px' }}>
+          <Typography style={{ marginTop: '10px' }}>
             {'Published testing criteria that is specific to this location could not be found. '}
             {'This is common when CDC guidelines are in effect, but we recommend calling ahead to confirm.'}
           </Typography>
@@ -142,7 +97,7 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     }
     return (
       <Grid key={1} item md={5} xs={12}>
-        <Typography style={{ paddingTop: '20px' }}>
+        <Typography style={{ marginTop: '10px' }}>
           {'Testing at this location is only offered to individuals that '}
           <Link
             onClick={trackLocationWebsiteClick}
@@ -160,86 +115,33 @@ const LocationDetails = ({ location, expanded, details }: DetailsProps) => {
     );
   }
 
-  function renderLocationIcon(param: any): IconProp {
-    switch (param) {
-      case 'Urgent Care':
-        return faStethoscope;
-      case 'Medical Center':
-        return faHospital;
-      case 'Health Center':
-        return faFirstAid;
-      case 'Clinic':
-        return faClinicMedical;
-      case 'Primary Care':
-        return faUserMd;
-      case 'Temporary':
-        return faCampground;
-      case 'Immediate Care':
-        return faMedkit;
-      case 'Public Health Department':
-        return faShieldAlt;
-      case 'Drive-thru':
-        return faCarSide;
-      case 'Emergency Room':
-        return faAmbulance;
-      case 'FQHC':
-        return faHospitalAlt;
-      case 'Retail':
-        return faStore;
-      default:
-        return faHospital;
-    }
-  }
-
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <Divider />
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item md={3} xs={12}>
-            <div
-              style={{
-                paddingTop: '20px',
-              }}
-            >
-              <span className="fa-layers fa-fw fa-4x" style={{ width: '100%' }}>
-                <FontAwesomeIcon icon={faCircle} color={indigo[800]} />
-                <FontAwesomeIcon
-                  icon={renderLocationIcon(
-                    location.location_place_of_service_type
-                  )}
-                  transform="shrink-6"
-                  color="white"
-                />
-              </span>
-              <div style={{ width: '100%', textAlign: 'center' }}>
-                <Chip
-                  size="medium"
-                  label={getLocationName(
-                    location.location_place_of_service_typeZ
-                  )}
-                  className={classes.typeChip}
-                />
-              </div>
+          <Grid key={1} item md={12} xs={12}>
+            <div style={{ paddingTop: '20px' }}>
+              {location.additional_information_for_patients.split('\\n').map((i: any, key: number) => {
+                return <Typography key={key} paragraph variant="body1" component="p">{i}</Typography>;
+              })}
             </div>
           </Grid>
+          
           {renderLocationTestingDetails(location)}
-          <Divider orientation="vertical" flexItem />
-          <Grid key={2} item md={3} xs={12}>
-            <List>
-              {details.map((item: any) => {
-                return location[item.key] === true ? (
-                  <ListItem key={item.key}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FontAwesomeIcon icon={item.icon} />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText secondary={item.title} />
-                  </ListItem>
-                ) : null;
-              })}
-            </List>
+          
+          <Divider orientation="horizontal" flexItem />
+          <Grid item md={12} xs={12}>
+            <Typography color="textPrimary" variant="caption" style={{ paddingTop: '20px',paddingBottom: '20px' }}>
+              {'\nSource: '}
+              <ReactGA.OutboundLink
+                  eventLabel={'OutboundLink | Source | ' + location.location_contact_url_main }
+                  to={location.location_contact_url_main}
+                  target="_blank"
+                >
+                  {location.location_contact_url_main}
+              </ReactGA.OutboundLink>
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>
