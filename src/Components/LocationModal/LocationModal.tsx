@@ -232,7 +232,7 @@ const LocationModal = ({
       <Card className={classes.card}>
         <Typography variant="overline" style={{ paddingLeft: '15px',paddingTop: '25px', paddingBottom: '0px', color: 'orange', fontWeight: 'bolder' }}>
           {(location.is_collecting_samples_by_appointment_only === true) ? 'Appointment only ' : 
-                'COVID-19 location in ' + location.location_address_locality
+            ''
           }
         </Typography>
         {/* <Grid item md={3} xs={12}>
@@ -280,10 +280,10 @@ const LocationModal = ({
           </Typography>
           <Divider orientation="vertical" flexItem />
           <Typography color="textPrimary" variant="overline" style={{ paddingBottom: '5px' }}>
-            {(location.is_evaluating_symptoms === true) && (location.is_collecting_samples === true) ? 'COVID-19 screening and testing ' : 
-              (location.is_evaluating_symptoms === true) && (location.is_collecting_samples === false) ? 'COVID-19 screening in ' :
-                (location.is_evaluating_symptoms === false) && (location.is_collecting_samples === true) ? 'COVID-19 screening in ' : 
-                  'COVID-19 location in ' + location.location_address_locality
+            {(location.is_evaluating_symptoms === true) && (location.is_collecting_samples === true) ? 'COVID-19 screening and testing in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
+              (location.is_evaluating_symptoms === true) && (location.is_collecting_samples === false) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
+                (location.is_evaluating_symptoms === false) && (location.is_collecting_samples === true) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
+                  'COVID-19 location in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area')
             }
           </Typography>
           {/* <Typography color="textPrimary" paragraph variant="body1"></Typography> */}
@@ -374,7 +374,7 @@ const LocationModal = ({
           <Typography color="textPrimary" variant="body2" style={{ paddingBottom: '20px' }}>
             {'For the most current and authoritative information about COVID-19 testing in your area, visit your '}
             <ReactGA.OutboundLink
-              eventLabel={'OutboundLink | DPH | ' + location.location_address_locality }
+              eventLabel={'OutboundLink | DPH | ' + (location.location_address_locality ?? location.location_address_region ?? location.location_address_street) }
               to={location.reference_publisher_of_criteria}
               target="_blank"
             >
