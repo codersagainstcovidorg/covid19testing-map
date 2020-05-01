@@ -128,7 +128,7 @@ const LocationModal = ({
   filterApplied,
   runAppointmentFlow,
 }: LocationModalProps) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     trackUiClick('Location Details', expanded ? 'collapse' : 'expand');
