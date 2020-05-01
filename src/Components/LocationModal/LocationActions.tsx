@@ -18,7 +18,7 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
     <div>
       {location.location_contact_phone_main !== null &&
       location.location_contact_phone_main.length > 4 ? (
-        <Tooltip title="Dial main phone number" placement="top" arrow>
+        <Tooltip title={'Dial ' + location.location_contact_phone_main} placement="top" arrow>
           <IconButton
             area-label="call"
             href={`tel://${location.location_contact_phone_main}`}

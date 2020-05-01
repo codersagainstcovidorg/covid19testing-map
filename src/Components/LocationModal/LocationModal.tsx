@@ -263,7 +263,17 @@ const LocationModal = ({
             </div>
           </Grid> */}
         <CardHeader
-          title={location.location_name}
+          // title={location.location_name}
+          title={
+            <ReactGA.OutboundLink
+                eventLabel={'CardHeader | Title | ' + location.location_name }
+                to={location.location_contact_url_main}
+                target="_blank"
+                style={{ textDecoration: 'none', color: '#12005e' }}
+              >
+                {location.location_name}
+            </ReactGA.OutboundLink>
+          }
           subheader={address}
           className={classes.cardHeader}
           action={
@@ -275,11 +285,11 @@ const LocationModal = ({
         />
 
         <CardContent>
-          <Typography color="primary" variant="h6" style={{ paddingBottom: '0px' }}>
+          <Typography variant="h6" style={{ paddingBottom: '0px', color: '#12005e', textTransform: 'uppercase' }}>
             {location.location_status}
           </Typography>
           <Divider orientation="vertical" flexItem />
-          <Typography color="textPrimary" variant="overline" style={{ paddingBottom: '5px' }}>
+          <Typography color="textPrimary" variant="overline" style={{ marginBottom: '0px', fontWeight: 'bolder' }}>
             {(location.is_evaluating_symptoms === true) && (location.is_collecting_samples === true) ? 'COVID-19 screening and testing in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
               (location.is_evaluating_symptoms === true) && (location.is_collecting_samples === false) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
                 (location.is_evaluating_symptoms === false) && (location.is_collecting_samples === true) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
