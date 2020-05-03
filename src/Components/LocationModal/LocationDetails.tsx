@@ -96,7 +96,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
         'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#';
     }
     return (
-      <Grid key={1} item md={5} xs={12}>
+      <Grid key={2} item md={5} xs={12}>
         <Typography style={{ marginTop: '10px' }}>
           {'Testing at this location is only offered to individuals that '}
           <Link
