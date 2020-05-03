@@ -19,17 +19,21 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
-import HowToRegIcon from '@material-ui/icons/HowToReg';
-import ColorizeIcon from '@material-ui/icons/Colorize';
-import PhoneForwardedIcon from '@material-ui/icons/PhoneForwarded';
-import ListAltTwoToneIcon from '@material-ui/icons/ListAltTwoTone';
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
-import FastForwardRoundedIcon from '@material-ui/icons/FastForwardRounded';
-// import Icon from '@mdi/react';
-import Icon from '@material-ui/core/Icon';
-// import { mdiDna } from '@mdi/js';
-import EventBusyIcon from '@material-ui/icons/EventBusy';
+import { Icon } from '@mdi/react';
+import { 
+  mdiCalendarPlus
+  ,mdiCarInfo
+  ,mdiClockFast
+  ,mdiDiabetes
+  ,mdiDna
+  ,mdiDoctor
+  ,mdiFlagTriangle
+  ,mdiMinusCircle
+  ,mdiPhoneForward
+  ,mdiTestTube
+  ,mdiShare
+  ,mdiHazardLights
+} from '@mdi/js';
 import ReactGA from 'react-ga';
 import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,6 +43,7 @@ import LocationActions from './LocationActions';
 import { trackUiClick } from '../../utils/tracking';
 import ActionType from '../Types/ActionType';
 import {convert} from '../../utils/fetchLastUpdated';
+import theme from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,7 +128,19 @@ interface LocationModalProps {
   showCheckSymptomsFlow: Function;
   runAppointmentFlow: Function;
   filterApplied: boolean;
-}
+};
+
+interface ChipData {
+  key: number;
+  label: string;
+  ariaLabel: string;
+  isTrue: boolean;
+  visibility: string;
+  tooltip: string;
+  icon: any;
+  rotate: number;
+};
+
 
 const LocationModal = ({
   location,
@@ -140,6 +157,111 @@ const LocationModal = ({
   };
 
   const classes = useStyles();
+  
+  const raw_attributes = JSON.parse(location.raw_data);
+  
+  // eslint-disable-next-line
+  const [chipData, setChipData] = React.useState<ChipData[]>([
+    { key: 0, 
+      label: ((location.is_collecting_samples_by_appointment_only === true) ? "Appointment is required" : "Appointment NOT required"), 
+      ariaLabel: 'appointment',
+      isTrue: (location.is_collecting_samples_by_appointment_only === true), 
+      visibility: ((location.is_collecting_samples_by_appointment_only) ? "visible" : "visible"), 
+      tooltip: ((location.is_collecting_samples_by_appointment_only)? "An appointment is required for testing at this location" : "No appointment required (drop-in/walk-in)"), 
+      icon: ((location.is_collecting_samples_by_appointment_only === true) ? mdiCalendarPlus : mdiMinusCircle),
+      rotate: 0
+    },
+    { key: 1, 
+      label: (location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Referral is required" : "Referral NOT required",
+      ariaLabel: 'referral',
+      isTrue: (location.is_ordering_tests_only_for_those_who_meeting_criteria === true), 
+      visibility: ((location.is_ordering_tests_only_for_those_who_meeting_criteria) ? "visible" : "visible"), 
+      tooltip: ((location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Testing only those who meet criteria or have a physician's referral" : "Testing anyone with symptoms (physician referral is NOT required))"), 
+      icon: ((location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? mdiShare : mdiMinusCircle),
+      rotate: 0
+    }
+    ,{ key: 2, 
+      label: (location.is_call_ahead === true) ? "Call ahead" : "No need to call ahead",
+      ariaLabel: 'call ahead',
+      isTrue: (location.is_call_ahead === true), 
+      visibility: ((location.is_call_ahead) ? "visible" : "visible"), 
+      tooltip: ((location.is_call_ahead === true) ? "Call prior to heading to the location" : "No need to call ahead (appointment may still be necessary)"), 
+      icon: ((location.is_call_ahead === true) ? mdiPhoneForward : mdiMinusCircle),
+      rotate: 0
+    }
+    ,{ key: 3, 
+      label: (location.is_evaluating_symptoms === true) ? "Screening symptoms" : "NOT Screening symptoms",
+      ariaLabel: 'screening',
+      isTrue: (location.is_evaluating_symptoms === true), 
+      visibility: ((location.is_evaluating_symptoms) ? "visible" : "visible"), 
+      tooltip: ((location.is_evaluating_symptoms === true) ? "This location offers screening for symptoms of COVID-19" : "This location does NOT offer screening for symptoms of COVID-19"), 
+      icon: ((location.is_evaluating_symptoms === true) ? mdiDoctor : mdiMinusCircle),
+      rotate: 0
+    }
+    ,{ key: 4, 
+      label: (location.is_collecting_samples === true) ? "Collecting samples" : "NOT Collecting samples",
+      ariaLabel: 'testing',
+      isTrue: (location.is_collecting_samples === true), 
+      visibility: ((location.is_collecting_samples) ? "visible" : "visible"), 
+      tooltip: ((location.is_collecting_samples === true) ? "This location collects samples to be tested for COVID-19" : "This location does NOT collect samples to be tested for COVID-19"), 
+      icon: ((location.is_collecting_samples === true) ? mdiTestTube : mdiMinusCircle),
+      rotate: ((location.is_collecting_samples === true) ? 45 : 0),
+    }
+    ,{ key: 5, 
+      label: (raw_attributes.is_same_day_result === true) ? "Rapid test results" : "No rapid test",
+      ariaLabel: 'rapid-test',
+      isTrue: (raw_attributes.is_same_day_result === true), 
+      visibility: ((raw_attributes.is_same_day_result) ? "visible" : "visible"), 
+      tooltip: ((raw_attributes.is_same_day_result === true) ? "This location offers point-of-care testing, which yields results in a few hours or less" : "This location does NOT offer point-of-care testing, which means that it may take one or more days to receive your results"), 
+      icon: ((raw_attributes.is_same_day_result === true) ? mdiClockFast : mdiMinusCircle),
+      rotate: 0
+    }
+    ,{ key: 6, 
+      label: (raw_attributes.does_offer_molecular_test === true) ? "Molecular-based" : "Molecular-based",
+      ariaLabel: 'molecular-test',
+      isTrue: (raw_attributes.does_offer_molecular_test === true), 
+      visibility: ((raw_attributes.does_offer_molecular_test) ? "visible" : "visible"), 
+      tooltip: ((raw_attributes.does_offer_molecular_test === true) ? "This location offers molecular-based tests for COVID-19" : "This location does NOT offer molecular-based tests for COVID-19"), 
+      icon: ((raw_attributes.does_offer_molecular_test === true) ? mdiDna : mdiMinusCircle),
+      rotate: ((location.is_collecting_samples === true) ? 45 : 0),
+    }    
+    ,{ key: 7, 
+      label: (raw_attributes.does_offer_antibody_test === true) ? "Antibody-based" : "Antibody-based",
+      ariaLabel: 'antibody-test',
+      isTrue: (raw_attributes.does_offer_antibody_test === true), 
+      visibility: ((raw_attributes.does_offer_antibody_test) ? "visible" : "visible"), 
+      tooltip: ((raw_attributes.does_offer_antibody_test === true) ? "This location offers antibody-based tests for COVID-19" : "This location does NOT offer antibody-based tests for COVID-19"), 
+      icon: ((raw_attributes.does_offer_antibody_test === true) ? mdiDiabetes : mdiMinusCircle),
+      rotate: 0,
+    }
+    ,{ key: 7, 
+      label: (raw_attributes.is_drive_through === true) ? "Drive-through" : "NOT Drive-through",
+      ariaLabel: 'drive-through',
+      isTrue: (raw_attributes.is_drive_through === true), 
+      visibility: ((raw_attributes.is_drive_through) ? "visible" : "hidden"), 
+      tooltip: ((raw_attributes.is_drive_through === true) ? "This location is a drive-through" : "This location is NOT a drive-through"), 
+      icon: ((raw_attributes.is_drive_through === true) ? mdiCarInfo : mdiMinusCircle),
+      rotate: 0,
+    }
+    ,{ key: 8, 
+      label: (raw_attributes.is_temporary === true) ? "1-day only" : "NOT 1-day only",
+      ariaLabel: 'one-day-only',
+      isTrue: (raw_attributes.is_temporary === true), 
+      visibility: ((raw_attributes.is_temporary) ? "visible" : "hidden"), 
+      tooltip: ((raw_attributes.is_temporary === true) ? "This location is only offering services one day please read the information carefully." : ""), 
+      icon: ((raw_attributes.is_temporary === true) ? mdiHazardLights : mdiMinusCircle),
+      rotate: 0,
+    }
+    ,{ key: 9, 
+      label: (raw_attributes.is_flagged === true) ? "Flagged" : "Not flagged",
+      ariaLabel: 'flagged',
+      isTrue: (raw_attributes.is_flagged === true), 
+      visibility: ((raw_attributes.is_flagged) ? "visible" : "hidden"), 
+      tooltip: ((raw_attributes.is_flagged === true) ? "This location has been flagged as suspicious and possibly fraudulent, proceed with caution." : ""), 
+      icon: ((raw_attributes.is_flagged === true) ? mdiFlagTriangle : mdiMinusCircle),
+      rotate: 0,
+    }
+  ]);
 
   function handleLinkClicked(locationId: string, action: string): void {
     ReactGA.event({
@@ -225,7 +347,6 @@ const LocationModal = ({
   });
 
   const address = `${((typeof location.location_address_street === 'string') && !(location.location_address_street.trim().empty)) ? (location.location_address_street.trim()) : ''}`;
-  const raw_attributes = JSON.parse(location.raw_data);
 
   return (
     <Modal
@@ -305,132 +426,37 @@ const LocationModal = ({
           
           <div className={classes.cardContent} style={{ paddingTop: '0px', marginTop: '0px' }}>
             <Paper elevation={0} component="ul" className={classes.chipRoot} >
-              <Box component="li" visibility={(location.is_collecting_samples_by_appointment_only === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(location.is_collecting_samples_by_appointment_only === true) ? "An appointment is required for testing at this location" : "No appointment required (drop-in/walk-in)"}
-                  aria-label="appointment"
-                  >
-                  <Chip 
-                    icon={(location.is_collecting_samples_by_appointment_only === true) ? <EventAvailableIcon /> : <EventBusyIcon />}
-                    label={(location.is_collecting_samples_by_appointment_only === true) ? "Appointment is required" : "Appointment NOT required"}
-                    size= "medium"
-                    variant={(location.is_collecting_samples_by_appointment_only === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-              
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Testing only those who meet criteria or have a physician's referral." : "Testing anyone with symptoms (physician referral is NOT required)"}
-                  aria-label="referral"
-                  >
-                  <Chip 
-                    icon={(location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? <HowToRegIcon /> : <NotInterestedIcon />}
-                    label={(location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Referral is required" : "Referral NOT required"}
-                    size= "medium"
-                    variant={(location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-              
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(location.is_call_ahead === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(location.is_call_ahead === true) ? "Call prior to heading to the location" : "No need to call ahead (appointment may still be necessary)"}
-                  aria-label="call ahead"
-                  >
-                  <Chip 
-                    icon={(location.is_call_ahead === true) ? <PhoneForwardedIcon /> : <NotInterestedIcon />}
-                    label={(location.is_call_ahead === true) ? "Call ahead" : "No need to call ahead"}
-                    size= "medium"
-                    variant={(location.is_call_ahead === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-              
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(location.is_evaluating_symptoms === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(location.is_evaluating_symptoms === true) ? "This location offers screening for symptoms of COVID-19" : "This location does NOT offer screening for symptoms of COVID-19"}
-                  aria-label="screening"
-                  >
-                  <Chip 
-                    icon={(location.is_evaluating_symptoms === true) ? <ListAltTwoToneIcon /> : <NotInterestedIcon />}
-                    label={(location.is_evaluating_symptoms === true) ? "Screening" : "NOT screening" }
-                    size= "medium"
-                    variant={(location.is_evaluating_symptoms === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(location.is_collecting_samples === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(location.is_collecting_samples === true) ? "This location collects samples to be tested for COVID-19" : "This location does NOT collect samples to be tested for COVID-19"}
-                  aria-label="testing"
-                  >
-                  <Chip 
-                    icon={(location.is_collecting_samples === true) ? <ColorizeIcon /> : <NotInterestedIcon />}
-                    label={(location.is_collecting_samples === true) ? "Testing" : "NOT Testing" }
-                    size= "medium"
-                    variant={(location.is_collecting_samples === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(raw_attributes.is_same_day_result === true) ? "visible" : "visible"}>
-                <Tooltip 
-                  title={(raw_attributes.is_same_day_result === true) ? "This location offers point-of-care testing, which yields results in a few hours or less." : "This location does NOT offer point-of-care testing, which means that it may take one or more days to receive your results."}
-                  aria-label="point-of-care"
-                  >
-                  <Chip 
-                    icon={(raw_attributes.is_same_day_result === true) ? <FastForwardRoundedIcon /> : <NotInterestedIcon />}
-                    label={(raw_attributes.is_same_day_result === true) ? "Rapid test results" : "NO rapid test options" }
-                    size= "medium"
-                    variant={(raw_attributes.is_same_day_result === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-                </Tooltip>
-              </Box>
-              
-              
-              <Box component="li" visibility={(raw_attributes.does_offer_molecular_test === true) ? "visible" : "hidden"}>
-                <Tooltip 
-                  title={(raw_attributes.does_offer_molecular_test === true) ? "This location offers molecular-based tests for COVID-19" : "This location does NOT offer molecular-based tests for COVID-19"}
-                  aria-label="molecular-test"
-                  >
-                  <Chip 
-                    icon={(raw_attributes.does_offer_molecular_test === true) ? <Icon className="mdi mdiDna" /> : <NotInterestedIcon />}
-                    label={(raw_attributes.does_offer_molecular_test === true) ? "Molecular Tests" : "No Molecular" }
-                    size= "medium"
-                    variant={(raw_attributes.does_offer_molecular_test === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-                </Tooltip>
-              </Box>
-              <Box component="li" visibility={(raw_attributes.does_offer_antibody_test === true) ? "visible" : "hidden"}>
-                <Tooltip 
-                  title={(raw_attributes.does_offer_antibody_test === true) ? "This location offers antibody-based tests for COVID-19" : "This location does NOT offer antibody-based tests for COVID-19"}
-                  aria-label="antibody-test"
-                  >
-                  <Chip 
-                    icon={(raw_attributes.does_offer_antibody_test === true) ? <Icon className="mdi mdiDna" />  : <NotInterestedIcon />}
-                    label={(raw_attributes.does_offer_antibody_test === true) ? "Antibody Tests" : "No Antibody" }
-                    size= "medium"
-                    variant={(raw_attributes.does_offer_antibody_test === true) ? "default" : "outlined"}
-                    color="primary" 
-                    className={classes.chip}
-                  />
-                </Tooltip>
-              </Box>
-              
+              {chipData.map((data) => {
+                // let icon;
+
+                // if (data.label === 'React') {
+                //   icon = <TagFacesIcon />;
+                // }
+
+                return (
+                  <Box key={data.key} component="li" visibility={data.visibility}>
+                    <Tooltip 
+                      title={data.tooltip}
+                      aria-label={data.ariaLabel}>
+                      <Chip 
+                        // icon={data.icon}
+                        icon={<Icon path={data.icon}
+                          title="data.label" 
+                          size={1}
+                          rotate={data.rotate}
+                          color={(data.isTrue) ? "white" : theme.palette.warning.main }
+                          />
+                        }
+                        label={data.label}
+                        size= "medium"
+                        variant={(data.isTrue) ? "default" : "outlined"}
+                        color="primary" 
+                        className={classes.chip}
+                      />
+                    </Tooltip>
+                  </Box>
+                );
+              })}
             </Paper>
           </div>
           
