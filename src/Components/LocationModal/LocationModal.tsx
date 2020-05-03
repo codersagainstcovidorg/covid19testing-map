@@ -25,6 +25,10 @@ import ColorizeIcon from '@material-ui/icons/Colorize';
 import PhoneForwardedIcon from '@material-ui/icons/PhoneForwarded';
 import ListAltTwoToneIcon from '@material-ui/icons/ListAltTwoTone';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import FastForwardRoundedIcon from '@material-ui/icons/FastForwardRounded';
+// import Icon from '@mdi/react';
+import Icon from '@material-ui/core/Icon';
+// import { mdiDna } from '@mdi/js';
 import EventBusyIcon from '@material-ui/icons/EventBusy';
 import ReactGA from 'react-ga';
 import { red } from '@material-ui/core/colors';
@@ -221,6 +225,7 @@ const LocationModal = ({
   });
 
   const address = `${((typeof location.location_address_street === 'string') && !(location.location_address_street.trim().empty)) ? (location.location_address_street.trim()) : ''}`;
+  const raw_attributes = JSON.parse(location.raw_data);
 
   return (
     <Modal
@@ -378,6 +383,54 @@ const LocationModal = ({
                   />
                 </Tooltip>
               </Box>
+              <Box component="li" visibility={(raw_attributes.is_same_day_result === true) ? "visible" : "visible"}>
+                <Tooltip 
+                  title={(raw_attributes.is_same_day_result === true) ? "This location offers point-of-care testing, which yields results in a few hours or less." : "This location does NOT offer point-of-care testing, which means that it may take one or more days to receive your results."}
+                  aria-label="point-of-care"
+                  >
+                  <Chip 
+                    icon={(raw_attributes.is_same_day_result === true) ? <FastForwardRoundedIcon /> : <NotInterestedIcon />}
+                    label={(raw_attributes.is_same_day_result === true) ? "Rapid test results" : "NO rapid test options" }
+                    size= "medium"
+                    variant={(raw_attributes.is_same_day_result === true) ? "default" : "outlined"}
+                    color="primary" 
+                    className={classes.chip}
+                  />
+                </Tooltip>
+              </Box>
+              
+              
+              <Box component="li" visibility={(raw_attributes.does_offer_molecular_test === true) ? "visible" : "hidden"}>
+                <Tooltip 
+                  title={(raw_attributes.does_offer_molecular_test === true) ? "This location offers molecular-based tests for COVID-19" : "This location does NOT offer molecular-based tests for COVID-19"}
+                  aria-label="molecular-test"
+                  >
+                  <Chip 
+                    icon={(raw_attributes.does_offer_molecular_test === true) ? <Icon className="mdi mdiDna" /> : <NotInterestedIcon />}
+                    label={(raw_attributes.does_offer_molecular_test === true) ? "Molecular Tests" : "No Molecular" }
+                    size= "medium"
+                    variant={(raw_attributes.does_offer_molecular_test === true) ? "default" : "outlined"}
+                    color="primary" 
+                    className={classes.chip}
+                  />
+                </Tooltip>
+              </Box>
+              <Box component="li" visibility={(raw_attributes.does_offer_antibody_test === true) ? "visible" : "hidden"}>
+                <Tooltip 
+                  title={(raw_attributes.does_offer_antibody_test === true) ? "This location offers antibody-based tests for COVID-19" : "This location does NOT offer antibody-based tests for COVID-19"}
+                  aria-label="antibody-test"
+                  >
+                  <Chip 
+                    icon={(raw_attributes.does_offer_antibody_test === true) ? <Icon className="mdi mdiDna" />  : <NotInterestedIcon />}
+                    label={(raw_attributes.does_offer_antibody_test === true) ? "Antibody Tests" : "No Antibody" }
+                    size= "medium"
+                    variant={(raw_attributes.does_offer_antibody_test === true) ? "default" : "outlined"}
+                    color="primary" 
+                    className={classes.chip}
+                  />
+                </Tooltip>
+              </Box>
+              
             </Paper>
           </div>
           
