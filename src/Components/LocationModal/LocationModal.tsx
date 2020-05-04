@@ -223,7 +223,7 @@ const LocationModal = ({
       visibility: ((raw_attributes.does_offer_molecular_test) ? "visible" : "visible"), 
       tooltip: ((raw_attributes.does_offer_molecular_test === true) ? "This location offers molecular-based tests for COVID-19" : "This location does NOT offer molecular-based tests for COVID-19"), 
       icon: ((raw_attributes.does_offer_molecular_test === true) ? mdiDna : mdiMinusCircle),
-      rotate: ((location.is_collecting_samples === true) ? 45 : 0),
+      rotate: ((location.does_offer_molecular_test === true) ? 45 : 0),
     }    
     ,{ key: 7, 
       label: (raw_attributes.does_offer_antibody_test === true) ? "Antibody-based" : "Antibody-based",
