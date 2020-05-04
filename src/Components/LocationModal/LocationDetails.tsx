@@ -135,7 +135,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
             <Typography color="textPrimary" variant="caption" style={{ paddingTop: '20px',paddingBottom: '20px' }}>
               {'\nSource: '}
               <ReactGA.OutboundLink
-                  eventLabel={'OutboundLink | Source | ' + location.location_contact_url_main }
+                  eventLabel={'OutboundLink | Source | ' + location.location_address_locality + ' | ' + location.location_address_region + ' | ' + location.location_contact_url_main }
                   to={location.location_contact_url_main}
                   target="_blank"
                 >

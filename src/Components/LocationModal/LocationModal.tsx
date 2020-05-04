@@ -392,7 +392,7 @@ const LocationModal = ({
           // title={location.location_name}
           title={
             <ReactGA.OutboundLink
-                eventLabel={'CardHeader | Title | ' + location.location_name }
+                eventLabel={'CardHeader | Location | ' + location.location_address_locality + ' | ' + location.location_name }
                 to={location.location_contact_url_main}
                 target="_blank"
                 style={{ textDecoration: 'none', color: '#12005e' }}
@@ -463,7 +463,7 @@ const LocationModal = ({
           <Typography color="textPrimary" variant="body2" style={{ paddingBottom: '20px' }}>
             {'For the most current and authoritative information about COVID-19 testing in your area, visit your '}
             <ReactGA.OutboundLink
-              eventLabel={'OutboundLink | DPH | ' + (location.location_address_locality ?? location.location_address_region ?? location.location_address_street) }
+              eventLabel={'OutboundLink | DPH | ' + location.location_address_locality + ' | ' + (location.location_address_locality ?? location.location_address_region ?? location.location_address_street) }
               to={location.reference_publisher_of_criteria}
               target="_blank"
             >
