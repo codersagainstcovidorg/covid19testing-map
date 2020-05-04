@@ -8,7 +8,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import AppBar from './Components/AppBar/AppBar';
 import LocationModal from './Components/LocationModal/LocationModal';
 // import Header from './Components/Header';
-import LegalModal from './Components/LegalModal';
+// import LegalModal from './Components/LegalModal';
 import theme from './theme';
 import getViewportHeight from './utils/getViewportHeight';
 import { trackGuideStatus } from './utils/tracking';
@@ -163,7 +163,7 @@ const App = () => {
             }}
           />
 
-          <LegalModal />
+          {/* <LegalModal /> */}
 
           <MapContainer>
             <Map
