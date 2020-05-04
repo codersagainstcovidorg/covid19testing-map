@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  faTasks,
-  faVial,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faVial } from '@fortawesome/free-solid-svg-icons';
 import { ThemeProvider } from '@material-ui/core/styles';
+
 import AppBar from './Components/AppBar/AppBar';
 import LocationModal from './Components/LocationModal/LocationModal';
-// import Header from './Components/Header';
-import LegalModal from './Components/LegalModal';
-import theme from './theme';
-import getViewportHeight from './utils/getViewportHeight';
-import { trackGuideStatus } from './utils/tracking';
+import Interstitial from './Components/Interstitial';
 import GuideModal from './Components/GuideModal';
 import Map from './Components/Map/Map';
 import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
@@ -19,6 +13,10 @@ import AppointmentFlow from './Components/AppointmentFlow';
 import ActionType from './Components/Types/ActionType';
 import LabelMapType from './Components/Types/LabelMapType';
 import SearchFilterType from './Components/Types/SearchFilterType';
+
+import getViewportHeight from './utils/getViewportHeight';
+import theme from './theme';
+import { trackGuideStatus } from './utils/tracking';
 
 // Layout Component styles
 const LayoutContainer = styled.div`
@@ -58,7 +56,7 @@ const defaultFilters: SearchFilterType = {
   is_collecting_samples: false,
 };
 
-interface GeolocationCoordinates {
+export interface GeolocationCoordinates {
   coords: {
     latitude: number;
     longitude: number;
@@ -67,12 +65,15 @@ interface GeolocationCoordinates {
   timestamp: number;
 }
 
-export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
+export const SearchContext = React.createContext<SearchFilterType>(
+  defaultFilters
+);
 const geocoderContainerRef = React.createRef<any>();
 
 let windowListener: any; // store event handler for resize events
 let appointmentFlowUrl = '';
 let actionType: ActionType;
+
 const App = () => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -127,7 +128,7 @@ const App = () => {
             }}
           />
 
-          <LegalModal />
+          <Interstitial />
 
           <MapContainer>
             <Map
@@ -137,6 +138,7 @@ const App = () => {
               setMap={setGlobalMap}
             />
           </MapContainer>
+
           {selectedPlace !== null && showLocationModal && (
             <LocationModal
               location={selectedPlace}
