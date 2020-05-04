@@ -37,7 +37,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
     }
 
     const trackLocationWebsiteClick = () => {
-      trackUiClick('Location Website', locationToRender.location_id);
+      trackUiClick('Location Website', locationToRender.location_name + '|' + locationToRender.location_latitude + '|' + locationToRender.location_longitude + '|' + locationToRender.location_id);
     };
 
     // If there are specific instructions involving testing, then display those, and move on.

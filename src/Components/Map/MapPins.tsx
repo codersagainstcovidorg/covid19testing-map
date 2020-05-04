@@ -21,7 +21,7 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   }, [searchFilters]);
 
   function pinClicked(e: any, place: any) {
-    trackPinClicked(place.location_id);
+    trackPinClicked(place.location_name + '|' + place.location_latitude + '|' + place.location_longitude + '|' + place.location_id);
     onClickPin(place);
     map.panTo(e.latLng);
   }

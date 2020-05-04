@@ -9,7 +9,7 @@ export const trackPinClicked = (locationId: string): void =>
 
 export const trackLocationPrompt = (label: string): void => {
   ReactGA.event({
-    category: 'Location Prompt',
+    category: 'Geolocation',
     action: 'GeoIP',
     label,
   });
