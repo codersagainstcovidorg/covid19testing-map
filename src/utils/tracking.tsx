@@ -1,10 +1,10 @@
 import ReactGA from 'react-ga';
 
-export const trackPinClicked = (locationId: string): void =>
+export const trackPinClicked = (label: string): void =>
   ReactGA.event({
-    category: 'Location',
-    action: 'View',
-    label: locationId,
+    category: 'engagement',
+    action: 'view_item',
+    label: label,
   });
 
 export const trackLocationPrompt = (label: string): void => {
@@ -19,6 +19,7 @@ export const trackGuideStatus = (action: boolean): void => {
   ReactGA.event({
     category: 'Guide',
     action: action ? 'Close' : 'Open',
+    label: 'Guide' + `${action ? '::Close' : '::Open'}`,
   });
 };
 
