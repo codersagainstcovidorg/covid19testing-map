@@ -172,11 +172,11 @@ const LocationModal = ({
       rotate: 0
     },
     { key: 1, 
-      label: (location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Referral is required" : "Referral NOT required",
+      label: (location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Requires pre-evaluation" : "Pre-evaluation NOT required",
       ariaLabel: 'referral',
       isTrue: (location.is_ordering_tests_only_for_those_who_meeting_criteria === true), 
       visibility: ((location.is_ordering_tests_only_for_those_who_meeting_criteria) ? "visible" : "visible"), 
-      tooltip: ((location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Testing only those who meet criteria or have a physician's referral" : "Testing anyone with symptoms (physician referral is NOT required))"), 
+      tooltip: ((location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? "Testing is only performed for persons with symptoms and meet testing criteria (MD referral may be required)" : "Testing anyone who meets criteria (MD referral NOT required)"), 
       icon: ((location.is_ordering_tests_only_for_those_who_meeting_criteria === true) ? mdiShare : mdiMinusCircle),
       rotate: 0
     }
