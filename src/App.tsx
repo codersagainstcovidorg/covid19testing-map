@@ -19,6 +19,7 @@ import AppointmentFlow from './Components/AppointmentFlow';
 import ActionType from './Components/Types/ActionType';
 import LabelMapType from './Components/Types/LabelMapType';
 import SearchFilterType from './Components/Types/SearchFilterType';
+import DataUpdateSnackbar from './Components/DataUpdateSnackbar';
 import fetchLocation from './utils/fetchLocation';
 
 // Layout Component styles
@@ -245,6 +246,7 @@ const App = () => {
           </AppBarContainer>
         </LayoutContainer>
       </SearchContext.Provider>
+      <DataUpdateSnackbar />
     </ThemeProvider>
   );
 };

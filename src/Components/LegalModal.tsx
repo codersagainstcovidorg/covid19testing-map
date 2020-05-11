@@ -15,7 +15,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import DataUpdateSnackbar from './DataUpdateSnackbar';
 import { trackUiClick } from '../utils/tracking';
 
 const styles = (theme: Theme) =>
@@ -169,7 +168,6 @@ const LegalModal = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {!open && <DataUpdateSnackbar />}
     </div>
   );
 };

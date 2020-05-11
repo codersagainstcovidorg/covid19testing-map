@@ -19,6 +19,7 @@ export const trackGuideStatus = (action: boolean): void => {
   ReactGA.event({
     category: 'Guide',
     action: action ? 'Close' : 'Open',
+    // eslint-disable-next-line
     label: 'Guide' + `${action ? '::Close' : '::Open'}`,
   });
 };
