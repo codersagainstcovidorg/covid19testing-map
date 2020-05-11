@@ -418,7 +418,7 @@ const LocationModal = ({
           <Typography color="textPrimary" variant="overline" style={{ marginBottom: '0px', fontWeight: 'bolder' }}>
             {(location.is_evaluating_symptoms === true) && (location.is_collecting_samples === true) ? 'COVID-19 screening and testing in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
               (location.is_evaluating_symptoms === true) && (location.is_collecting_samples === false) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
-                (location.is_evaluating_symptoms === false) && (location.is_collecting_samples === true) ? 'COVID-19 screening in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
+                (location.is_evaluating_symptoms === false) && (location.is_collecting_samples === true) ? 'COVID-19 testing in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area') : 
                   'COVID-19 location in ' + (location.location_address_locality ?? location.location_address_region ?? 'this area')
             }
           </Typography>
