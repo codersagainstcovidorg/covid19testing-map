@@ -32,7 +32,8 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
         averageCenter
         enableRetinaIcons
         gridSize={60}
-        minimumClusterSize={5}
+        minimumClusterSize={15}
+        ignoreHidden
       >
         {(clusterer) =>
           pinData.map((place: any) => (
