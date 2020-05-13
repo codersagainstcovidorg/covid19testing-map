@@ -30,6 +30,15 @@ const MapOptions = {
       ]
     },
     {
+      "featureType": "landscape.natural",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
       "featureType": "poi",
       "elementType": "geometry.fill",
       "stylers": [
