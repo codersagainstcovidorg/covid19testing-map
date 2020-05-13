@@ -12,6 +12,136 @@ interface MapWithGoogleProps {
 }
 const libraries = ['places'];
 
+const MapOptions = {
+  mapTypeControl: false,
+  minZoom: 4,
+  maxZoom: 18,
+  styles: [
+    {
+      "featureType": "landscape.natural",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "saturation": -55
+        },
+        {
+          "lightness": 40
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "lightness": 20
+        }
+      ]
+    },
+    {
+      "featureType": "poi.attraction",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.medical",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "stylers": [
+        {
+          "saturation": -100
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.place_of_worship",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.school",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.sports_complex",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "lightness": 40
+        }
+      ]
+    },
+    {
+      "featureType": "poi.sports_complex",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "saturation": 15
+        },
+        {
+          "lightness": 20
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "lightness": 15
+        }
+      ]
+    }
+  ]
+};
+
 const dataLayer = (window as any).dataLayer || [];
 (window as any).dataLayer = (window as any).dataLayer || [];
 
@@ -29,9 +159,9 @@ interface GeoPoint {
   longitude: number;
 };
 
-const defaultCenter: GeoPoint = {
-    latitude: -95.778071, 
-    longitude: 39.0131669,
+export const defaultCenter: GeoPoint = {
+  latitude: 39.0131669,
+  longitude: -95.778071
 };
 
 const Map = React.memo(
@@ -103,25 +233,29 @@ const Map = React.memo(
       );
     }
 
-    const onLoad = React.useCallback(function onLoad(mapInstance) {
-      setMap(mapInstance);
-      try {
-        locateUser(mapInstance);
-      } catch (e) {
-        console.error('failed to locate user', e);
-        mapInstance.panTo({ lat: defaultCenter.latitude, lng: defaultCenter.longitude });
-      }
-
+    const onLoad = React.useCallback(
+      function onLoad(mapInstance: any) {        
+        if (mapInstance) {
+          setMap(mapInstance);
+          try {
+            locateUser(mapInstance);
+          } catch (e) {
+            console.error('failed to locate user', e);
+            mapInstance.panTo({ lat: defaultCenter.latitude, lng: defaultCenter.longitude });
+          }
+        }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+      }, []
+    );
 
     const renderMap = () => {
       return (
         <GoogleMap
           id="covid-map"
-          center={{ lat: -95.778071, lng: 39.0131669 }}
-          zoom={3}
+          center={{ lat: defaultCenter.latitude, lng: defaultCenter.longitude }}
+          zoom={5}
           onLoad={onLoad}
+          // onBoundsChanged={setMap(mapInstance)}
           mapContainerStyle={{
             position: 'absolute',
             top: 0,
@@ -129,7 +263,7 @@ const Map = React.memo(
             right: 0,
             bottom: 0,
           }}
-          
+          options={MapOptions}
           clickableIcons={false}
         >
           <MapPins onClickPin={onClickPin} />
