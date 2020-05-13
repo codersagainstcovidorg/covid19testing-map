@@ -81,6 +81,7 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
         gridSize={60}
         minimumClusterSize={15}
         ignoreHidden
+        maxZoom={8}
       >
         {(clusterer) =>
           pinData.map((place: any) => (
