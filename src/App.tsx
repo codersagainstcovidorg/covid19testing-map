@@ -128,9 +128,9 @@ const App = () => {
   useEffect(() => {
     const place = (selectedPlace as any);
     if (place) {
-      window.history.pushState({}, `FindCovidTesting - ${place.location_name}`, `/${place.location_id}`);
+      window.history.pushState({}, `COVID-19 Testing Locations - ${place.location_name}`, `/${place.location_id}`);
     } else if (!isFirstLoad) {
-      window.history.pushState({}, 'FindCovidTesting', '/');
+      window.history.pushState({}, 'COVID-19 Testing Locations', '/');
     }
   }, [selectedPlace, isFirstLoad]);
 
