@@ -1,5 +1,6 @@
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 import React from 'react';
+import { isMobile } from "react-device-detect";
 import MapPins from './MapPins';
 import { trackLocationPrompt, trackUserLocation } from '../../utils/tracking';
 
@@ -21,7 +22,17 @@ interface GeolocationCoordinates {
     accuracy: number;
   };
   timestamp: number;
-}
+};
+
+interface GeoPoint {
+  latitude: number;
+  longitude: number;
+};
+
+const defaultCenter: GeoPoint = {
+    latitude: -95.778071, 
+    longitude: 39.0131669,
+};
 
 const Map = React.memo(
   ({ onClickPin, setMap }: MapWithGoogleProps) => {
@@ -31,37 +42,48 @@ const Map = React.memo(
     });
 
     function geoIPFallback(mapInstance: any) {
+      var userLocation = defaultCenter;
+      function updateMapView(lat: number = userLocation.latitude, lng: number = userLocation.longitude) {
+        mapInstance.panTo({ lat: lat, lng: lng });
+        mapInstance.setZoom(8);
+        
+        dataLayer.push({
+          event: 'pageview',
+          location: userLocation,
+        });
+      }
+      
       trackLocationPrompt('Attempt');
-
       fetch(
         'https://pro.ip-api.com/json/?fields=status,lat,lon&key=WNyJJH2siHnfQU0'
-      )
+        )
         .then((r: Response) => r.json())
         .then((data) => {
           if (data.status === 'success') {
-            const { lat, lon } = data;
+            userLocation = { latitude: data.lat, longitude: data.lon };
+            updateMapView();
             trackLocationPrompt('Success');
-
-            trackUserLocation(lat, lon);
-            dataLayer.push({
-              event: 'pageview',
-              location: {
-                latitude: lat,
-                longitude: lon,
-              },
-            });
-            mapInstance.setZoom(8);
-            mapInstance.panTo({ lat, lng: lon });
+            trackUserLocation(userLocation.latitude, userLocation.longitude);
           }
-        });
+          else {
+            console.error('Unrecognized status received during geolocation:\n', data.status);
+            updateMapView();
+            trackLocationPrompt(`Failed|${data.status}`);
+          }
+        })
+        .catch((reason: any) => {
+          updateMapView();
+          trackLocationPrompt(`Failed|${reason}`);
+        })
     }
 
     function locateUser(mapInstance: any) {
       navigator.geolocation.getCurrentPosition(
         (res: GeolocationCoordinates) => {
           const { latitude, longitude } = res.coords;
-          trackUserLocation(latitude, longitude);
-
+          mapInstance.panTo({ lat: latitude, lng: longitude });
+          mapInstance.setZoom(8);
+          
           dataLayer.push({
             event: 'pageview',
             location: {
@@ -69,23 +91,14 @@ const Map = React.memo(
               longitude,
             },
           });
-          mapInstance.setZoom(8);
-          mapInstance.panTo({ lat: latitude, lng: longitude });
-          // setViewState({
-          //   latitude: lat,
-          //   longitude: lon,
-          //   zoom: 8,
-          //   bearing: 0,
-          //   pitch: 0,
-          // });
+          trackUserLocation(latitude, longitude);
         },
         (e: any) => {
-          console.error('failed to get location from browser', e);
           geoIPFallback(mapInstance);
         },
         {
           enableHighAccuracy: true,
-          timeout: 2000,
+          timeout: (isMobile) ? 5000 : 2000,
         }
       );
     }
@@ -96,6 +109,7 @@ const Map = React.memo(
         locateUser(mapInstance);
       } catch (e) {
         console.error('failed to locate user', e);
+        mapInstance.panTo({ lat: defaultCenter.latitude, lng: defaultCenter.longitude });
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,6 +119,7 @@ const Map = React.memo(
       return (
         <GoogleMap
           id="covid-map"
+          center={{ lat: -95.778071, lng: 39.0131669 }}
           zoom={3}
           onLoad={onLoad}
           mapContainerStyle={{
@@ -114,10 +129,7 @@ const Map = React.memo(
             right: 0,
             bottom: 0,
           }}
-          center={{
-            lat: 101.71491405154,
-            lng: 36.8350816095506,
-          }}
+          
           clickableIcons={false}
         >
           <MapPins onClickPin={onClickPin} />
