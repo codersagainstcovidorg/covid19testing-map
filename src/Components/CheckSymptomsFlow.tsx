@@ -117,7 +117,7 @@ function CheckSymptomsFlow({
         modalClose={modalClose}
         title="Launching self-assessment"
       >
-        Most locations require that individuals meet specific criteria in order to qualify for 
+        Some locations require that individuals meet specific criteria in order to qualify for 
         testing. A self-assessment (commonly known as a "symptom checker") will launch in a separate 
         window. The assessment will help you determine whether you meet testing criteria. 
         Once you complete the assessment, please return to this page to continue.
@@ -143,7 +143,7 @@ function CheckSymptomsFlow({
         noSelected={navigateAdditionalRefused}
       >
         We regret that you were unable to complete the self-assessment. Would you like to try a
-        different assessment check?
+        different self-assessment?
       </ShortQuestionAlert>
       <InfoAlert
         showAlert={showMapUpdatedAlert}
@@ -152,7 +152,7 @@ function CheckSymptomsFlow({
         title="Map Updated"
       >
         The map has been updated to include only those locations that are able to 
-        perform the actual test. Carefully review the instructions
+        perform the actual test. Carefully review the directions
         for each location, and select the option that seems to be a good fit.
       </InfoAlert>
       <InfoAlert
@@ -171,10 +171,9 @@ function CheckSymptomsFlow({
         modalClose={modalClose}
         title="Criteria Not Met"
       >
-        According to CDC guidelines, not everyone needs to be tested for
-        COVID-19. There are, however, a few locations that are willing to test individuals 
-        that do not meet CDC criteria. We will be adding some of these locations in 
-        the coming days and weeks. 
+        There are locations that are willing to test individuals that do not have symptoms
+        and/or do not meet CDC criteria. These types of locations are not common, yet. 
+        We will add them to this site as we find them.
       </InfoAlert>
     </div>
   );
