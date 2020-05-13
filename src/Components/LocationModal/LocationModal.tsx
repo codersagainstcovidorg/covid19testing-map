@@ -234,7 +234,7 @@ const LocationModal = ({
       icon: ((raw_attributes.does_offer_antibody_test === true) ? mdiDiabetes : mdiMinusCircle),
       rotate: 0,
     }
-    ,{ key: 7, 
+    ,{ key: 8, 
       label: (raw_attributes.is_drive_through === true) ? "Drive-through" : "NOT Drive-through",
       ariaLabel: 'drive-through',
       isTrue: (raw_attributes.is_drive_through === true), 
@@ -243,7 +243,7 @@ const LocationModal = ({
       icon: ((raw_attributes.is_drive_through === true) ? mdiCarInfo : mdiMinusCircle),
       rotate: 0,
     }
-    ,{ key: 8, 
+    ,{ key: 9, 
       label: (raw_attributes.is_temporary === true) ? "1-day only" : "NOT 1-day only",
       ariaLabel: 'one-day-only',
       isTrue: (raw_attributes.is_temporary === true), 
@@ -252,7 +252,7 @@ const LocationModal = ({
       icon: ((raw_attributes.is_temporary === true) ? mdiHazardLights : mdiMinusCircle),
       rotate: 0,
     }
-    ,{ key: 9, 
+    ,{ key: 10, 
       label: (raw_attributes.is_flagged === true) ? "Flagged" : "Not flagged",
       ariaLabel: 'flagged',
       isTrue: (raw_attributes.is_flagged === true), 

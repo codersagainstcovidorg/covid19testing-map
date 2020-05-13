@@ -47,7 +47,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
         'http'
     ) {
       return (
-      <Grid key={1} item md={5} xs={12}>
+      <Grid key={2} item md={5} xs={12}>
         <div style={{ marginTop: '10px' }}>
           {location.location_specific_testing_criteria.split('\\n').map((i: any, key: number) => {
             return <Typography key={key} paragraph variant="body1" component="p">{i}</Typography>;
@@ -67,7 +67,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
       locationToRender.reference_publisher_of_criteria.length < 3)
       ) {
       return (
-        <Grid key={1} item md={5} xs={12}>
+        <Grid key={3} item md={5} xs={12}>
           <Typography style={{ marginTop: '10px' }}>
             {'Published testing criteria that is specific to this location could not be found. '}
             {'This is common when CDC guidelines are in effect, but we recommend calling ahead to confirm.'}
@@ -96,7 +96,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
         'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/index.html#';
     }
     return (
-      <Grid key={2} item md={5} xs={12}>
+      <Grid key={4} item md={5} xs={12}>
         <Typography style={{ marginTop: '10px' }}>
           {'Testing at this location is only offered to individuals that '}
           <Link
@@ -120,7 +120,7 @@ function renderLocationTestingDetails(locationToRender: any): any {
       <Divider />
       <CardContent>
         <Grid container spacing={2}>
-          <Grid key={1} item md={12} xs={12}>
+          <Grid key={5} item md={12} xs={12}>
             <div style={{ paddingTop: '20px' }}>
               {location.additional_information_for_patients.split('\\n').map((i: any, key: number) => {
                 return <Typography key={key} paragraph variant="body1" component="p">{i}</Typography>;
