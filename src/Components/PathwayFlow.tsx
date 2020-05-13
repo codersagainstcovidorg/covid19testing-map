@@ -9,7 +9,7 @@ interface SymptomsFlowProps {
   fromAssistant: boolean;
 }
 
-function CheckSymptomsFlow({
+function PathwayFlow({
   location,
   setFilter,
   setFlowFinished,
@@ -88,12 +88,14 @@ function CheckSymptomsFlow({
     }
     setShowSelfAssessmentCompletedAlert(true);
   }
+  
   function navigateAdditionalAgreed() {
     setShowAdditionalAssessmentCheck(false);
     window.open('https://www.apple.com/covid19/');
     setAppleVisited(true);
     setShowSelfAssessmentCompletedAlert(true);
   }
+  
   function navigateAdditionalRefused() {
     setShowAdditionalAssessmentCheck(false);
     setShowAdditionalRefusedInfo(true);
@@ -179,4 +181,4 @@ function CheckSymptomsFlow({
   );
 }
 
-export default CheckSymptomsFlow;
+export default PathwayFlow;

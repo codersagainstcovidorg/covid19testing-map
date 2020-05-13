@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Card, createStyles, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { labelMap } from '../App';
-import DoctorCard from './DoctorCard';
+import PathwayCard from './PathwayCard';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -82,7 +82,7 @@ const GuideModal = ({
       }}
     >
       <Card className={classes.card}>
-        <DoctorCard onResponseClick={closeModal} />
+        <PathwayCard onResponseClick={closeModal} />
       </Card>
     </Modal>
   );

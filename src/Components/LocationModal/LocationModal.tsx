@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LocationModalProps {
   location: any;
   onClose: Function;
-  showCheckSymptomsFlow: Function;
+  showPathwayFlow: Function;
   runAppointmentFlow: Function;
   filterApplied: boolean;
 };
@@ -145,7 +145,7 @@ interface ChipData {
 const LocationModal = ({
   location,
   onClose,
-  showCheckSymptomsFlow,
+  showPathwayFlow,
   filterApplied,
   runAppointmentFlow,
 }: LocationModalProps) => {
@@ -271,9 +271,10 @@ const LocationModal = ({
     });
   }
 
-  function handleCheckSymptomsClicked() {
-    showCheckSymptomsFlow(true);
+  function handlePathwayClicked() {
+    showPathwayFlow(true);
   }
+  
   function loadNextStepButton(locationToRender: any): any {
     let ctaText = '';
     let ctaLink = '';
@@ -485,7 +486,7 @@ const LocationModal = ({
               color="primary"
               className={classes.callToAction}
               onClick={() => {
-                handleCheckSymptomsClicked();
+                handlePathwayClicked();
                 handleLinkClicked(location.location_id, 'Website Click');
               }}
               style={{ marginTop: '20px', marginBottom: '5px' }}

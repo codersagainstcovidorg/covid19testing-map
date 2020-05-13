@@ -14,7 +14,7 @@ import getViewportHeight from './utils/getViewportHeight';
 import { trackGuideStatus } from './utils/tracking';
 import GuideModal from './Components/GuideModal';
 import Map from './Components/Map/Map';
-import CheckSymptomsFlow from './Components/CheckSymptomsFlow';
+import PathwayFlow from './Components/PathwayFlow';
 import AppointmentFlow from './Components/AppointmentFlow';
 import ActionType from './Components/Types/ActionType';
 import LabelMapType from './Components/Types/LabelMapType';
@@ -74,7 +74,7 @@ const App = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [globalMap, setGlobalMap] = useState<any>([]);
-  const [showCheckSymptomsFlow, setShowCheckSymptomsFlow] = useState(false);
+  const [showPathwayFlow, setShowPathwayFlow] = useState(false);
   const [showAppointmentFlow, setShowAppointmentFlow] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [filters, setFilters] = useState(defaultFilters);
@@ -156,7 +156,7 @@ const App = () => {
             }}
             handleNoResponse={() => {
               setFromAssistant(true);
-              setShowCheckSymptomsFlow(true);
+              setShowPathwayFlow(true);
               setGuideModalOpen(false);
             }}
             handleClose={() => {
@@ -183,18 +183,18 @@ const App = () => {
               onClose={() => {
                 setSelectedPlace(null);
               }}
-              showCheckSymptomsFlow={(shouldShowCheckSymptomsFlow: boolean) => {
-                if (shouldShowCheckSymptomsFlow) {
+              showPathwayFlow={(shouldShowPathwayFlow: boolean) => {
+                if (shouldShowPathwayFlow) {
                   setShowLocationModal(false);
-                  setShowCheckSymptomsFlow(shouldShowCheckSymptomsFlow);
+                  setShowPathwayFlow(shouldShowPathwayFlow);
                 }
               }}
               runAppointmentFlow={runAppointmentFlow}
               filterApplied={filterApplied}
             />
           )}
-          {showCheckSymptomsFlow && (
-            <CheckSymptomsFlow
+          {showPathwayFlow && (
+            <PathwayFlow
               fromAssistant={fromAssistant}
               location={selectedPlace}
               setFilter={(
@@ -220,7 +220,7 @@ const App = () => {
               setFlowFinished={() => {
                 setShowLocationModal(true);
                 setSelectedPlace(null);
-                setShowCheckSymptomsFlow(false);
+                setShowPathwayFlow(false);
               }}
             />
           )}

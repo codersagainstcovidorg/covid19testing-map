@@ -1,4 +1,20 @@
-type SearchFilterType = {
+export interface RawDataType {
+  is_flagged?: boolean;
+  is_temporary?: boolean;
+  is_drive_through?: boolean;
+  is_same_day_result?: boolean;
+  is_scheduled_to_open?: boolean;
+  is_scheduled_to_close?: boolean;
+  does_offer_antibody_test?: boolean;
+  days_remaining_until_open?: number;
+  does_offer_molecular_test?: boolean;
+  days_remaining_until_close?: number;
+  period_start?: string;
+  period_end?: string;
+};
+
+
+export type SearchFilterType = {
   location_id?: string;
   location_name?: string;
   location_address_street?: string;
@@ -32,7 +48,7 @@ type SearchFilterType = {
   additional_information_for_patients?: string;
   reference_publisher_of_criteria?: string;
   data_source?: string;
-  raw_data?: string;
+  raw_data?: RawDataType;
   created_on?: string;
   updated_on?: string;
   location_status?: string;
