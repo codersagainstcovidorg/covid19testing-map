@@ -169,7 +169,10 @@ const App = () => {
           <MapContainer>
             <Map
               onClickPin={(place: any) => {
-                setSelectedPlace(place);
+                fetchLocation(place.location_id)
+                  .then((data: any) => {
+                    setSelectedPlace(data)
+                  });
               }}
               setMap={setGlobalMap}
             />
