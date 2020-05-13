@@ -61,10 +61,9 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   const searchFilters = useContext(SearchContext);
 
   const [pinData, setPinData] = useState([]);
-
+  
   useEffect(() => {
     fetchPins(searchFilters).then(setPinData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilters]);
 
   function pinClicked(e: any, place: any) {
@@ -98,7 +97,6 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
               }}
               icon={MarkerIcon(place.location_status)}
               title={`${place.location_name} (${place.location_status})`}
-              opacity={(JSON.parse(place.raw_data).is_flagged) ? 0.5 : 1.0}
             />
           ))}
       </MarkerClusterer>

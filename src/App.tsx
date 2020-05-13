@@ -56,8 +56,8 @@ export const labelMap: LabelMapType = {
 
 // Initial state
 const defaultFilters: SearchFilterType = {
-  is_ordering_tests_only_for_those_who_meeting_criteria: false,
-  is_collecting_samples: false,
+  // is_ordering_tests_only_for_those_who_meeting_criteria: false,
+  // is_collecting_samples: false,
 };
 
 const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
