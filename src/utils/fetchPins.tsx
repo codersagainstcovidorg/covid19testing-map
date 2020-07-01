@@ -9,7 +9,7 @@ const fetchPins = async (
   source_longitude: number = defaultCenter.longitude,
   distance: number = 3000,
   ) => {
-    const endpoint = `${REACT_APP_API_ENDPOINT}/api/v1/location?source_latitude=${source_latitude}&source_longitude=${source_longitude}&distance=${distance}&fields=location_id,location_name,location_address_locality,location_address_region,location_latitude,location_longitude,location_status`;
+    const endpoint = `${REACT_APP_API_ENDPOINT}/api/v1/location?limit=20000&source_latitude=${source_latitude}&source_longitude=${source_longitude}&distance=${distance}&fields=location_id,location_name,location_address_locality,location_address_region,location_latitude,location_longitude,location_status`;
     const results: Response = await fetch(endpoint);
     const data = await results.json();
     const keys = Object.keys(searchFilters ?? {});
