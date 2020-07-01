@@ -77,8 +77,8 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
       <MarkerClusterer
         averageCenter
         enableRetinaIcons
-        gridSize={120}
-        minimumClusterSize={1500}
+        gridSize={60}
+        minimumClusterSize={6}
         ignoreHidden
         maxZoom={8}
       >
