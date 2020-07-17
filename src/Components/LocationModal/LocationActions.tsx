@@ -14,6 +14,9 @@ interface LocationActionsProps {
 }
 
 const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
+  const raw_attributes = JSON.parse(location.raw_data);
+  
+  
   return (
     <div>
       {location.location_contact_phone_main !== null &&
@@ -54,11 +57,11 @@ const LocationActions = ({ location, onLinkClick }: LocationActionsProps) => {
       <Tooltip title="Report an error" placement="top" arrow>
         <IconButton
           area-label="report"
-          href="https://docs.google.com/forms/d/e/1FAIpQLSd2xzEXfJdNJIGh5MDhxg217-p_MXvSREOuQT_P_vwrqSjEMQ/viewform?usp=sf_link"
+          href={`https://survey123.arcgis.com/share/913cbc92618746d3adf3c54b38798df7?mode=edit&globalId=${raw_attributes.global_id}&field:name=${encodeURIComponent(location.location_name)}`}
           target="_blank"
           rel="noopener"
           onClick={() => {
-            onLinkClick(location.location_id, 'Report Error');
+            onLinkClick(`${location.location_name}|${location.location_latitude},${location.location_longitude}|${location.global_id}`, 'Report Error');
           }}
         >
           <ReportProblemIcon />
