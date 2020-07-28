@@ -67,7 +67,7 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
   }, [searchFilters]);
 
   function pinClicked(e: any, place: any) {
-    trackPinClicked(place.location_name + '|' + (place.location_address_locality ?? place.location_address_region) + '|' + place.location_latitude + '|' + place.location_longitude + '|' + place.location_id);
+    trackPinClicked(place.location_name + '|' + (place.location_address_locality ?? place.location_address_region) + '|' + place.location_latitude + '|' + place.location_longitude);
     onClickPin(place);
     map.panTo(e.latLng);
   }
@@ -77,8 +77,8 @@ const MapPins = ({ onClickPin }: GoogleMapPinsProps) => {
       <MarkerClusterer
         averageCenter
         enableRetinaIcons
-        gridSize={60}
-        minimumClusterSize={6}
+        gridSize={120}
+        minimumClusterSize={8}
         ignoreHidden
         maxZoom={8}
       >
