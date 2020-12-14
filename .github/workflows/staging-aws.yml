@@ -16,7 +16,7 @@ jobs:
     
     # npm stuff
     - name: Install NPM
-      uses: bahmutov/npm-install@v1.1.0
+      uses: bahmutov/npm-install@v1.6.0
     
     - name: Generate static
       run: npm run build
