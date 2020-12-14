@@ -61,6 +61,7 @@ const defaultFilters: SearchFilterType = {
 };
 
 const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const locationIdRegex = /^[a-zA-Z]{2}-.+$/;
 
 export const SearchContext = React.createContext<SearchFilterType>(defaultFilters);
 const geocoderContainerRef = React.createRef<any>();
@@ -98,7 +99,7 @@ const App = () => {
     function triggerRouter() {
       let currentPath = document.location.pathname.substr(1);
       let uriPlace = (selectedPlace as any);
-      if (uuidRegex.test(currentPath)
+      if ((uuidRegex.test(currentPath) || (locationIdRegex.test(currentPath)))
         && (!selectedPlace || (selectedPlace as any).location_id !== currentPath)) {
   
         fetchLocation(currentPath).then(newPlace => {
